@@ -3,7 +3,7 @@ const projectSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     description: String,
-    ProjectID: { type: Number, required: true },
+    projectID: { type: Number, required: true },
     location: String
   }
 );
