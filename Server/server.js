@@ -13,6 +13,12 @@ mongoose.connect(process.env.DATABASE_URL)
 .catch((error)=>{
     console.log(error);
 })
+//middleware
+app.use(express.json());
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
+});
 
 // routes
 app.use("/projects", project_routes);
