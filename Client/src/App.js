@@ -1,22 +1,20 @@
 import './App.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import ProjectPage from "./pages/ProjectPage"
-import Home from "./pages/ProjectPage"
-import useEffect from react;
 import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ProjectPage from './pages/ProjectPage';
+import Home from './pages/Home'; // Make sure you have the correct path for Home component
+
 function App() {
   return (
     <div className="App">
- <Home />
- {//need to pass in the project to project page as a prop
- }
- <Projectpage />
- <Routes>
+      <BrowserRouter>
+        <div className="pages">
+          <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/Project/:id" element={<ProjectPage />} />
-            
+            <Route path="/project" element={<ProjectPage />} />
           </Routes>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }
