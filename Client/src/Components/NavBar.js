@@ -8,12 +8,9 @@ const NavBar = (props) =>{
     return(
 <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">AFP</Navbar.Brand>
+          <Navbar.Brand href="#home">Place HOlder</Navbar.Brand>
           <Nav className="me-auto">
           </Nav>
-          <Searchbar projectSearch={props.projectSearch}
-            setProjectSearch={props.setProjectSearch}
-            />
         </Container>
       </Navbar>
     );
