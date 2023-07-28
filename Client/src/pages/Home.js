@@ -7,10 +7,9 @@ const determineShow = (projectSearch,name, projectID) => {
 //this function takes projectsearch as a prop
 //and if it matches the job location/project name/project id
 // it will show the project
-console.log(projectID);
-console.log(projectSearch);
-return((projectID === projectSearch ||
-name === projectSearch||projectSearch==="")? true:false);
+
+return((projectID.toString().toLowerCase().includes(projectSearch.toString().toLowerCase()) ||
+name.toLowerCase().includes( projectSearch.toLowerCase()) ||projectSearch==="")? true:false);
 
 }
 const Home = () => {
