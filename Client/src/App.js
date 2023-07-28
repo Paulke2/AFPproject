@@ -11,7 +11,7 @@ function App() {
         <div className="pages">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/project" element={<ProjectPage />} />
+            <Route path="/projects/:id" element={<ProjectPage />} />
           </Routes>
         </div>
       </BrowserRouter>

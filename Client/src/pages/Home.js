@@ -47,7 +47,7 @@ const Home = () => {
       </Navbar>
 
         
-            <Card style={{ margin:'50px',width: '40rem' }}>
+            <Card style={{ marginLeft:'50px',width: '90%' }}>
       <ListGroup variant="flush">
       {projects &&
     projects.map((project)=> (

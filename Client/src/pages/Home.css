@@ -16,6 +16,9 @@
     position: right;
     display: flex;
 }
+.Container {
+    max-width: '100%'!important;
+  }
 .wrap {
     width: 30%;
     position: flex;
