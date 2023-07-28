@@ -37,7 +37,7 @@ const Home = () => {
     <>
     <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">PLace holder</Navbar.Brand>
+          <Navbar.Brand onClick={()=> navigate('/')}>PLace holder</Navbar.Brand>
           <Nav className="me-auto">
           </Nav>
           <Searchbar projectSearch={projectSearch}

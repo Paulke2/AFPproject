@@ -24,7 +24,7 @@
     left: 50%;
 }
 .searchBar {
-    width: 300px;
+    min-width: 200px;
     border: 2px solid #ff0000!important;
     border-radius: 5px 0px 0px 5px!important;
     box-shadow: none !important;
