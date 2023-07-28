@@ -3,9 +3,20 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Searchbar from '../Components/Searchbar';
+const determineShow = (projectSearch,name, projectID) => {
+//this function takes projectsearch as a prop
+//and if it matches the job location/project name/project id
+// it will show the project
+console.log(projectID);
+console.log(projectSearch);
+return((projectID === projectSearch ||
+name === projectSearch||projectSearch==="")? true:false);
+
+}
 const Home = () => {
   //fetching data
   const [projects, setProjects] = useState(null);
+  const [projectSearch, setProjectSearch]=useState("this the the projectSearch");
   useEffect(() => {
     const fetchProjects = async () => {
       const response = await fetch("/projects");
@@ -20,13 +31,16 @@ const Home = () => {
   }, []);
   return (
     <>
-    <Searchbar />
+    <Searchbar projectSearch={projectSearch}
+            setProjectSearch={setProjectSearch}
+            />
         
             <Card style={{ margin:'50px',width: '40rem' }}>
       <ListGroup variant="flush">
       {projects &&
     projects.map((project)=> (
-        <ListGroup.Item>{project.name} - {project.projectID}</ListGroup.Item>
+        (determineShow(projectSearch,project.name,project.projectID))?
+        <ListGroup.Item>{project.name} - {project.projectID}</ListGroup.Item>: <></>
         ))}
       </ListGroup>
     </Card>
