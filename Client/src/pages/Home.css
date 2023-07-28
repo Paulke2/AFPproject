@@ -1,0 +1,24 @@
+.search {
+    width: 100%;
+    position: center;
+    display: flex;
+}
+.searchButton {
+    width: 39px;
+    height: 40px;
+    border: 1px solid #00b4cc;
+    background: #00b4cc;
+    border-radius: 0 5px 5px 0;
+    font-size: 17px;
+    right: 100%;
+}
+.filterButton {
+    position: right;
+    display: flex;
+}
+.wrap {
+    width: 30%;
+    position: flex;
+    top: 50%;
+    left: 100%;
+}
