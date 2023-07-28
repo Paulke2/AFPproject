@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const projectSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    description: String,
-    projectID: { type: Number, required: true },
+    scope: String,
+    projectID: { type: String, required: true },
     TurnoverDate:String,
     location: String,
     ContractWith:String,

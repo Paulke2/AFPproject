@@ -28,10 +28,10 @@ router.get('/:Projectid', async (req, res) => {
 
 // create one
 router.post('/', async (req, res) => {
-    const { name, description, projectID, location } = req.body;
+    const { name, scope, projectID, TurnoverDate, location, ContractWith,Amount,Comments } = req.body;
 
     try {
-        const project = await Project.create({ name, description, projectID, location });
+        const project = await Project.create({  name, scope, projectID, TurnoverDate, location, ContractWith,Amount,Comments });
         res.status(200).json(project);
     } catch (error) {
         res.status(400).json({ error: error.message });
