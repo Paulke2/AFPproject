@@ -4,7 +4,11 @@ const projectSchema = new mongoose.Schema(
     name: { type: String, required: true },
     description: String,
     projectID: { type: Number, required: true },
-    location: String
+    TurnoverDate:String,
+    location: String,
+    ContractWith:String,
+    Amount:String,
+    Comments:[String]
   }
 );
 
