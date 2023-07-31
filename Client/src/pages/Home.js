@@ -95,7 +95,7 @@ const Home = () => {
           // Check if infoMatrix state is empty before setting it
           if (infoMatrix.length === 0) {
             console.log("hello");
-            console.log(allInfoMatrices[0]); // Assuming you want to use the info from the first file only
+            console.log(allInfoMatrices[0]);
             setInfoMatrix(allInfoMatrices[0]);
           }
           console.log(infoMatrix);
