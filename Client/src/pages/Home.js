@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
+import "../functions/findProjectInfo.js"
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import ListGroup from "react-bootstrap/ListGroup";
 import Searchbar from "../Components/Searchbar";
+import findProjectInfo from "../functions/findProjectInfo.js";
 const determineShow = (projectSearch, name, projectID) => {
   //this function takes projectsearch as a prop
   //and if it matches the job location/project name/project id
@@ -29,6 +31,20 @@ const Home = () => {
   //for update, 1 indicates we are ready to read an new project. if 0, we are reading a new project.
   const [update, setUpdate] = useState(1);
   const [infoMatrix, setInfoMatrix] = useState([]);
+
+  //state for a new project
+
+  const [projectNumber,setProjectNumber]=useState("");
+  const [projectName,setProjectName]=useState("");
+  const [scope,setScope]=useState("");
+  const [projectID,setProjectID]=useState("");
+  const [turnoverDate,setTurnoverDate]=useState("");
+  const [location,setLocation]=useState("");
+  const [contractWith,setContractWith]=useState("");
+  const [amount,setAmount]=useState("");
+
+
+
   useEffect(() => {
     const fetchProjects = async () => {
       const response = await fetch("/projects");
@@ -97,6 +113,7 @@ const Home = () => {
             console.log("hello");
             console.log(allInfoMatrices[0]);
             setInfoMatrix(allInfoMatrices[0]);
+            findProjectInfo(infoMatrix={infoMatrix})
           }
           console.log(infoMatrix);
         } catch (error) {
