@@ -6,8 +6,8 @@
 .searchButton {
     width: 39px;
     height: 39px;
-    border: 1px solid #ff1555!important;
-    background: #ff0000!important;
+    border: 1px solid #ae0000!important;
+    background: #ae0000!important;
     border-radius: 0 5px 5px 0!important;
     font-size: 17px;
     right: 100%;
@@ -25,7 +25,9 @@
 }
 .searchBar {
     min-width: 200px;
-    border: 2px solid #ff0000!important;
+    height: 39px;
+    border: 2px solid #ae0000!important;
+    background-color: grey !important;
     border-radius: 5px 0px 0px 5px!important;
     box-shadow: none !important;
 }

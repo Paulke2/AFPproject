@@ -22,7 +22,7 @@ const ProjectPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ comments: updatedComments }), // Use 'comments' instead of 'Comments'
+        body: JSON.stringify({ comments: updatedComments }), 
       });
   
       if (response.ok) {
@@ -66,6 +66,33 @@ const ProjectPage = () => {
         </Container>
       </Navbar>
       <h1>{currentProject.name}</h1>
+      <hr></hr>
+      <Container>
+      Scope of Work: {currentProject.scope}
+      <hr></hr>
+        <Row>
+      <Col>
+      Project: {currentProject.projectID}
+      <hr></hr>
+      Location: {currentProject.location}
+      <hr></hr>
+      Contract With: {currentProject.contractWith}
+      <hr></hr>
+      
+      </Col>
+      <Col>
+      amount: {currentProject.amount}
+
+      </Col>
+      </Row>
+      {currentProject.comments !== undefined ? (
+        currentProject.comments.map((comment) => (
+          <div key={comment}>{comment}<br /></div>
+        ))
+      ) : (
+        <div>No comments yet.</div>
+      )}
+      <Row>
       <Form.Group controlId="editName">
         <Form.Control
           value={newComment}
@@ -76,6 +103,8 @@ const ProjectPage = () => {
       <Button variant="primary" onClick={handleSave}>
         Save
       </Button>
+      </Row>
+      </Container>
     </>
   );
 };

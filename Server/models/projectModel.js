@@ -4,10 +4,10 @@ const projectSchema = new mongoose.Schema(
     name: { type: String, required: true },
     scope: String,
     projectID: { type: String, required: true },
-    TurnoverDate:String,
+    turnoverDate:String,
     location: String,
-    ContractWith:String,
-    Amount:String,
+    contractWith:String,
+    amount:String,
     comments:[String]
   }
 );
