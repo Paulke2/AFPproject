@@ -57,7 +57,9 @@ const Home = () => {
       </ListGroup>
     </Card>
     <br></br>
-            <div className="dropBox">drop file</div>
+            <div className="dropBox" onDragOver={(event)=>{event.preventDefault();
+            console.log("drag over")}}
+            onDrop={(event)=>{event.preventDefault();console.log("dragged")}}>drop file</div>
 
     </>
   );
