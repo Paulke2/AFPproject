@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from "react-router-dom";
- //onClick={() => navigate("/projects/" + project._id)}
+import "./Home.css";
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -56,7 +56,8 @@ const Home = () => {
         ))}
       </ListGroup>
     </Card>
-            
+    <br></br>
+            <div className="dropBox">drop file</div>
 
     </>
   );
