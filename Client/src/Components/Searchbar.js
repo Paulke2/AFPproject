@@ -16,7 +16,6 @@ const SearchBar = (props) => {
                         ) => props.setProjectSearch(event.target.value)}
                     />
                 </Form.Group>
-                <Button className="searchButton">🔍</Button>
             </div>
            
         </div>

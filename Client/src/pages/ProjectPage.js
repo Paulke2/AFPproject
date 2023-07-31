@@ -6,6 +6,8 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import logo from "../pictures/AFPlogo.png"
+import "./ProjectPage.css"
 const ProjectPage = () => {
   const navigate = useNavigate();
   let { id } = useParams();
@@ -54,16 +56,20 @@ const ProjectPage = () => {
   return (
     <>
       {" "}
-      <Navbar bg="dark" data-bs-theme="dark">
-        <Container>
+      <Navbar  style={{
+                backgroundColor: "#90ee90",
+                paddingLeft: "16px",
+                paddingRight: "16px",
+                boxShadow: "0 4px 6px -6px #222"
+            }}bg="dark" data-bs-theme="dark">
+          
+          <Nav className="me-auto"></Nav>
           <Navbar.Brand
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer",marginLeft:"20px"}}
             onClick={() => navigate("/")}
           >
-            PLace holder
+                        <img className="logo"src={logo}/>
           </Navbar.Brand>
-          <Nav className="me-auto"></Nav>
-        </Container>
       </Navbar>
       <h1>{currentProject.name}</h1>
       <hr></hr>

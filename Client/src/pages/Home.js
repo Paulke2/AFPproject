@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
-import "../functions/findProjectInfo.js"
+import "../functions/findProjectInfo.js";
+import logo from "../pictures/AFPlogo.png"
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -60,16 +61,17 @@ const Home = () => {
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
-        <Container>
-          <Navbar.Brand onClick={() => navigate("/")}>
-            PLace holder
-          </Navbar.Brand>
-          <Nav className="me-auto"></Nav>
-          <Searchbar
+   
+      <Searchbar
             projectSearch={projectSearch}
             setProjectSearch={setProjectSearch}
           />
-        </Container>
+          <Nav className="me-auto"></Nav>
+          
+          <Navbar.Brand style={{cursor:"pointer", marginLeft:`2%`}}onClick={() => navigate("/")}>
+            <img className="logo"src={logo}/>
+          </Navbar.Brand>
+       
       </Navbar>
 
       <Card style={{ marginLeft: "50px", width: "90%" }}>

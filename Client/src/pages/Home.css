@@ -3,19 +3,7 @@
     position: center;
     display: flex;
 }
-.searchButton {
-    width: 39px;
-    height: 40px;
-    border: 1px solid #00b4cc;
-    background: #00b4cc;
-    border-radius: 0 5px 5px 0;
-    font-size: 17px;
-    right: 100%;
-}
-.filterButton {
-    position: right;
-    display: flex;
-}
+
 .Container {
     max-width: '100%'!important;
   }
@@ -24,6 +12,10 @@
     position: flex;
     top: 50%;
     left: 100%;
+}
+.logo {
+    position:relative;
+    right:20px;
 }
 .dropBox {
     border: 5px dashed black;
