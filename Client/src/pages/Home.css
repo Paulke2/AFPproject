@@ -3,7 +3,9 @@
     position: center;
     display: flex;
 }
-
+.logo{
+    margin-left:5%;
+}
 .Container {
     max-width: '100%'!important;
   }
@@ -13,10 +15,7 @@
     top: 50%;
     left: 100%;
 }
-.logo {
-    position:relative;
-    right:20px;
-}
+
 .dropBox {
     border: 5px dashed black;
     width:300px;
