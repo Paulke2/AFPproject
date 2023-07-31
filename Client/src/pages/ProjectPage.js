@@ -4,7 +4,8 @@ import { Form, Button } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
-
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 const ProjectPage = () => {
   const navigate = useNavigate();
   let { id } = useParams();
@@ -14,20 +15,20 @@ const ProjectPage = () => {
   const handleSave = async () => {
     try {
       // Assuming currentProject.comments is the array of strings
-      const updatedComments = [...currentProject.Comments, newComment];
-
+      const updatedComments = [...currentProject.comments, newComment]; // Use currentProject.comments instead of currentProject.Comments
+  
       const response = await fetch(`/projects/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ Comments: updatedComments }),
+        body: JSON.stringify({ comments: updatedComments }), // Use 'comments' instead of 'Comments'
       });
-
+  
       if (response.ok) {
         // Handle successful PATCH request (e.g., show a success message)
         console.log("Comment updated successfully!");
-        setCurrentProject({ ...currentProject, comments: updatedComments });
+        setCurrentProject({ ...currentProject, comments: updatedComments }); // Use 'comments' instead of 'Comments'
         // Optionally, you may update the local state with the new comment
         setNewComment("");
       } else {
