@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 // get one
 router.get('/:employeeid', async (req, res) => {
     const { employeeid } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(Employee)) {
+    if (!mongoose.Types.ObjectId.isValid(employeeid)) {
         return res.status(404).json({ error: "employee not found" });
     }
     const employee = await Employee.findById(employeeid);

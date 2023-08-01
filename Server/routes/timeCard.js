@@ -16,12 +16,12 @@ router.get('/', async (req, res) => {
 // get one
 router.get('/:timeCardid', async (req, res) => {
     const { timeCardid } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(timeCard)) {
-        return res.status(404).json({ error: "timeCard not found" });
+    if (!mongoose.Types.ObjectId.isValid(timeCardid)) {
+        return res.status(404).json({ error: "timeCardddddd not found" });
     }
     const timeCard = await TimeCard.findById(timeCardid);
-    if (!TimeCard) {
-        return res.status(404).json({ error: "timeCard not found" });
+    if (!timeCard) {
+        return res.status(404).json({ error: "timeCardddddd not found" });
     }
     res.status(200).json(timeCard);
 });
@@ -29,18 +29,32 @@ router.get('/:timeCardid', async (req, res) => {
 // create one
 router.post('/', async (req, res) => {
     const {
-        timeCardName,
-        officeWorker,
-        officeWorkerHours,
-        timeCards
+        startOfWeek,
+        Sunday,
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday,
+        Saturday,
+        employeeName,
+        totalHours
+    
       } = req.body;
 
     try {
-        const timeCard = await Project.create({
-            timeCardName,
-            officeWorker,
-            officeWorkerHours,
-            timeCards
+        const timeCard = await TimeCard.create({
+            startOfWeek,
+            Sunday,
+            Monday,
+            Tuesday,
+            Wednesday,
+            Thursday,
+            Friday,
+            Saturday,
+            employeeName,
+            totalHours
+        
           });
         res.status(200).json(timeCard);
     } catch (error) {
@@ -54,7 +68,7 @@ router.delete('/:timeCardid', async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(timeCardid)) {
         return res.status(404).json({ error: "timeCard not found" });
     }
-    const timeCard = await timeCard.findOneAndDelete({ _id: timeCardid });
+    const timeCard = await TimeCard.findOneAndDelete({ _id: timeCardid });
     if (!timeCard) {
         return res.status(404).json({ error: "timeCard not found" });
     }
