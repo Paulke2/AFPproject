@@ -12,6 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./Calendar.css";
 const moment = require("moment");
 import Badge from "react-bootstrap/Badge";
+import GetEmployees from "../Components/GetEmployees.js";
 const Calendar = () => {
   const [employees, setEmployees] = useState(null);
   useEffect(() => {
@@ -72,17 +73,7 @@ const Calendar = () => {
 
       <Row>
         <Col className="col-2 employeeList">
-        <ListGroup as="ul">
-  {employees &&
-    employees.map((employee) => (
-      <ListGroup.Item action key={employee.id}>
-        {employee.employeeName}
-        <Badge bg="primary" pill>
-          14
-        </Badge>
-      </ListGroup.Item>
-    ))}
-</ListGroup>
+        <GetEmployees employees={employees}/>
         </Col>
         <Col className="col-10" style={{padding:"50px",fontSize:"large"}}>
           <Button
