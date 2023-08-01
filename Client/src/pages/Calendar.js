@@ -1,5 +1,7 @@
 import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
+import { Button } from 'react-bootstrap';
+import { useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from "react-bootstrap/Navbar";
@@ -11,9 +13,10 @@ const moment = require('moment');
 import Badge from 'react-bootstrap/Badge';
 const Calendar = () =>{
     const navigate = useNavigate();
-    const dateToCheck =moment().format('L'); 
+    const [dateToCheck,setDateToCheck]=useState(moment().format('L'));
+    //const DateToCheck =moment().format('L'); 
 
-    // Create a moment object with the specified date
+    // Create a moment object with the specifieD date
     const specificDate = moment(dateToCheck);
     
     // Get the start of the week (Sunday in the US, Monday in other regions)
@@ -23,8 +26,7 @@ const Calendar = () =>{
     const endOfWeek = specificDate.clone().endOf('isoWeek');
     
     // Now you have the start and end dates of the specified week
-    console.log('Start of the week:', startOfWeek.format('YYYY-MM-DD'));
-    console.log('End of the week:', endOfWeek.format('YYYY-MM-DD'));
+
 
 return(<div> 
 <Navbar  style={{
@@ -70,7 +72,11 @@ return(<div>
     </ListGroup>
         </Col>
         <Col className='col-10'>
+        <Button onClick={()=> setDateToCheck(startOfWeek.subtract(1, 'days'))}></Button>
       {startOfWeek.format('l').toString()} - {endOfWeek.format('l').toString()}
+      <Button onClick={()=> setDateToCheck(endOfWeek.add(1, 'days'))}></Button>
+      
+
         </Col>
       </Row>
 
