@@ -8,6 +8,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import logo from "../pictures/AFPlogo.png"
 import "./ProjectPage.css"
+import "../Components/NewProject.js"
 const ProjectPage = () => {
   const navigate = useNavigate();
   let { id } = useParams();

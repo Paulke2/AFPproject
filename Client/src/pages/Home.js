@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import "../functions/findProjectInfo.js";
-import logo from "../pictures/AFPlogo.png"
+import logo from "../pictures/AFPlogo.png";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -11,6 +11,7 @@ import Navbar from "react-bootstrap/Navbar";
 import ListGroup from "react-bootstrap/ListGroup";
 import Searchbar from "../Components/Searchbar";
 import findProjectInfo from "../functions/findProjectInfo.js";
+import NewProject from "../Components/NewProject";
 const determineShow = (projectSearch, name, projectID) => {
   //this function takes projectsearch as a prop
   //and if it matches the job location/project name/project id
@@ -27,6 +28,9 @@ const determineShow = (projectSearch, name, projectID) => {
 const Home = () => {
   const navigate = useNavigate();
   //fetching data
+  const [showNewProject, setShowNewProject] = useState(false);
+  const handleClose = () => setShowNewProject(false);
+  const handleShow = () => setShowNewProject(true);
   const [projects, setProjects] = useState(null);
   const [projectSearch, setProjectSearch] = useState("");
   //for update, 1 indicates we are ready to read an new project. if 0, we are reading a new project.
@@ -35,16 +39,13 @@ const Home = () => {
 
   //state for a new project
 
-  const [projectNumber,setProjectNumber]=useState("");
-  const [projectName,setProjectName]=useState("");
-  const [scope,setScope]=useState("");
-  const [projectID,setProjectID]=useState("");
-  const [turnoverDate,setTurnoverDate]=useState("");
-  const [location,setLocation]=useState("");
-  const [contractWith,setContractWith]=useState("");
-  const [amount,setAmount]=useState("");
-
-
+  const [projectName, setProjectName] = useState("");
+  const [scope, setScope] = useState("");
+  const [projectID, setProjectID] = useState("");
+  const [turnoverDate, setTurnoverDate] = useState("");
+  const [location, setLocation] = useState("");
+  const [contractWith, setContractWith] = useState("");
+  const [amount, setAmount] = useState("");
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -58,20 +59,22 @@ const Home = () => {
     };
     fetchProjects();
   }, []);
+
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
-   
-      <Searchbar
-            projectSearch={projectSearch}
-            setProjectSearch={setProjectSearch}
-          />
-          <Nav className="me-auto"></Nav>
-          
-          <Navbar.Brand style={{cursor:"pointer", marginLeft:`2%`}}onClick={() => navigate("/")}>
-            <img className="logo"src={logo}/>
-          </Navbar.Brand>
-       
+        <Searchbar
+          projectSearch={projectSearch}
+          setProjectSearch={setProjectSearch}
+        />
+        <Nav className="me-auto"></Nav>
+
+        <Navbar.Brand
+          style={{ cursor: "pointer", marginLeft: `2%` }}
+          onClick={() => navigate("/")}
+        >
+          <img className="logo" src={logo} />
+        </Navbar.Brand>
       </Navbar>
 
       <Card style={{ marginLeft: "50px", width: "90%" }}>
@@ -93,47 +96,67 @@ const Home = () => {
       </Card>
       <br></br>
       <div
-      className="dropBox"
-      onDragOver={(event) => {
-        event.preventDefault();
-        console.log("drag over");
-      }}
-      onDrop={async (event) => {
-        event.preventDefault();
-        const files = Array.from(event.dataTransfer.files);
-        const fileReadPromises = files.map(async (file) => {
-          let text = await file.text();
-          let rows = text.split("\n");
-          return rows.map((row) => row.split(","));
-        });
+        className="dropBox"
+        onDragOver={(event) => {
+          event.preventDefault();
+          console.log("drag over");
+        }}
+        onDrop={async (event) => {
+          event.preventDefault();
+          const files = Array.from(event.dataTransfer.files);
+          const fileReadPromises = files.map(async (file) => {
+            let text = await file.text();
+            let rows = text.split("\n");
+            return rows.map((row) => row.split(","));
+          });
 
-        try {
-          const allInfoMatrices = await Promise.all(fileReadPromises);
+          try {
+            const allInfoMatrices = await Promise.all(fileReadPromises);
 
-          // Check if infoMatrix state is empty before setting it
-          if (infoMatrix.length === 0) {
-            console.log("hello");
-            console.log(allInfoMatrices[0]);
-            setInfoMatrix(allInfoMatrices[0]);
-            console.log("finding");
-            findProjectInfo(infoMatrix={infoMatrix},
-              setProjectNumber={setProjectNumber},
-              setScope={setScope},
-              setProjectID=(setProjectID),
-              setTurnoverDate={setTurnoverDate},
-              setLocation={setLocation},
-              setContractWith={setContractWith},
-              setAmount={setAmount}
-              )
+            // Check if infoMatrix state is empty before setting it
+            if (infoMatrix.length === 0) {
+              console.log("hello");
+              //console.log(allInfoMatrices[0]);
+              setInfoMatrix(allInfoMatrices[0]);
+              console.log(allInfoMatrices[0]);
+              console.log("finding");
+              findProjectInfo(
+                allInfoMatrices[0],
+                setScope,
+                setProjectID,
+                setTurnoverDate,
+                setLocation,
+                setContractWith,
+                setAmount,
+                setProjectName
+              );
+            }
+            handleShow();
+          } catch (error) {
+            console.error("Error reading files:", error);
           }
-          console.log(infoMatrix);
-        } catch (error) {
-          console.error("Error reading files:", error);
-        }
-      }}
-    >
-      drop file
-    </div>
+        }}
+      >
+        drop file
+      </div>
+      <NewProject
+        showNewProject={showNewProject}
+        setProjectName={setProjectName}
+        setShowNewProject={setShowNewProject}
+        setScope={setScope}
+        setProjectID={setProjectID}
+        setTurnoverDate={setTurnoverDate}
+        setLocation={setLocation}
+        setContractWith={setContractWith}
+        setAmount={setAmount}
+        projectName={projectName}
+        scope={scope}
+        projectID={projectID}
+        turnoverDate={turnoverDate}
+        location={location}
+        contractWith={contractWith}
+        amount={amount}
+      />
     </>
   );
 };
