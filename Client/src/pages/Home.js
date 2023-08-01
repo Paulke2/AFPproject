@@ -115,7 +115,16 @@ const Home = () => {
             console.log("hello");
             console.log(allInfoMatrices[0]);
             setInfoMatrix(allInfoMatrices[0]);
-            findProjectInfo(infoMatrix={infoMatrix})
+            console.log("finding");
+            findProjectInfo(infoMatrix={infoMatrix},
+              setProjectNumber={setProjectNumber},
+              setScope={setScope},
+              setProjectID=(setProjectID),
+              setTurnoverDate={setTurnoverDate},
+              setLocation={setLocation},
+              setContractWith={setContractWith},
+              setAmount={setAmount}
+              )
           }
           console.log(infoMatrix);
         } catch (error) {
