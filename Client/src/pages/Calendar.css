@@ -1,0 +1,14 @@
+
+.employeeList{
+
+    min-height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+    padding: 20px;
+}
+
+.employeeRow{
+    width: 100%!important;
+    background-color: green;
+}
