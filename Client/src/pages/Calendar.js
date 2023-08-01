@@ -7,9 +7,25 @@ import Nav from "react-bootstrap/Nav";
 import logo from "../pictures/AFPlogo.png"
 import { useNavigate, useParams } from "react-router-dom";
 import './Calendar.css'
+const moment = require('moment');
 import Badge from 'react-bootstrap/Badge';
 const Calendar = () =>{
     const navigate = useNavigate();
+    const dateToCheck =moment().format('L'); 
+
+    // Create a moment object with the specified date
+    const specificDate = moment(dateToCheck);
+    
+    // Get the start of the week (Sunday in the US, Monday in other regions)
+    const startOfWeek = specificDate.clone().startOf('isoWeek');
+    
+    // Get the end of the week (Saturday in the US, Sunday in other regions)
+    const endOfWeek = specificDate.clone().endOf('isoWeek');
+    
+    // Now you have the start and end dates of the specified week
+    console.log('Start of the week:', startOfWeek.format('YYYY-MM-DD'));
+    console.log('End of the week:', endOfWeek.format('YYYY-MM-DD'));
+
 return(<div> 
 <Navbar  style={{
                 backgroundColor: "#90ee90",
@@ -54,7 +70,7 @@ return(<div>
     </ListGroup>
         </Col>
         <Col className='col-10'>
-        test
+      {startOfWeek.format('l').toString()} - {endOfWeek.format('l').toString()}
         </Col>
       </Row>
 
