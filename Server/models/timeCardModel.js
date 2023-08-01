@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const timeCardSchema = new mongoose.Schema(
+const TimeCardSchema = new mongoose.Schema(
   {
+    startOfWeek:String,
     Sunday:String,
     Monday:String,
     Tuesday:String,
@@ -9,9 +10,9 @@ const timeCardSchema = new mongoose.Schema(
     Friday:String,
     Saturday:String,
     employeeName:String,
-    totalHours:number
+    totalHours:Number
 
   }
 
 );
-module.exports = mongoose.model("timeCard", timeCardSchema);
+module.exports = mongoose.model("TimeCard", TimeCardSchema);
