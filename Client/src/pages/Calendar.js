@@ -1,5 +1,5 @@
 import ListGroup from "react-bootstrap/ListGroup";
-import WeekLayout from "../Components/WeekLayout.js"
+import WeekLayout from "../Components/WeekLayout.js";
 import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
@@ -13,6 +13,7 @@ import "./Calendar.css";
 const moment = require("moment");
 import Badge from "react-bootstrap/Badge";
 import GetEmployees from "../Components/GetEmployees.js";
+import GetTime from "../Components/GetTime.js";
 const Calendar = () => {
   const [employees, setEmployees] = useState(null);
   useEffect(() => {
@@ -28,24 +29,11 @@ const Calendar = () => {
     fetchEmployees();
     console.log(employees);
   }, []);
-
-  const navigate = useNavigate();
   const [dateToCheck, setDateToCheck] = useState(moment().format("L"));
-  //const DateToCheck =moment().format('L');
-
-  // Create a moment object with the specifieD date
-  const specificDate = moment(dateToCheck);
-
-  // Get the start of the week (Sunday in the US, Monday in other regions)
-  const startOfWeek = specificDate.clone().startOf("isoWeek");
-
-  // Get the end of the week (Saturday in the US, Sunday in other regions)
-  const endOfWeek = specificDate.clone().endOf("isoWeek");
-
-  // Now you have the start and end dates of the specified week
+  const navigate = useNavigate();
 
   return (
-    <div >
+    <div>
       <Navbar
         style={{
           backgroundColor: "#90ee90",
@@ -73,22 +61,13 @@ const Calendar = () => {
 
       <Row>
         <Col className="col-2 employeeList">
-        <GetEmployees employees={employees}/>
+          <GetEmployees employees={employees} />
         </Col>
-        <Col className="col-10" style={{padding:"50px",fontSize:"large"}}>
-          <Button
-            onClick={() => setDateToCheck(startOfWeek.subtract(1, "days"))}
-          ></Button>
-          {startOfWeek.format("l").toString()} -{" "}
-          {endOfWeek.format("l").toString()}
-          <Button
-            onClick={() => setDateToCheck(endOfWeek.add(1, "days"))}
-          ></Button>
-        <WeekLayout />
+        <Col className="col-10" style={{ padding: "50px", fontSize: "large" }}>
+          <GetTime dateToCheck={dateToCheck} setDateToCheck={setDateToCheck}/>
+          <WeekLayout />
         </Col>
-        
       </Row>
-      
     </div>
   );
 };
