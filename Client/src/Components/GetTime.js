@@ -1,5 +1,7 @@
 
 import { Button } from "react-bootstrap";
+import leftArrow from "../pictures/pointsLeft.png"
+import rightArrow from "../pictures/pointsRight.png"
 const moment = require("moment");
 const GetTime = (props) =>{
     
@@ -16,14 +18,14 @@ const GetTime = (props) =>{
   
     // Now you have the start and end dates of the specified week
   
-    return(<><Button
+    return(<><img src={leftArrow}style={{paddingRight:"20%",cursor: "pointer"}}
         onClick={() => props.setDateToCheck(startOfWeek.subtract(1, "days"))}
-      ></Button>
+      ></img>
       {startOfWeek.format("l").toString()} -{" "}
       {endOfWeek.format("l").toString()}
-      <Button
+      <img src={rightArrow} style={{paddingLeft:"20%",cursor: "pointer"}}
         onClick={() => props.setDateToCheck(endOfWeek.add(1, "days"))}
-      ></Button></>);
+      ></img></>);
 
 }
 

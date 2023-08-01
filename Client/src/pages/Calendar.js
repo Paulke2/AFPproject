@@ -61,6 +61,7 @@ const Calendar = () => {
 
       <Row>
         <Col className="col-2 employeeList">
+          
           <GetEmployees employees={employees} />
         </Col>
         <Col className="col-10" style={{ padding: "50px", fontSize: "large" }}>
