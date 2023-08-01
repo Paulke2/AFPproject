@@ -62,13 +62,18 @@ const Home = () => {
 
   return (
     <>
-      <Navbar bg="dark" data-bs-theme="dark">
+      <Navbar bg="dark" data-bs-theme="dark"style={{
+                backgroundColor: "#90ee90",
+                paddingLeft: "16px",
+                paddingRight: "16px",
+                boxShadow: "0 4px 6px -6px #222"
+            }}>
         <Searchbar
           projectSearch={projectSearch}
           setProjectSearch={setProjectSearch}
         />
         <Nav className="me-auto"></Nav>
-
+        <Nav.Link onClick={() => navigate("/Calendar")} style={{color:"white",fontStyle:"oblique"}}>Calendar</Nav.Link>
         <Navbar.Brand
           style={{ cursor: "pointer", marginLeft: `2%` }}
           onClick={() => navigate("/")}
