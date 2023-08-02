@@ -16,6 +16,7 @@ import GetEmployees from "../Components/GetEmployees.js";
 import GetTime from "../Components/GetTime.js";
 const Calendar = () => {
   const [employees, setEmployees] = useState(null);
+  const [currentEmployee,setCurrentEmployee]= useState(null);
   useEffect(() => {
     const fetchEmployees = async () => {
       const response = await fetch("/employees");
@@ -62,7 +63,7 @@ const Calendar = () => {
       <Row>
         <Col className="col-2 employeeList">
           
-          <GetEmployees employees={employees} />
+          <GetEmployees employees={employees} currentEmployee={currentEmployee}setCurrentEmployee={setCurrentEmployee} />
         </Col>
         <Col className="col-10" style={{ padding: "50px", fontSize: "large" }}>
           <GetTime dateToCheck={dateToCheck} setDateToCheck={setDateToCheck}/>
