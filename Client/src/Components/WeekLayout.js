@@ -13,6 +13,7 @@ const WeekLayout = (props) => {
   const [MondayString, setMondayString]=useState("");
   const [oldTimeCard, setOldTimeCard] = useState(props.currentTimeCard ?? {});
   const handleSave = useCallback(async () => {
+    
     if(
       !props.currentTimeCard || 
       oldTimeCard.startOfWeek !== props.currentTimeCard.startOfWeek
@@ -26,7 +27,7 @@ const WeekLayout = (props) => {
       "Thursday": "",
       "Friday": "",
       "Saturday": "",
-      "employeeName": props.currentEmployee,
+      "employeeName": props.currentEmployee.employeeName,
       "totalHours": 0,
     };
     const response = await fetch("/timeCards/", {
@@ -44,6 +45,21 @@ const WeekLayout = (props) => {
       props.setCurrentTimeCard(timeCard);
       setOldTimeCard(timeCard)
 
+    }
+    const updatedTimeCards = [...props.currentEmployee.timeCards, timeCard ]
+    const employee = { ...props.currentEmployee , timeCards:updatedTimeCards};
+    const employeesResponse = await fetch("/employees/"+props.currentEmployee._id, {
+      method: "PATCH",
+      body: JSON.stringify(employee),
+      headers: { "Content-Type": "application/json" },
+    });
+    const EmployeeJson = await employeesResponse.json();
+    if(!employeesResponse.ok){
+        setError(EmployeeJson.error);
+    }
+    else{
+      setError(null);
+      console.log("employee time card updated",EmployeeJson);
     }
 }else{
     //patch request for the time card of oldTimeCard.id

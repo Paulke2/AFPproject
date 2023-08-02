@@ -30,6 +30,7 @@ const Calendar = () => {
     };
     fetchEmployees();
   }, []);
+
   const [dateToCheck, setDateToCheck] = useState(moment().format("L"));
   useEffect(() => {
     if (currentEmployee !==null && currentEmployee.timeCards) {
@@ -87,7 +88,7 @@ const Calendar = () => {
             currentEmployee={currentEmployee}
             dateToCheck={dateToCheck}
           />
-          <DisplayTimeCard currentTimeCard={currentTimeCard}/>
+          
         </Col>
       </Row>
     </div>
