@@ -17,11 +17,15 @@ const WeekLayout = (props) => {
   const [ThursdayString, setThursdayString]=useState("");
   const [FridayString, setFridayString]=useState("");
   const [SaturdayString, setSaturdayString]=useState("");
-  const [oldTimeCard, setOldTimeCard] = useState(props.currentTimeCard ?? {});
-  const [oldSelectedEmployee, setOldSelectedEmployee] = useState(props.currentEmployee ?? {});
+  const [SundayNumber, setSundayNumber]=useState();
+  const [MondayNumber, setMondayNumber]=useState();
+  const [TuesdayNumber, setTuesdayNumber]=useState();
+  const [WednesdayNumber, setWednesdayNumber]=useState();
+  const [ThursdayNumber, setThursdayNumber]=useState();
+  const [FridayNumber, setFridayNumber]=useState();
+  const [SaturdayNumber, setSaturdayNumber]=useState();
   const handleSave = async (event) => {
     event.preventDefault();
-    console.log("should we see this?");
     console.log(props.currentTimeCard);
     if(
       !props.currentTimeCard ||
@@ -53,8 +57,7 @@ const WeekLayout = (props) => {
       console.log("new card added", json);
     
       props.setCurrentTimeCard(timeCard);
-      setOldTimeCard(timeCard);
-      setOldSelectedEmployee(props.currentEmployee);
+
 
     }
     const updatedTimeCards = [...props.currentEmployee.timeCards, json ]
@@ -91,11 +94,22 @@ const WeekLayout = (props) => {
                     <Form.Control 
                     style={{color:"black"}}
                         value={SundayString}
-                        placeholder="add hours"
+                        placeholder="job location"
                         onChange={(event) => {
                             setSundayString(event.target.value)
                         }}
                     />
+                     <Form.Group>
+                <Form.Label>-</Form.Label>
+                <Form.Control
+                    type="number"
+                    value={SundayNumber}
+                    placeholder="hours"
+                    onChange={(event) =>
+                        setSundayNumber(event.target.value)
+                    }
+                />
+            </Form.Group>
                    <Button variant="success" onClick={handleSave}>
             Save
           </Button>
@@ -112,11 +126,22 @@ const WeekLayout = (props) => {
                     <Form.Control 
                     style={{color:"black"}}
                         value={MondayString}
-                        placeholder="add hours"
+                        placeholder="job location"
                         onChange={(event) => {
                             setMondayString(event.target.value)
                         }}
                     />
+                    <Form.Group>
+                <Form.Label>-</Form.Label>
+                <Form.Control
+                    type="number"
+                    value={MondayNumber}
+                    placeholder="hours"
+                    onChange={(event) =>
+                        setMondayNumber(event.target.value)
+                    }
+                />
+            </Form.Group>
                    <Button variant="success" onClick={handleSave}>
             Save
           </Button>
@@ -133,11 +158,22 @@ const WeekLayout = (props) => {
                     <Form.Control 
                     style={{color:"black"}}
                         value={TuesdayString}
-                        placeholder="add hours"
+                        placeholder="job location"
                         onChange={(event) => {
                             setTuesdayString(event.target.value)
                         }}
                     />
+                    <Form.Group>
+                <Form.Label>-</Form.Label>
+                <Form.Control
+                    type="number"
+                    value={TuesdayNumber}
+                    placeholder="hours"
+                    onChange={(event) =>
+                        setTuesdayNumber(event.target.value)
+                    }
+                />
+            </Form.Group>
                    <Button variant="success" onClick={handleSave}>
             Save
           </Button>
@@ -154,11 +190,22 @@ const WeekLayout = (props) => {
                     <Form.Control 
                     style={{color:"black"}}
                         value={WednesdayString}
-                        placeholder="add hours"
+                        placeholder="job location"
                         onChange={(event) => {
                             setWednesdayString(event.target.value)
                         }}
                     />
+                    <Form.Group>
+                <Form.Label>-</Form.Label>
+                <Form.Control
+                    type="number"
+                    value={WednesdayNumber}
+                    placeholder="hours"
+                    onChange={(event) =>
+                        setWednesdayNumber(event.target.value)
+                    }
+                />
+            </Form.Group>
                    <Button variant="success" onClick={handleSave}>
             Save
           </Button>
@@ -175,11 +222,22 @@ const WeekLayout = (props) => {
                     <Form.Control 
                     style={{color:"black"}}
                         value={ThursdayString}
-                        placeholder="add hours"
+                        placeholder="job location"
                         onChange={(event) => {
                             setThursdayString(event.target.value)
                         }}
                     />
+                        <Form.Group>
+                <Form.Label>-</Form.Label>
+                <Form.Control
+                    type="number"
+                    value={ThursdayNumber}
+                    placeholder="hours"
+                    onChange={(event) =>
+                        setThursdayNumber(event.target.value)
+                    }
+                />
+            </Form.Group>
                    <Button variant="success" onClick={handleSave}>
             Save
           </Button>
@@ -197,11 +255,22 @@ const WeekLayout = (props) => {
                     <Form.Control 
                     style={{color:"black"}}
                         value={FridayString}
-                        placeholder="add hours"
+                        placeholder="job location"
                         onChange={(event) => {
                             setFridayString(event.target.value)
                         }}
                     />
+                            <Form.Group>
+                <Form.Label>-</Form.Label>
+                <Form.Control
+                    type="number"
+                    value={FridayNumber}
+                    placeholder="hours"
+                    onChange={(event) =>
+                        setFridayNumber(event.target.value)
+                    }
+                />
+            </Form.Group>
                    <Button variant="success" onClick={handleSave}>
             Save
           </Button>
@@ -218,11 +287,22 @@ const WeekLayout = (props) => {
                     <Form.Control 
                     style={{color:"black"}}
                         value={SaturdayString}
-                        placeholder="add hours"
+                        placeholder="job location"
                         onChange={(event) => {
                             setSaturdayString(event.target.value)
                         }}
                     />
+                     <Form.Group>
+                <Form.Label>-</Form.Label>
+                <Form.Control
+                    type="number"
+                    value={SaturdayNumber}
+                    placeholder="hours"
+                    onChange={(event) =>
+                        setSaturdayNumber(event.target.value)
+                    }
+                />
+            </Form.Group>
                    <Button variant="success" onClick={handleSave}>
             Save
           </Button>

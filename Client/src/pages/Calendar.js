@@ -15,10 +15,12 @@ const moment = require("moment");
 import Badge from "react-bootstrap/Badge";
 import GetEmployees from "../Components/GetEmployees.js";
 import GetTime from "../Components/GetTime.js";
+import fetchTimeCard from "../functions/fetchTimeCard.js";
 const Calendar = () => {
   const [employees, setEmployees] = useState(null);
   const [currentEmployee, setCurrentEmployee] = useState(null);
   const [currentTimeCard, setCurrentTimeCard] = useState(null);
+  const [startOfDesiredWeek, setStartOfDesiredWeek] = useState(null);
   useEffect(() => {
     const fetchEmployees = async () => {
       const response = await fetch("/employees");
@@ -33,15 +35,6 @@ const Calendar = () => {
   }, []);
 
 
-   const fetchEmployees = async (id) => {
-      const response = await fetch(`/timeCards/${id}`);
-
-      const json = await response.json();
-
-      if (response.ok) {
-        return(json);
-      }
-    };
   const [dateToCheck, setDateToCheck] = useState(moment().format("L"));
   useEffect(() => {
 
@@ -49,7 +42,7 @@ const Calendar = () => {
     if (currentEmployee !== null && currentEmployee.timeCards.length > 0) {
       const checkTimeCards = async () => {
         const promises = currentEmployee.timeCards.map(async (timeCardId) => {
-          const timeCard = await fetchEmployees(timeCardId);
+          const timeCard = await fetchTimeCard(timeCardId);
           return timeCard;
         });
   
@@ -59,7 +52,7 @@ const Calendar = () => {
         for ( const timeCard of resolvedTimeCards) {
           if (timeCard.startOfWeek === startOfWeek.format("l").toString()) {
             setCurrentTimeCard(timeCard);
-           
+           console.log(timeCard);
             break;
           }
         }
