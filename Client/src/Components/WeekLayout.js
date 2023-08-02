@@ -46,11 +46,11 @@ const WeekLayout = (props) => {
       setOldTimeCard(timeCard)
 
     }
-    const updatedTimeCards = [...props.currentEmployee.timeCards, timeCard ]
+    const updatedTimeCards = [...props.currentEmployee.timeCards, json ]
     const employee = { timeCards:updatedTimeCards};
     console.log("new employee cards:");
     console.log(JSON.stringify(employee));
-    console.log(props.currentEmployee._id);
+    console.log(timeCard._id)
 
     const employeesResponse = await fetch(`/employees/${props.currentEmployee._id}`, {
       method: "PATCH",

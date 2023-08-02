@@ -34,7 +34,7 @@ const Home = () => {
   const [projects, setProjects] = useState(null);
   const [projectSearch, setProjectSearch] = useState("");
   //for update, 1 indicates we are ready to read an new project. if 0, we are reading a new project.
-  const [update, setUpdate] = useState(1);
+  const [draggingOver, setDraggingOver] = useState(false);
   const [infoMatrix, setInfoMatrix] = useState([]);
 
   //state for a new project
@@ -102,9 +102,19 @@ const Home = () => {
       <br></br>
       <div
         className="dropBox"
-        onDragOver={(event) => {
-          event.preventDefault();
-          console.log("drag over");
+        onDragOver={() => {
+          console.log("Draggind");
+          setDraggingOver(true);
+        }}
+        style={{
+          backgroundColor:
+            draggingOver
+              ? "white"
+              : "gray",
+        }}
+        onDragEnd={() => {
+          console.log("endedDrage");
+          setDraggingOver(false);
         }}
         onDrop={async (event) => {
           event.preventDefault();
