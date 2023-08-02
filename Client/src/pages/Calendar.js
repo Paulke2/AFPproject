@@ -39,23 +39,34 @@ const Calendar = () => {
       const json = await response.json();
 
       if (response.ok) {
-        setEmployees(json);
+        return(json);
       }
     };
   const [dateToCheck, setDateToCheck] = useState(moment().format("L"));
   useEffect(() => {
     console.log("ineffect");
-    if (currentEmployee !==null && currentEmployee.timeCards.length>0) {
-      for (let i = 0; i < currentEmployee.timeCards.length; i++) {
-        const timeCard = currentEmployee.timeCards[i];
-        if (timeCard.startOfWeek === dateToCheck) {
-          fetchEmployees(timeCard);
-          console.log("new timecard" + timeCard.startOfWeek);
-          break;
+    if (currentEmployee !== null && currentEmployee.timeCards.length > 0) {
+      const checkTimeCards = async () => {
+        const promises = currentEmployee.timeCards.map(async (timeCardId) => {
+          const timeCard = await fetchEmployees(timeCardId);
+          return timeCard;
+        });
+  
+        const resolvedTimeCards = await Promise.all(promises);
+  
+        for (const timeCard of resolvedTimeCards) {
+          console.log(timeCard);
+          console.log(dateToCheck);
+          if (timeCard.startOfWeek === dateToCheck.startOf("isoWeek")) {
+            setCurrentTimeCard(timeCard);
+            console.log("new timecard" + timeCard.startOfWeek);
+            break;
+          }
         }
-      }
+      };
+      checkTimeCards();
     }
-  }, [dateToCheck, currentEmployee]);
+  }, [currentEmployee, dateToCheck]);
   const navigate = useNavigate();
   return (
     <div>

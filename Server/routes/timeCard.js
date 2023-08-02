@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 // get one
-router.get('/:dateName', async (req, res) => {
+router.get('/:timeCardid', async (req, res) => {
     const { timeCardid } = req.params;
     if (!mongoose.Types.ObjectId.isValid(timeCardid)) {
         return res.status(404).json({ error: "timeCard not found" });
