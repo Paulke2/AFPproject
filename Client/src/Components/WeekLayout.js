@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import updateTimeCardDay from "../functions/updateTimeCardDay";
 import fetchTimeCard from "../functions/fetchTimeCard";
 import "./WeekLayout.css";
+import getTotalHoursForDay from "../functions/getTotalHoursForDay";
 const moment = require("moment");
 const WeekLayout = (props) => {
   //map over time employees time cards. if one matches the week, we want to load it. else, cr
@@ -26,13 +27,13 @@ const WeekLayout = (props) => {
   const [ThursdayNumber, setThursdayNumber] = useState();
   const [FridayNumber, setFridayNumber] = useState();
   const [SaturdayNumber, setSaturdayNumber] = useState();
-  const [totalSundayNumber, setTotalSundayNumber] = useState();
-  const [totalMondayNumber, setTotalMondayNumber] = useState();
-  const [totalTuesdayNumber, setTotalTuesdayNumber] = useState();
-  const [totalWednesdayNumber, setTotalWednesdayNumber] = useState();
-  const [totalThursdayNumber, setTotalThursdayNumber] = useState();
-  const [totalFridayNumber, setTotalFridayNumber] = useState();
-  const [totalSaturdayNumber, setTotalSaturdayNumber] = useState();
+  const [totalSundayNumber, setTotalSundayNumber] = useState(0);
+  const [totalMondayNumber, setTotalMondayNumber] = useState(0);
+  const [totalTuesdayNumber, setTotalTuesdayNumber] = useState(0);
+  const [totalWednesdayNumber, setTotalWednesdayNumber] = useState(0);
+  const [totalThursdayNumber, setTotalThursdayNumber] = useState(0);
+  const [totalFridayNumber, setTotalFridayNumber] = useState(0);
+  const [totalSaturdayNumber, setTotalSaturdayNumber] = useState(0);
   const handleSave = async (event) => {
     event.preventDefault();
 
@@ -153,6 +154,10 @@ const WeekLayout = (props) => {
       }
     }
   };
+
+   useEffect(() => {
+    setTotalSundayNumber(getTotalHoursForDay(props.currentTimeCard,"Sunday"))
+   }, [props.currentTimeCard?.Sunday]);
   return (
     <>
       <CardGroup style={{ padding: "20px", minHeight: "100%" }}>
@@ -231,12 +236,14 @@ const WeekLayout = (props) => {
         <Card>
           <Card.Body>
             <Card.Title>Tuesday</Card.Title>
-            <ul>
-              {props?.currentTimeCard?.Tuesday &&
-                props.currentTimeCard.Tuesday.split(",").map((element) => (
-                  <li>{element}</li>
-                ))}
-            </ul>
+             <ul>
+      {props?.currentTimeCard?.Tuesday &&
+        props.currentTimeCard.Tuesday.split(",").map((element) => {
+          console.log("Tues num:" + totalSundayNumber);
+          console.log(parseInt(element.slice(-1)));
+          return <li>{element}</li>;
+        })}
+    </ul>
             <Form.Group controlId="editName">
               <Form.Control
                 style={{ color: "black" }}
@@ -261,7 +268,7 @@ const WeekLayout = (props) => {
             </Form.Group>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Total Hrs:</small>
+            <small className="text-muted">Total Hrs: </small>
           </Card.Footer>
         </Card>
         <Card>
@@ -333,7 +340,7 @@ const WeekLayout = (props) => {
             </Form.Group>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Total Hrs: {}</small>
+            <small className="text-muted">Total Hrs: </small>
           </Card.Footer>
         </Card>
 
