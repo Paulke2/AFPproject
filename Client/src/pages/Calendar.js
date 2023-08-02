@@ -37,6 +37,10 @@ const Calendar = () => {
 
   const [dateToCheck, setDateToCheck] = useState(moment().format("L"));
   useEffect(() => {
+    // This useEffect will be triggered whenever currentTimeCard changes
+    console.log(currentTimeCard);
+  }, [currentTimeCard]);
+  useEffect(() => {
 
     //this is checking if the time card already exits for the week if there is an employee selected
     if (currentEmployee !== null && currentEmployee.timeCards.length > 0) {
@@ -52,10 +56,10 @@ const Calendar = () => {
         for ( const timeCard of resolvedTimeCards) {
           if (timeCard.startOfWeek === startOfWeek.format("l").toString()) {
             setCurrentTimeCard(timeCard);
-           console.log(timeCard);
             break;
           }
         }
+        
       };
       checkTimeCards();
     }
