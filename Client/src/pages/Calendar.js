@@ -8,7 +8,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import logo from "../pictures/AFPlogo.png";
 import { useNavigate, useParams } from "react-router-dom";
-
+import DisplayTimeCard from "../Components/DisplayTimeCard";
 import "./Calendar.css";
 const moment = require("moment");
 import Badge from "react-bootstrap/Badge";
@@ -31,6 +31,18 @@ const Calendar = () => {
     fetchEmployees();
   }, []);
   const [dateToCheck, setDateToCheck] = useState(moment().format("L"));
+  useEffect(() => {
+    if (currentEmployee !==null && currentEmployee.timeCards) {
+      for (let i = 0; i < currentEmployee.timeCards.length; i++) {
+        const timeCard = currentEmployee.timeCards[i];
+        if (timeCard.startOfWeek === dateToCheck) {
+          setCurrentTimeCard(timeCard);
+          console.log("new timecard" + timeCard.startOfWeek);
+          break;
+        }
+      }
+    }
+  }, [dateToCheck, currentEmployee]);
   const navigate = useNavigate();
   return (
     <div>
@@ -75,6 +87,7 @@ const Calendar = () => {
             currentEmployee={currentEmployee}
             dateToCheck={dateToCheck}
           />
+          <DisplayTimeCard currentTimeCard={currentTimeCard}/>
         </Col>
       </Row>
     </div>

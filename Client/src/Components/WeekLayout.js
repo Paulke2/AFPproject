@@ -2,6 +2,7 @@ import Card from "react-bootstrap/Card";
 import { Form } from "react-bootstrap";
 import CardGroup from "react-bootstrap/CardGroup";
 import { useCallback, useEffect,useState } from "react";
+
 const moment = require("moment");
 const WeekLayout = (props) => {
   //map over time employees time cards. if one matches the week, we want to load it. else, cr
@@ -42,38 +43,37 @@ const WeekLayout = (props) => {
     
       props.setCurrentTimeCard(timeCard);
       setOldTimeCard(timeCard)
-      console.log(props.currentTimeCard.startOfWeek)
-      console.log(oldTimeCard.startOfWeek);
+
     }
 }else{
     //patch request for the time card of oldTimeCard.id
-    const timeCard = {
-      "startOfWeek": props.currentTimeCard.startOfWeek,
-      "Sunday": props.currentTimeCard.Sunday,
-      "Monday": props.currentTimeCard.Monday,
-      "Tuesday": props.currentTimeCard.Tuesday,
-      "Wednesday": props.currentTimeCard.Wednesday,
-      "Thursday": props.currentTimeCard.Thursday,
-      "Friday": props.currentTimeCard.Friday,
-      "Saturday": props.currentTimeCard.Saturday,
-      "employeeName":props.currentTimeCard.employeeName,
-      "totalHours": props.currentTimeCard.totalHours
-    };
-    const response = await fetch(`/timeCards/${props.currentTimeCard._id}`, {
-      method: "PATCH",
-      body: JSON.stringify(timeCard),
-      headers: { "Content-Type": "application/json" },
-    });
+    // const timeCard = {
+    //   "startOfWeek": props.currentTimeCard.startOfWeek,
+    //   "Sunday": props.currentTimeCard.Sunday,
+    //   "Monday": props.currentTimeCard.Monday,
+    //   "Tuesday": props.currentTimeCard.Tuesday,
+    //   "Wednesday": props.currentTimeCard.Wednesday,
+    //   "Thursday": props.currentTimeCard.Thursday,
+    //   "Friday": props.currentTimeCard.Friday,
+    //   "Saturday": props.currentTimeCard.Saturday,
+    //   "employeeName":props.currentTimeCard.employeeName,
+    //   "totalHours": props.currentTimeCard.totalHours
+    // };
+    // const response = await fetch(`/timeCards/${props.currentTimeCard._id}`, {
+    //   method: "PATCH",
+    //   body: JSON.stringify(timeCard),
+    //   headers: { "Content-Type": "application/json" },
+    // });
     
-    if (!response.ok) {
-      const errorData = await response.json(); // Try to parse error response if available
-      const errorMessage = errorData?.error || "Unknown error";
-      setError(errorMessage);
-    } else {
-      setError(null);
-      console.log("Card updated");
-      props.setCurrentTimeCard(timeCard);
-    }
+    // if (!response.ok) {
+    //   const errorData = await response.json(); // Try to parse error response if available
+    //   const errorMessage = errorData?.error || "Unknown error";
+    //   setError(errorMessage);
+    // } else {
+    //   setError(null);
+    //   console.log("Card updated");
+    //   props.setCurrentTimeCard(timeCard);
+    // }
 }}, [props.currentEmployee, startOfWeek]);
   return (
     <>

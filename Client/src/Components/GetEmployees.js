@@ -14,11 +14,11 @@ const GetEmployees = (props) => {
               key={employee.id}
               style={{
                 backgroundColor:
-                  employee.employeeName === props.currentEmployee
+                  employee.employeeName ===( props.currentEmployee &&props.currentEmployee.employeeName)
                     ? "red"
                     : "white",
               }}
-              onClick={() => props.setCurrentEmployee(employee.employeeName)}
+              onClick={() => props.setCurrentEmployee(employee)}
             >
               {employee.employeeName}
               <Badge bg="primary" pill>
