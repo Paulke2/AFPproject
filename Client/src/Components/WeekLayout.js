@@ -1,5 +1,5 @@
 import Card from "react-bootstrap/Card";
-import { Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import CardGroup from "react-bootstrap/CardGroup";
 import { useCallback, useEffect,useState } from "react";
 
@@ -12,8 +12,8 @@ const WeekLayout = (props) => {
   const [error, setError] = useState(null);
   const [MondayString, setMondayString]=useState("");
   const [oldTimeCard, setOldTimeCard] = useState(props.currentTimeCard ?? {});
-  const handleSave = useCallback(async () => {
-    
+  const handleSave = async (event) => {
+    event.preventDefault();
     if(
       !props.currentTimeCard || 
       oldTimeCard.startOfWeek !== props.currentTimeCard.startOfWeek
@@ -47,13 +47,19 @@ const WeekLayout = (props) => {
 
     }
     const updatedTimeCards = [...props.currentEmployee.timeCards, timeCard ]
-    const employee = { ...props.currentEmployee , timeCards:updatedTimeCards};
-    const employeesResponse = await fetch("/employees/"+props.currentEmployee._id, {
+    const employee = { timeCards:updatedTimeCards};
+    console.log("new employee cards:");
+    console.log(JSON.stringify(employee));
+    console.log(props.currentEmployee._id);
+
+    const employeesResponse = await fetch(`/employees/${props.currentEmployee._id}`, {
       method: "PATCH",
       body: JSON.stringify(employee),
       headers: { "Content-Type": "application/json" },
     });
+    console.log("before");
     const EmployeeJson = await employeesResponse.json();
+    console.log("after");
     if(!employeesResponse.ok){
         setError(EmployeeJson.error);
     }
@@ -62,41 +68,13 @@ const WeekLayout = (props) => {
       console.log("employee time card updated",EmployeeJson);
     }
 }else{
-    //patch request for the time card of oldTimeCard.id
-    // const timeCard = {
-    //   "startOfWeek": props.currentTimeCard.startOfWeek,
-    //   "Sunday": props.currentTimeCard.Sunday,
-    //   "Monday": props.currentTimeCard.Monday,
-    //   "Tuesday": props.currentTimeCard.Tuesday,
-    //   "Wednesday": props.currentTimeCard.Wednesday,
-    //   "Thursday": props.currentTimeCard.Thursday,
-    //   "Friday": props.currentTimeCard.Friday,
-    //   "Saturday": props.currentTimeCard.Saturday,
-    //   "employeeName":props.currentTimeCard.employeeName,
-    //   "totalHours": props.currentTimeCard.totalHours
-    // };
-    // const response = await fetch(`/timeCards/${props.currentTimeCard._id}`, {
-    //   method: "PATCH",
-    //   body: JSON.stringify(timeCard),
-    //   headers: { "Content-Type": "application/json" },
-    // });
-    
-    // if (!response.ok) {
-    //   const errorData = await response.json(); // Try to parse error response if available
-    //   const errorMessage = errorData?.error || "Unknown error";
-    //   setError(errorMessage);
-    // } else {
-    //   setError(null);
-    //   console.log("Card updated");
-    //   props.setCurrentTimeCard(timeCard);
-    // }
-}}, [props.currentEmployee, startOfWeek]);
+}}
   return (
     <>
       {" "}
-      <CardGroup style={{ padding: "20px" }}>
+      <CardGroup style={{ padding: "20px" , minHeight: "100%"}}>
         <Card>
-          <Card.Body style={{ minHeight: "500px", padding: "20px" }}>
+          <Card.Body style={{ padding: "20px" }}>
             <Card.Title>Sunday</Card.Title>
             <Form.Group controlId="editName">
                     <Form.Control 
@@ -104,11 +82,12 @@ const WeekLayout = (props) => {
                         value={MondayString}
                         placeholder="add hours"
                         onChange={(event) => {
-                            setMondayString(event.target.value);
-                            handleSave();
+                            setMondayString(event.target.value)
                         }}
                     />
-                    
+                   <Button variant="primary" onClick={handleSave}>
+            Save
+          </Button>
                 </Form.Group>
           </Card.Body>
           <Card.Footer>

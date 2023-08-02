@@ -34,6 +34,7 @@ const Calendar = () => {
 
   const [dateToCheck, setDateToCheck] = useState(moment().format("L"));
   useEffect(() => {
+    console.log("ineffect");
     if (currentEmployee !==null && currentEmployee.timeCards) {
       for (let i = 0; i < currentEmployee.timeCards.length; i++) {
         const timeCard = currentEmployee.timeCards[i];
