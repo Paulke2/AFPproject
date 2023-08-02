@@ -26,7 +26,13 @@ const WeekLayout = (props) => {
   const [ThursdayNumber, setThursdayNumber] = useState();
   const [FridayNumber, setFridayNumber] = useState();
   const [SaturdayNumber, setSaturdayNumber] = useState();
-  const resetWeek = () => {};
+  const [totalSundayNumber, setTotalSundayNumber] = useState();
+  const [totalMondayNumber, setTotalMondayNumber] = useState();
+  const [totalTuesdayNumber, setTotalTuesdayNumber] = useState();
+  const [totalWednesdayNumber, setTotalWednesdayNumber] = useState();
+  const [totalThursdayNumber, setTotalThursdayNumber] = useState();
+  const [totalFridayNumber, setTotalFridayNumber] = useState();
+  const [totalSaturdayNumber, setTotalSaturdayNumber] = useState();
   const handleSave = async (event) => {
     event.preventDefault();
 
@@ -189,6 +195,12 @@ const WeekLayout = (props) => {
         <Card>
           <Card.Body>
             <Card.Title>Monday</Card.Title>
+            <ul>
+              {props?.currentTimeCard?.Monday &&
+                props.currentTimeCard.Monday.split(",").map((element) => (
+                  <li>{element}</li>
+                ))}
+            </ul>
             <Form.Group controlId="editName">
               <Form.Control
                 style={{ color: "black" }}
@@ -219,6 +231,12 @@ const WeekLayout = (props) => {
         <Card>
           <Card.Body>
             <Card.Title>Tuesday</Card.Title>
+            <ul>
+              {props?.currentTimeCard?.Tuesday &&
+                props.currentTimeCard.Tuesday.split(",").map((element) => (
+                  <li>{element}</li>
+                ))}
+            </ul>
             <Form.Group controlId="editName">
               <Form.Control
                 style={{ color: "black" }}
@@ -249,6 +267,12 @@ const WeekLayout = (props) => {
         <Card>
           <Card.Body>
             <Card.Title>Wednesday</Card.Title>
+            <ul>
+              {props?.currentTimeCard?.Wednesday &&
+                props.currentTimeCard.Wednesday.split(",").map((element) => (
+                  <li>{element}</li>
+                ))}
+            </ul>
             <Form.Group controlId="editName">
               <Form.Control
                 style={{ color: "black" }}
@@ -279,6 +303,12 @@ const WeekLayout = (props) => {
         <Card>
           <Card.Body>
             <Card.Title>Thursday</Card.Title>
+            <ul>
+              {props?.currentTimeCard?.Thursday &&
+                props.currentTimeCard.Thursday.split(",").map((element) => (
+                  <li>{element}</li>
+                ))}
+            </ul>
             <Form.Group controlId="editName">
               <Form.Control
                 style={{ color: "black" }}
@@ -303,13 +333,19 @@ const WeekLayout = (props) => {
             </Form.Group>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Total Hrs:</small>
+            <small className="text-muted">Total Hrs: {}</small>
           </Card.Footer>
         </Card>
 
         <Card>
           <Card.Body>
             <Card.Title>Friday</Card.Title>
+            <ul>
+              {props?.currentTimeCard?.Friday &&
+                props.currentTimeCard.Friday.split(",").map((element) => (
+                  <li>{element}</li>
+                ))}
+            </ul>
             <Form.Group controlId="editName">
               <Form.Control
                 style={{ color: "black" }}
@@ -340,6 +376,12 @@ const WeekLayout = (props) => {
         <Card>
           <Card.Body>
             <Card.Title>Saturday</Card.Title>
+            <ul>
+              {props?.currentTimeCard?.Saturday &&
+                props.currentTimeCard.Saturday.split(",").map((element) => (
+                  <li>{element}</li>
+                ))}
+            </ul>
             <Form.Group controlId="editName">
               <Form.Control
                 style={{ color: "black" }}

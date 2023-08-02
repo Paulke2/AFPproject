@@ -15,8 +15,11 @@ const GetEmployees = (props) => {
               style={{
                 backgroundColor:
                   employee.employeeName ===( props.currentEmployee &&props.currentEmployee.employeeName)
-                    ? "red"
+                    ? "#C62323"
                     : "white",
+                    fontWeight: employee.employeeName ===( props.currentEmployee &&props.currentEmployee.employeeName)
+                    ? "bold"
+                    : "200"
               }}
               
               onClick={() => {
