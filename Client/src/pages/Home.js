@@ -103,7 +103,7 @@ const Home = () => {
       <div
         className="dropBox"
         onDragOver={() => {
-          console.log("Draggind");
+
           setDraggingOver(true);
         }}
         style={{
@@ -113,7 +113,6 @@ const Home = () => {
               : "gray",
         }}
         onDragEnd={() => {
-          console.log("endedDrage");
           setDraggingOver(false);
         }}
         onDrop={async (event) => {

@@ -44,7 +44,7 @@ const Calendar = () => {
     };
   const [dateToCheck, setDateToCheck] = useState(moment().format("L"));
   useEffect(() => {
-    console.log("ineffect");
+
     //this is checking if the time card already exits for the week if there is an employee selected
     if (currentEmployee !== null && currentEmployee.timeCards.length > 0) {
       const checkTimeCards = async () => {
@@ -57,12 +57,9 @@ const Calendar = () => {
         const specificDate = moment(dateToCheck);
         const startOfWeek = specificDate.clone().startOf("isoWeek");
         for ( const timeCard of resolvedTimeCards) {
-          console.log(timeCard.startOfWeek);
-          console.log(startOfWeek.format("l").toString());
-          console.log("checking"+timeCard);
           if (timeCard.startOfWeek === startOfWeek.format("l").toString()) {
             setCurrentTimeCard(timeCard);
-            console.log(timeCard);
+           
             break;
           }
         }
