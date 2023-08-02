@@ -14,14 +14,14 @@ router.get('/', async (req, res) => {
 });
 
 // get one
-router.get('/:timeCardid', async (req, res) => {
+router.get('/:dateName', async (req, res) => {
     const { timeCardid } = req.params;
     if (!mongoose.Types.ObjectId.isValid(timeCardid)) {
-        return res.status(404).json({ error: "timeCardddddd not found" });
+        return res.status(404).json({ error: "timeCard not found" });
     }
     const timeCard = await TimeCard.findById(timeCardid);
     if (!timeCard) {
-        return res.status(404).json({ error: "timeCardddddd not found" });
+        return res.status(404).json({ error: "timeCard not found" });
     }
     res.status(200).json(timeCard);
 });

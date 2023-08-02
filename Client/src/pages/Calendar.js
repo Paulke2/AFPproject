@@ -16,7 +16,8 @@ import GetEmployees from "../Components/GetEmployees.js";
 import GetTime from "../Components/GetTime.js";
 const Calendar = () => {
   const [employees, setEmployees] = useState(null);
-  const [currentEmployee,setCurrentEmployee]= useState(null);
+  const [currentEmployee, setCurrentEmployee] = useState(null);
+  const [currentTimeCard, setCurrentTimeCard] = useState(null);
   useEffect(() => {
     const fetchEmployees = async () => {
       const response = await fetch("/employees");
@@ -28,11 +29,9 @@ const Calendar = () => {
       }
     };
     fetchEmployees();
-    console.log(employees);
   }, []);
   const [dateToCheck, setDateToCheck] = useState(moment().format("L"));
   const navigate = useNavigate();
-
   return (
     <div>
       <Navbar
@@ -62,12 +61,20 @@ const Calendar = () => {
 
       <Row>
         <Col className="col-2 employeeList">
-          
-          <GetEmployees employees={employees} currentEmployee={currentEmployee}setCurrentEmployee={setCurrentEmployee} />
+          <GetEmployees
+            employees={employees}
+            currentEmployee={currentEmployee}
+            setCurrentEmployee={setCurrentEmployee}
+          />
         </Col>
         <Col className="col-10" style={{ padding: "50px", fontSize: "large" }}>
-          <GetTime dateToCheck={dateToCheck} setDateToCheck={setDateToCheck}/>
-          <WeekLayout />
+          <GetTime dateToCheck={dateToCheck} setDateToCheck={setDateToCheck} />
+          <WeekLayout
+            currentTimeCard={currentTimeCard}
+            setCurrentTimeCard={setCurrentTimeCard}
+            currentEmployee={currentEmployee}
+            dateToCheck={dateToCheck}
+          />
         </Col>
       </Row>
     </div>
