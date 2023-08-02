@@ -1,6 +1,7 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import { Badge } from "react-bootstrap";
 import { useState } from "react";
+import DeleteEmployee from "./DeleteEmployee";
 const GetEmployees = (props) => {
   const [selectedColor, setSelectedColor] = useState("green");
   return (
