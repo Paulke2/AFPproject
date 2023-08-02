@@ -10,7 +10,13 @@ const WeekLayout = (props) => {
   const specificDate = moment(props.dateToCheck);
   const startOfWeek = specificDate.clone().startOf("isoWeek");
   const [error, setError] = useState(null);
+  const [SundayString, setSundayString]=useState("");
   const [MondayString, setMondayString]=useState("");
+  const [TuesdayString, setTuesdayString]=useState("");
+  const [WednesdayString, setWednesdayString]=useState("");
+  const [ThursdayString, setThursdayString]=useState("");
+  const [FridayString, setFridayString]=useState("");
+  const [SaturdayString, setSaturdayString]=useState("");
   const [oldTimeCard, setOldTimeCard] = useState(props.currentTimeCard ?? {});
   const handleSave = async (event) => {
     event.preventDefault();
@@ -79,13 +85,13 @@ const WeekLayout = (props) => {
             <Form.Group controlId="editName">
                     <Form.Control 
                     style={{color:"black"}}
-                        value={MondayString}
+                        value={SundayString}
                         placeholder="add hours"
                         onChange={(event) => {
-                            setMondayString(event.target.value)
+                            setSundayString(event.target.value)
                         }}
                     />
-                   <Button variant="primary" onClick={handleSave}>
+                   <Button variant="success" onClick={handleSave}>
             Save
           </Button>
                 </Form.Group>
@@ -97,7 +103,19 @@ const WeekLayout = (props) => {
         <Card>
           <Card.Body>
             <Card.Title>Monday</Card.Title>
-            <Card.Text></Card.Text>
+            <Form.Group controlId="editName">
+                    <Form.Control 
+                    style={{color:"black"}}
+                        value={MondayString}
+                        placeholder="add hours"
+                        onChange={(event) => {
+                            setMondayString(event.target.value)
+                        }}
+                    />
+                   <Button variant="success" onClick={handleSave}>
+            Save
+          </Button>
+                </Form.Group>
           </Card.Body>
           <Card.Footer>
             <small className="text-muted">Total Hrs:</small>
@@ -106,7 +124,19 @@ const WeekLayout = (props) => {
         <Card>
           <Card.Body>
             <Card.Title>Tuesday</Card.Title>
-            <Card.Text></Card.Text>
+            <Form.Group controlId="editName">
+                    <Form.Control 
+                    style={{color:"black"}}
+                        value={TuesdayString}
+                        placeholder="add hours"
+                        onChange={(event) => {
+                            setTuesdayString(event.target.value)
+                        }}
+                    />
+                   <Button variant="success" onClick={handleSave}>
+            Save
+          </Button>
+                </Form.Group>
           </Card.Body>
           <Card.Footer>
             <small className="text-muted">Total Hrs:</small>
@@ -115,7 +145,19 @@ const WeekLayout = (props) => {
         <Card>
           <Card.Body>
             <Card.Title>Wednesday</Card.Title>
-            <Card.Text></Card.Text>
+            <Form.Group controlId="editName">
+                    <Form.Control 
+                    style={{color:"black"}}
+                        value={WednesdayString}
+                        placeholder="add hours"
+                        onChange={(event) => {
+                            setWednesdayString(event.target.value)
+                        }}
+                    />
+                   <Button variant="success" onClick={handleSave}>
+            Save
+          </Button>
+                </Form.Group>
           </Card.Body>
           <Card.Footer>
             <small className="text-muted">Total Hrs:</small>
@@ -124,7 +166,19 @@ const WeekLayout = (props) => {
         <Card>
           <Card.Body>
             <Card.Title>Thursday</Card.Title>
-            <Card.Text></Card.Text>
+            <Form.Group controlId="editName">
+                    <Form.Control 
+                    style={{color:"black"}}
+                        value={ThursdayString}
+                        placeholder="add hours"
+                        onChange={(event) => {
+                            setThursdayString(event.target.value)
+                        }}
+                    />
+                   <Button variant="success" onClick={handleSave}>
+            Save
+          </Button>
+                </Form.Group>
           </Card.Body>
           <Card.Footer>
             <small className="text-muted">Total Hrs:</small>
@@ -134,7 +188,19 @@ const WeekLayout = (props) => {
         <Card>
           <Card.Body>
             <Card.Title>Friday</Card.Title>
-            <Card.Text></Card.Text>
+            <Form.Group controlId="editName">
+                    <Form.Control 
+                    style={{color:"black"}}
+                        value={FridayString}
+                        placeholder="add hours"
+                        onChange={(event) => {
+                            setFridayString(event.target.value)
+                        }}
+                    />
+                   <Button variant="success" onClick={handleSave}>
+            Save
+          </Button>
+                </Form.Group>
           </Card.Body>
           <Card.Footer>
             <small className="text-muted">Total Hrs:</small>
@@ -143,7 +209,19 @@ const WeekLayout = (props) => {
         <Card>
           <Card.Body>
             <Card.Title>Saturday</Card.Title>
-            <Card.Text></Card.Text>
+            <Form.Group controlId="editName">
+                    <Form.Control 
+                    style={{color:"black"}}
+                        value={SaturdayString}
+                        placeholder="add hours"
+                        onChange={(event) => {
+                            setSaturdayString(event.target.value)
+                        }}
+                    />
+                   <Button variant="success" onClick={handleSave}>
+            Save
+          </Button>
+                </Form.Group>
           </Card.Body>
           <Card.Footer>
             <small className="text-muted">Total Hrs:</small>

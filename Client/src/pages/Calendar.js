@@ -32,14 +32,24 @@ const Calendar = () => {
     fetchEmployees();
   }, []);
 
+
+   const fetchEmployees = async (id) => {
+      const response = await fetch(`/timeCards/${id}`);
+
+      const json = await response.json();
+
+      if (response.ok) {
+        setEmployees(json);
+      }
+    };
   const [dateToCheck, setDateToCheck] = useState(moment().format("L"));
   useEffect(() => {
     console.log("ineffect");
-    if (currentEmployee !==null && currentEmployee.timeCards) {
+    if (currentEmployee !==null && currentEmployee.timeCards.length>0) {
       for (let i = 0; i < currentEmployee.timeCards.length; i++) {
         const timeCard = currentEmployee.timeCards[i];
         if (timeCard.startOfWeek === dateToCheck) {
-          setCurrentTimeCard(timeCard);
+          fetchEmployees(timeCard);
           console.log("new timecard" + timeCard.startOfWeek);
           break;
         }
