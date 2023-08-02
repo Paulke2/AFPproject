@@ -10,9 +10,12 @@ const WeekLayout = (props) => {
   const startOfWeek = specificDate.clone().startOf("isoWeek");
   const [error, setError] = useState(null);
   const [MondayString, setMondayString]=useState("");
-    const [oldTimeCard, setOldTimeCard]=useState(props.currentTimeCard);
+  const [oldTimeCard, setOldTimeCard] = useState(props.currentTimeCard ?? {});
   const handleSave = useCallback(async () => {
-    if(oldTimeCard.startOfWeek!== props.currentTimeCard.startOfWeek|| !props?.currentTimeCard){
+    if(
+      !props.currentTimeCard || 
+      oldTimeCard.startOfWeek !== props.currentTimeCard.startOfWeek
+    ){
     const timeCard = {
       "startOfWeek": startOfWeek.format('l'),
       "Sunday": "",
@@ -36,10 +39,41 @@ const WeekLayout = (props) => {
     } else {
       setError(null);
       console.log("new card added", json);
+    
       props.setCurrentTimeCard(timeCard);
+      setOldTimeCard(timeCard)
+      console.log(props.currentTimeCard.startOfWeek)
+      console.log(oldTimeCard.startOfWeek);
     }
 }else{
     //patch request for the time card of oldTimeCard.id
+    const timeCard = {
+      "startOfWeek": props.currentTimeCard.startOfWeek,
+      "Sunday": props.currentTimeCard.Sunday,
+      "Monday": props.currentTimeCard.Monday,
+      "Tuesday": props.currentTimeCard.Tuesday,
+      "Wednesday": props.currentTimeCard.Wednesday,
+      "Thursday": props.currentTimeCard.Thursday,
+      "Friday": props.currentTimeCard.Friday,
+      "Saturday": props.currentTimeCard.Saturday,
+      "employeeName":props.currentTimeCard.employeeName,
+      "totalHours": props.currentTimeCard.totalHours
+    };
+    const response = await fetch(`/timeCards/${props.currentTimeCard._id}`, {
+      method: "PATCH",
+      body: JSON.stringify(timeCard),
+      headers: { "Content-Type": "application/json" },
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json(); // Try to parse error response if available
+      const errorMessage = errorData?.error || "Unknown error";
+      setError(errorMessage);
+    } else {
+      setError(null);
+      console.log("Card updated");
+      props.setCurrentTimeCard(timeCard);
+    }
 }}, [props.currentEmployee, startOfWeek]);
   return (
     <>

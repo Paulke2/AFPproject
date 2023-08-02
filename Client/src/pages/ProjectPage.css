@@ -1,0 +1,7 @@
+.projectHeader {
+    font-weight: bold;
+}
+ul:nth-of-type(1) {
+    list-style-type: disc;
+    text-align: left;
+  }

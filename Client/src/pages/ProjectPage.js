@@ -76,40 +76,46 @@ const ProjectPage = () => {
       <h1>{currentProject.name}</h1>
       <hr></hr>
       <Container>
-      Scope of Work: {currentProject.scope}
+      <h5>Scope of Work:</h5> {currentProject.scope}
       <hr></hr>
         <Row>
       <Col>
-      Project: {currentProject.projectID}
+      <h5>Project:</h5> {currentProject.projectID}
       <hr></hr>
-      Location: {currentProject.location}
+      <h5>Location:</h5> {currentProject.location}
       <hr></hr>
-      Contract With: {currentProject.contractWith}
+      <h5>Contract With:</h5> {currentProject.contractWith}
       <hr></hr>
       
       </Col>
       <Col>
-      amount: {currentProject.amount}
+      <h5>amount:</h5> {currentProject.amount}
+      <hr></hr>
 
       </Col>
+      <h5>Comments</h5>
       </Row>
       {currentProject.comments !== undefined ? (
-        currentProject.comments.map((comment) => (
-          <div key={comment}>{comment}<br /></div>
-        ))
+        <ul>
+        {currentProject.comments.map((comment) => (
+          <li key={comment}>{comment}</li>
+        ))}
+        </ul>
       ) : (
         <div>No comments yet.</div>
       )}
       <Row>
-      <Form.Group controlId="editName">
+      <Form.Group style={{paddingBottom:"20px"}} controlId="editName">
         <Form.Control
           value={newComment}
           placeholder="New Comment"
+          autoComplete="off"
+          
           onChange={(event) => setNewComment(event.target.value)}
         />
       </Form.Group>
-      <Button variant="primary" onClick={handleSave}>
-        Save
+      <Button  style={{paddingTop: "5px",width:"80%", marginLeft:"10%"}}variant="success" onClick={handleSave}>
+        save Comment
       </Button>
       </Row>
       </Container>
