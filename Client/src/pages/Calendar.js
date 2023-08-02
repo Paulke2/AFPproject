@@ -9,6 +9,7 @@ import Nav from "react-bootstrap/Nav";
 import logo from "../pictures/AFPlogo.png";
 import { useNavigate, useParams } from "react-router-dom";
 import DisplayTimeCard from "../Components/DisplayTimeCard";
+import OutputTimeCards from "../Components/OutputTimeCards.js";
 import "./Calendar.css";
 const moment = require("moment");
 import Badge from "react-bootstrap/Badge";
@@ -88,7 +89,6 @@ const Calendar = () => {
             currentEmployee={currentEmployee}
             dateToCheck={dateToCheck}
           />
-          
         </Col>
       </Row>
     </div>
