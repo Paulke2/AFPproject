@@ -18,7 +18,11 @@ const GetEmployees = (props) => {
                     ? "red"
                     : "white",
               }}
-              onClick={() => props.setCurrentEmployee(employee)}
+              
+              onClick={() => {
+                props.setCurrentEmployee(employee);
+                props.setCurrentTimeCard(null);
+              }}
             >
               {employee.employeeName}
               <Badge bg="primary" pill>

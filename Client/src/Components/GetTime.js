@@ -19,12 +19,18 @@ const GetTime = (props) =>{
     // Now you have the start and end dates of the specified week
   
     return(<><img src={leftArrow}style={{paddingRight:"20%",cursor: "pointer"}}
-        onClick={() => props.setDateToCheck(startOfWeek.subtract(1, "days"))}
+        onClick={() => {
+          props.setDateToCheck(startOfWeek.subtract(1, "days"));
+          props.setCurrentTimeCard(null);
+        }}
       ></img>
       {startOfWeek.format("l").toString()} -{" "}
       {endOfWeek.format("l").toString()}
       <img src={rightArrow} style={{paddingLeft:"20%",cursor: "pointer"}}
-        onClick={() => props.setDateToCheck(endOfWeek.add(1, "days"))}
+        onClick={() => {
+          props.setDateToCheck(endOfWeek.add(1, "days"));
+          props.setCurrentTimeCard(null);
+        }}
       ></img></>);
 
 }

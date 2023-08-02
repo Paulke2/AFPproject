@@ -18,12 +18,16 @@ const WeekLayout = (props) => {
   const [FridayString, setFridayString]=useState("");
   const [SaturdayString, setSaturdayString]=useState("");
   const [oldTimeCard, setOldTimeCard] = useState(props.currentTimeCard ?? {});
+  const [oldSelectedEmployee, setOldSelectedEmployee] = useState(props.currentEmployee ?? {});
   const handleSave = async (event) => {
     event.preventDefault();
+    console.log("should we see this?");
+    console.log(props.currentTimeCard);
     if(
-      !props.currentTimeCard || 
-      oldTimeCard.startOfWeek !== props.currentTimeCard.startOfWeek
+      !props.currentTimeCard ||
+      props.currentEmployee.timeCards.some(timeCard => timeCard.startOfWeek === startOfWeek.format('l'))
     ){
+      console.log("should we see this?");
     const timeCard = {
       "startOfWeek": startOfWeek.format('l'),
       "Sunday": "",
@@ -49,7 +53,8 @@ const WeekLayout = (props) => {
       console.log("new card added", json);
     
       props.setCurrentTimeCard(timeCard);
-      setOldTimeCard(timeCard)
+      setOldTimeCard(timeCard);
+      setOldSelectedEmployee(props.currentEmployee);
 
     }
     const updatedTimeCards = [...props.currentEmployee.timeCards, json ]
