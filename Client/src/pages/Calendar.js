@@ -45,6 +45,7 @@ const Calendar = () => {
   const [dateToCheck, setDateToCheck] = useState(moment().format("L"));
   useEffect(() => {
     console.log("ineffect");
+    
     if (currentEmployee !== null && currentEmployee.timeCards.length > 0) {
       const checkTimeCards = async () => {
         const promises = currentEmployee.timeCards.map(async (timeCardId) => {
@@ -53,13 +54,14 @@ const Calendar = () => {
         });
   
         const resolvedTimeCards = await Promise.all(promises);
-  
+        const specificDate = moment(dateToCheck);
+        const startOfWeek = specificDate.clone().startOf("isoWeek");
         for (const timeCard of resolvedTimeCards) {
-          console.log(timeCard);
-          console.log(dateToCheck);
-          if (timeCard.startOfWeek === dateToCheck.startOf("isoWeek")) {
+          console.log(timeCard.startOfWeek);
+          console.log(startOfWeek.format("l").toString());
+          if (timeCard.startOfWeek === startOfWeek.format("l").toString()) {
             setCurrentTimeCard(timeCard);
-            console.log("new timecard" + timeCard.startOfWeek);
+            console.log(timeCard);
             break;
           }
         }
