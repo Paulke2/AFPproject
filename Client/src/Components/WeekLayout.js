@@ -4,7 +4,7 @@ import CardGroup from "react-bootstrap/CardGroup";
 import { useCallback, useEffect, useState } from "react";
 import updateTimeCardDay from "../functions/updateTimeCardDay";
 import fetchTimeCard from "../functions/fetchTimeCard";
-
+import "./WeekLayout.css";
 const moment = require("moment");
 const WeekLayout = (props) => {
   //map over time employees time cards. if one matches the week, we want to load it. else, cr
@@ -79,7 +79,7 @@ const WeekLayout = (props) => {
       );
 
       const EmployeeJson = await employeesResponse.json();
-   
+
       if (!employeesResponse.ok) {
         setError(EmployeeJson.error);
       } else {
@@ -90,24 +90,52 @@ const WeekLayout = (props) => {
       //if its not a new time card, we need to update our new card.
       const timeCard = {
         startOfWeek: startOfWeek.format("l"),
-        Sunday: updateTimeCardDay(SundayString,SundayNumber,props.currentTimeCard.Sunday),
-        Monday: updateTimeCardDay(MondayString,MondayNumber,props.currentTimeCard.Monday),
-        Tuesday: updateTimeCardDay(TuesdayString,TuesdayNumber,props.currentTimeCard.Tuesday),
-        Wednesday: updateTimeCardDay(WednesdayString,WednesdayNumber,props.currentTimeCard.Wednesday),
-        Thursday: updateTimeCardDay(ThursdayString,ThursdayNumber,props.currentTimeCard.Thursday),
-        Friday: updateTimeCardDay(FridayString,FridayNumber,props.currentTimeCard.Friday),
-        Saturday: updateTimeCardDay(SaturdayString,SaturdayNumber,props.currentTimeCard.Saturday),
+        Sunday: updateTimeCardDay(
+          SundayString,
+          SundayNumber,
+          props.currentTimeCard.Sunday
+        ),
+        Monday: updateTimeCardDay(
+          MondayString,
+          MondayNumber,
+          props.currentTimeCard.Monday
+        ),
+        Tuesday: updateTimeCardDay(
+          TuesdayString,
+          TuesdayNumber,
+          props.currentTimeCard.Tuesday
+        ),
+        Wednesday: updateTimeCardDay(
+          WednesdayString,
+          WednesdayNumber,
+          props.currentTimeCard.Wednesday
+        ),
+        Thursday: updateTimeCardDay(
+          ThursdayString,
+          ThursdayNumber,
+          props.currentTimeCard.Thursday
+        ),
+        Friday: updateTimeCardDay(
+          FridayString,
+          FridayNumber,
+          props.currentTimeCard.Friday
+        ),
+        Saturday: updateTimeCardDay(
+          SaturdayString,
+          SaturdayNumber,
+          props.currentTimeCard.Saturday
+        ),
         employeeName: props.currentEmployee.employeeName,
         totalHours: 2,
       };
-      
+
       const timeCardId = await fetchTimeCard(props.currentTimeCard._id);
-      console.log("id:"+timeCardId);
-const response = await fetch(`/timeCards/${timeCardId._id}`, {
-  method: "PATCH",
-  body: JSON.stringify(timeCard),
-  headers: { "Content-Type": "application/json" },
-});
+      console.log("id:" + timeCardId);
+      const response = await fetch(`/timeCards/${timeCardId._id}`, {
+        method: "PATCH",
+        body: JSON.stringify(timeCard),
+        headers: { "Content-Type": "application/json" },
+      });
       const json = await response.json();
       if (!response.ok) {
         setError(json.error);
@@ -125,6 +153,12 @@ const response = await fetch(`/timeCards/${timeCardId._id}`, {
         <Card>
           <Card.Body style={{ padding: "20px" }}>
             <Card.Title>Sunday</Card.Title>
+            <ul>
+              {props?.currentTimeCard?.Sunday &&
+                props.currentTimeCard.Sunday.split(",").map((element) => (
+                  <li>{element}</li>
+                ))}
+            </ul>
             <Form.Group controlId="editName">
               <Form.Control
                 style={{ color: "black" }}

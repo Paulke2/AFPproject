@@ -1,3 +1,6 @@
 .outPutWeekButton {
     border-radius: 0px !important;
 }
+ul:nth-of-type(1) {
+    list-style-type: disc;
+  }
