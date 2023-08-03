@@ -239,7 +239,7 @@ const WeekLayout = (props) => {
              <ul>
       {props?.currentTimeCard?.Tuesday &&
         props.currentTimeCard.Tuesday.split(",").map((element) => {
-          console.log("Tues num:" + totalSundayNumber);
+          console.log("Tues num:" + totalTuesdayNumber);
           console.log(parseInt(element.slice(-1)));
           return <li>{element}</li>;
         })}

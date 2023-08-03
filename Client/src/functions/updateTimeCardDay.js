@@ -2,10 +2,12 @@ const updateTimeCardDay=(newDayString,newDayNumber,CurrentDayString) =>{
 
     if(newDayString===""||newDayNumber===undefined){
         return CurrentDayString;
-    }else{
+    }else if(CurrentDayString==""){
         console.log("herherhererere");
-        return CurrentDayString+","+newDayString+"-"+newDayNumber.toString();
+        return newDayString+"-"+newDayNumber.toString();
     
+    }else{
+        return CurrentDayString+","+newDayString+"-"+newDayNumber.toString();
     }
 }
 
