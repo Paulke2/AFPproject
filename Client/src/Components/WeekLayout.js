@@ -34,6 +34,11 @@ const WeekLayout = (props) => {
   const [totalThursdayNumber, setTotalThursdayNumber] = useState(0);
   const [totalFridayNumber, setTotalFridayNumber] = useState(0);
   const [totalSaturdayNumber, setTotalSaturdayNumber] = useState(0);
+  const getStringForDay=(dayNumber, dayString)=>{
+    return(SundayNumber!== undefined? SundayString+SundayNumber.toString(): "");
+
+  };
+
   const handleSave = async (event) => {
     event.preventDefault();
 
@@ -43,16 +48,17 @@ const WeekLayout = (props) => {
         (timeCard) => timeCard.startOfWeek === startOfWeek.format("l")
       )
     ) {
-      console.log("should we see this?");
+      //this is when is a brand new week.
+      console.log("brand new week");
       const timeCard = {
         startOfWeek: startOfWeek.format("l"),
-        Sunday: "",
-        Monday: MondayString + MondayNumber.toString(),
-        Tuesday: "",
-        Wednesday: "",
-        Thursday: "",
-        Friday: "",
-        Saturday: "",
+        Sunday: getStringForDay(SundayNumber,SundayString),
+        Monday: getStringForDay(MondayNumber,MondayString),
+        Tuesday: getStringForDay(SundayNumber,SundayString),
+        Wednesday: getStringForDay(SundayNumber,SundayString),
+        Thursday: getStringForDay(SundayNumber,SundayString),
+        Friday: getStringForDay(SundayNumber,SundayString),
+        Saturday: getStringForDay(SundayNumber,SundayString),
         employeeName: props.currentEmployee.employeeName,
         totalHours: 0,
       };
@@ -68,7 +74,7 @@ const WeekLayout = (props) => {
         setError(null);
         console.log("new card added", json);
 
-        props.setCurrentTimeCard(timeCard);
+        props.setCurrentTimeCard(json);
       }
       const updatedTimeCards = [...props.currentEmployee.timeCards, json];
       const employee = { timeCards: updatedTimeCards };
@@ -155,9 +161,6 @@ const WeekLayout = (props) => {
     }
   };
 
-   useEffect(() => {
-    setTotalSundayNumber(getTotalHoursForDay(props.currentTimeCard,"Sunday"))
-   }, [props.currentTimeCard?.Sunday]);
   return (
     <>
       <CardGroup style={{ padding: "20px", minHeight: "100%" }}>
@@ -239,8 +242,6 @@ const WeekLayout = (props) => {
              <ul>
       {props?.currentTimeCard?.Tuesday &&
         props.currentTimeCard.Tuesday.split(",").map((element) => {
-          console.log("Tues num:" + totalTuesdayNumber);
-          console.log(parseInt(element.slice(-1)));
           return <li>{element}</li>;
         })}
     </ul>

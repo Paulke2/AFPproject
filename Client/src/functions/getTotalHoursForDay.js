@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 const getTotalHoursForDay = (props, day) => {
-    console.log("infunction")
  
     if (props?.currentTimeCard?.[day]) {
       console.log("in if")
