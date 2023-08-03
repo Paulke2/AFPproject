@@ -6,6 +6,7 @@ import updateTimeCardDay from "../functions/updateTimeCardDay";
 import fetchTimeCard from "../functions/fetchTimeCard";
 import "./WeekLayout.css";
 import getTotalHoursForDay from "../functions/getTotalHoursForDay";
+import DisplayTimeCard from "./DisplayTimeCard";
 const moment = require("moment");
 const WeekLayout = (props) => {
   //map over time employees time cards. if one matches the week, we want to load it. else, cr
@@ -20,7 +21,7 @@ const WeekLayout = (props) => {
   const [ThursdayString, setThursdayString] = useState("");
   const [FridayString, setFridayString] = useState("");
   const [SaturdayString, setSaturdayString] = useState("");
-  const [SundayJobList, setSundayJobList] = useState( []);
+  const [SundayJobList, setSundayJobList] = useState([]);
   const [MondayJobList, setMondayJobList] = useState([]);
   const [TuesdayJobList, setTuesdayJobList] = useState([]);
   const [WednesdayJobList, setWednesdayJobList] = useState([]);
@@ -41,10 +42,69 @@ const WeekLayout = (props) => {
   const [totalThursdayNumber, setTotalThursdayNumber] = useState(0);
   const [totalFridayNumber, setTotalFridayNumber] = useState(0);
   const [totalSaturdayNumber, setTotalSaturdayNumber] = useState(0);
+  const [weekTotalHours, setWeekTotalHours] = useState(0);
+  useEffect(() => {
+    setSundayJobList(props?.currentTimeCard?.Sunday.split(","));
+    setMondayJobList(props?.currentTimeCard?.Monday!=="" ? props?.currentTimeCard?.Monday.split(","):[]);
+    setTuesdayJobList(props?.currentTimeCard?.Tuesday!=="" ? props?.currentTimeCard?.Tuesday.split(","):[]);
+    setWednesdayJobList(props?.currentTimeCard?.Wednesday!=="" ? props?.currentTimeCard?.Wednesday.split(","):[]);
+    setThursdayJobList(props?.currentTimeCard?.Thursday!=="" ? props?.currentTimeCard?.Thursday.split(","):[]);
+    setFridayJobList(props?.currentTimeCard?.Friday!=="" ? props?.currentTimeCard?.Friday.split(","):[]);
+    setSaturdayJobList(props?.currentTimeCard?.Saturday!=="" ? props?.currentTimeCard?.Saturday.split(","):[]);
+    
+  }, [
+    props?.currentTimeCard?.Sunday,
+    props?.currentTimeCard?.Monday,
+    props?.currentTimeCard?.Tuesday,
+    props?.currentTimeCard?.Wednesday,
+    props?.currentTimeCard?.Thursday,
+    props?.currentTimeCard?.Friday,
+    props?.currentTimeCard?.Saturday,
+  ]);
+  useEffect(() => {
+    setTotalSundayNumber(getTotalHoursForDay(SundayJobList));
+    setTotalMondayNumber(getTotalHoursForDay(MondayJobList));
+    setTotalTuesdayNumber(getTotalHoursForDay(TuesdayJobList));
+    setTotalWednesdayNumber(getTotalHoursForDay(WednesdayJobList));
+    setTotalThursdayNumber(getTotalHoursForDay(ThursdayJobList));
+    setTotalFridayNumber(getTotalHoursForDay(FridayJobList));
+    setTotalSaturdayNumber(getTotalHoursForDay(SaturdayJobList));
+  }, [
+    SundayJobList,
+    MondayJobList,
+    TuesdayJobList,
+    ThursdayJobList,
+    FridayJobList,
+    SaturdayJobList,
+    WednesdayJobList,
+  ]);
   const getStringForDay=(dayNumber, dayString)=>{
     return(dayNumber!== undefined? dayString+"-"+dayNumber.toString(): "");
 
   };
+  useEffect(() => {
+    // Calculate the sum of hours for the week
+    const sumOfWeek =
+    totalSundayNumber +
+      totalMondayNumber +
+      totalTuesdayNumber +
+      totalWednesdayNumber +
+      totalThursdayNumber +
+      totalFridayNumber +
+      totalSaturdayNumber;
+  
+    // Update the weekTotalHours state
+    setWeekTotalHours(sumOfWeek);
+    console.log(sumOfWeek)
+  }, [
+    totalMondayNumber,
+    totalTuesdayNumber,
+    totalWednesdayNumber,
+    totalThursdayNumber,
+    totalFridayNumber,
+    totalSaturdayNumber,
+    totalSundayNumber
+  ]);
 
   const handleSave = async (event) => {
     event.preventDefault();
@@ -57,19 +117,20 @@ const WeekLayout = (props) => {
     ) {
       //this is when is a brand new week.
       console.log("brand new week");
-
-      const timeCard = {
-        startOfWeek: startOfWeek.format("l"),
-        Sunday: getStringForDay(SundayNumber,SundayString),
-        Monday: getStringForDay(MondayNumber,MondayString),
-        Tuesday: getStringForDay(TuesdayNumber,TuesdayString),
-        Wednesday: getStringForDay(WednesdayNumber,WednesdayString),
-        Thursday: getStringForDay(ThursdayNumber,ThursdayString),
-        Friday: getStringForDay(FridayNumber,FridayString),
-        Saturday: getStringForDay(SaturdayNumber,SaturdayString),
-        employeeName: props.currentEmployee.employeeName,
-        totalHours: 0,
-      };
+      console.log(
+        props.currentTimeCard);
+        const timeCard = {
+          startOfWeek: startOfWeek.format("l"),
+          Sunday: getStringForDay(SundayNumber,SundayString),
+          Monday: getStringForDay(MondayNumber,MondayString),
+          Tuesday: getStringForDay(TuesdayNumber,TuesdayString),
+          Wednesday: getStringForDay(WednesdayNumber,WednesdayString),
+          Thursday: getStringForDay(ThursdayNumber,ThursdayString),
+          Friday: getStringForDay(FridayNumber,FridayString),
+          Saturday: getStringForDay(SaturdayNumber,SaturdayString),
+          employeeName: props.currentEmployee.employeeName,
+          totalHours: 0,
+        };
       const response = await fetch("/timeCards/", {
         method: "POST",
         body: JSON.stringify(timeCard),
@@ -106,6 +167,7 @@ const WeekLayout = (props) => {
       }
     } else {
       //if its not a new time card, we need to update our new card.
+      
       const timeCard = {
         startOfWeek: startOfWeek.format("l"),
         Sunday: updateTimeCardDay(
@@ -144,7 +206,7 @@ const WeekLayout = (props) => {
           props.currentTimeCard.Saturday
         ),
         employeeName: props.currentEmployee.employeeName,
-        totalHours: 2,
+        totalHours: weekTotalHours,
       };
 
       const timeCardId = await fetchTimeCard(props.currentTimeCard._id);
@@ -172,10 +234,9 @@ const WeekLayout = (props) => {
           <Card.Body style={{ padding: "20px" }}>
             <Card.Title>Sunday</Card.Title>
             <ul>
-              {props?.currentTimeCard?.Sunday &&
-                props.currentTimeCard.Sunday.split(",").map((element) => (
-                  <li>{element}</li>
-                ))}
+          
+                {SundayJobList?.map((job) => <li>{job}</li> )}
+               
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -201,17 +262,14 @@ const WeekLayout = (props) => {
             </Form.Group>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Total Hrs:</small>
+            <small className="text-muted">Hours: {totalSundayNumber}</small>
           </Card.Footer>
         </Card>
         <Card>
           <Card.Body>
             <Card.Title>Monday</Card.Title>
             <ul>
-              {props?.currentTimeCard?.Monday &&
-                props.currentTimeCard.Monday.split(",").map((element) => (
-                  <li>{element}</li>
-                ))}
+            {MondayJobList?.map((job) => <li>{job}</li> )}
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -237,18 +295,15 @@ const WeekLayout = (props) => {
             </Form.Group>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Total Hrs:</small>
+            <small className="text-muted">Hours: {totalMondayNumber}</small>
           </Card.Footer>
         </Card>
         <Card>
           <Card.Body>
             <Card.Title>Tuesday</Card.Title>
-             <ul>
-      {props?.currentTimeCard?.Tuesday &&
-        props.currentTimeCard.Tuesday.split(",").map((element) => {
-          return <li>{element}</li>;
-        })}
-    </ul>
+            <ul>
+            {TuesdayJobList?.map((job) => <li>{job}</li> )}
+            </ul>
             <Form.Group controlId="editName">
               <Form.Control
                 style={{ color: "black" }}
@@ -273,17 +328,14 @@ const WeekLayout = (props) => {
             </Form.Group>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Total Hrs: </small>
+            <small className="text-muted">Hours: {totalTuesdayNumber}</small>
           </Card.Footer>
         </Card>
         <Card>
           <Card.Body>
             <Card.Title>Wednesday</Card.Title>
             <ul>
-              {props?.currentTimeCard?.Wednesday &&
-                props.currentTimeCard.Wednesday.split(",").map((element) => (
-                  <li>{element}</li>
-                ))}
+            {WednesdayJobList?.map((job) => <li>{job}</li> )}
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -309,17 +361,14 @@ const WeekLayout = (props) => {
             </Form.Group>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Total Hrs:</small>
+            <small className="text-muted">Hours: {totalWednesdayNumber}</small>
           </Card.Footer>
         </Card>
         <Card>
           <Card.Body>
             <Card.Title>Thursday</Card.Title>
             <ul>
-              {props?.currentTimeCard?.Thursday &&
-                props.currentTimeCard.Thursday.split(",").map((element) => (
-                  <li>{element}</li>
-                ))}
+            {ThursdayJobList?.map((job) => <li>{job}</li> )}
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -345,7 +394,7 @@ const WeekLayout = (props) => {
             </Form.Group>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Total Hrs: </small>
+            <small className="text-muted">Hours: {totalThursdayNumber} </small>
           </Card.Footer>
         </Card>
 
@@ -353,10 +402,7 @@ const WeekLayout = (props) => {
           <Card.Body>
             <Card.Title>Friday</Card.Title>
             <ul>
-              {props?.currentTimeCard?.Friday &&
-                props.currentTimeCard.Friday.split(",").map((element) => (
-                  <li>{element}</li>
-                ))}
+            {FridayJobList?.map((job) => <li>{job}</li> )}
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -382,17 +428,14 @@ const WeekLayout = (props) => {
             </Form.Group>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Total Hrs:</small>
+            <small className="text-muted">Hours: {totalFridayNumber}</small>
           </Card.Footer>
         </Card>
         <Card>
           <Card.Body>
             <Card.Title>Saturday</Card.Title>
             <ul>
-              {props?.currentTimeCard?.Saturday &&
-                props.currentTimeCard.Saturday.split(",").map((element) => (
-                  <li>{element}</li>
-                ))}
+            {SaturdayJobList?.map((job) => <li>{job}</li> )}
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -418,10 +461,11 @@ const WeekLayout = (props) => {
             </Form.Group>
           </Card.Body>
           <Card.Footer>
-            <small className="text-muted">Total Hrs:</small>
+            <small className="text-muted">Hours: {totalSaturdayNumber}</small>
           </Card.Footer>
         </Card>
       </CardGroup>
+      <DisplayTimeCard currentTimeCard={props.currentTimeCard} />
     </>
   );
 };

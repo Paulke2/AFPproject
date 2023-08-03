@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from 'react';
 
-const getTotalHoursForDay = (props, day) => {
+const getTotalHoursForDay = (jobList) => {
  
-    if (props?.currentTimeCard?.[day]) {
-  
-      const elements = props.currentTimeCard[day].split(',');
-      let sum = 0;
-      elements.forEach((element) => {
-        sum += parseInt(element.slice(-1));
-      });
-      console.log("sum"+sum);
-      return sum;
-    }
+  let sum=0;
+  (jobList?.length >0 ? jobList.map((job) => {
+    sum += parseInt(job.split("-")[1]);
+  }):sum=0);
 
-
-    return 0;
+   return sum;
 };
+
 
 export default getTotalHoursForDay;

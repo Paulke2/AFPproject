@@ -1,5 +1,7 @@
 const updateTimeCardDay=(newDayString,newDayNumber,CurrentDayString) =>{
-
+    if(CurrentDayString === null){
+        return "";
+    }
     if(newDayString===""||newDayNumber===undefined){
         return CurrentDayString;
     }else if(CurrentDayString==""){
