@@ -35,17 +35,16 @@ const Calendar = () => {
   }, []);
 
 
-  const [dateToCheck, setDateToCheck] = useState(moment().format("L"));
-  useEffect(() => {
-    // This useEffect will be triggered whenever currentTimeCard changes
-    console.log(currentTimeCard);
-  }, [currentTimeCard]);
+  const [dateToCheck, setDateToCheck] = useState(moment().format("l"));
   useEffect(() => {
 
     //this is checking if the time card already exits for the week if there is an employee selected
     if (currentEmployee !== null && currentEmployee.timeCards.length > 0) {
+      console.log("here");
+      console.log(currentEmployee.timeCards);
       const checkTimeCards = async () => {
         const promises = currentEmployee.timeCards.map(async (timeCardId) => {
+          console.log(timeCardId);
           const timeCard = await fetchTimeCard(timeCardId);
           return timeCard;
         });
@@ -56,6 +55,7 @@ const Calendar = () => {
         for ( const timeCard of resolvedTimeCards) {
           if (timeCard.startOfWeek === startOfWeek.format("l").toString()) {
             setCurrentTimeCard(timeCard);
+            console.log("found match")
             break;
           }
         }
@@ -108,6 +108,7 @@ const Calendar = () => {
             setCurrentTimeCard={setCurrentTimeCard}
             currentEmployee={currentEmployee}
             dateToCheck={dateToCheck}
+            setCurrentEmployee={setCurrentEmployee}
           />
         </Col>
       </Row>

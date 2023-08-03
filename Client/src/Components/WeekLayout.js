@@ -20,6 +20,13 @@ const WeekLayout = (props) => {
   const [ThursdayString, setThursdayString] = useState("");
   const [FridayString, setFridayString] = useState("");
   const [SaturdayString, setSaturdayString] = useState("");
+  const [SundayJobList, setSundayJobList] = useState( []);
+  const [MondayJobList, setMondayJobList] = useState([]);
+  const [TuesdayJobList, setTuesdayJobList] = useState([]);
+  const [WednesdayJobList, setWednesdayJobList] = useState([]);
+  const [ThursdayJobList, setThursdayJobList] = useState([]);
+  const [FridayJobList, setFridayJobList] = useState([]);
+  const [SaturdayJobList, setSaturdayJobList] = useState([]);
   const [SundayNumber, setSundayNumber] = useState();
   const [MondayNumber, setMondayNumber] = useState();
   const [TuesdayNumber, setTuesdayNumber] = useState();
@@ -35,7 +42,7 @@ const WeekLayout = (props) => {
   const [totalFridayNumber, setTotalFridayNumber] = useState(0);
   const [totalSaturdayNumber, setTotalSaturdayNumber] = useState(0);
   const getStringForDay=(dayNumber, dayString)=>{
-    return(dayNumber!== undefined? dayString+dayNumber.toString(): "");
+    return(dayNumber!== undefined? dayString+"-"+dayNumber.toString(): "");
 
   };
 
@@ -50,17 +57,16 @@ const WeekLayout = (props) => {
     ) {
       //this is when is a brand new week.
       console.log("brand new week");
-      console.log(SundayString);
-      console.log(MondayString);
+
       const timeCard = {
         startOfWeek: startOfWeek.format("l"),
         Sunday: getStringForDay(SundayNumber,SundayString),
         Monday: getStringForDay(MondayNumber,MondayString),
-        Tuesday: getStringForDay(SundayNumber,SundayString),
-        Wednesday: getStringForDay(SundayNumber,SundayString),
-        Thursday: getStringForDay(SundayNumber,SundayString),
-        Friday: getStringForDay(SundayNumber,SundayString),
-        Saturday: getStringForDay(SundayNumber,SundayString),
+        Tuesday: getStringForDay(TuesdayNumber,TuesdayString),
+        Wednesday: getStringForDay(WednesdayNumber,WednesdayString),
+        Thursday: getStringForDay(ThursdayNumber,ThursdayString),
+        Friday: getStringForDay(FridayNumber,FridayString),
+        Saturday: getStringForDay(SaturdayNumber,SaturdayString),
         employeeName: props.currentEmployee.employeeName,
         totalHours: 0,
       };
@@ -80,7 +86,6 @@ const WeekLayout = (props) => {
       }
       const updatedTimeCards = [...props.currentEmployee.timeCards, json];
       const employee = { timeCards: updatedTimeCards };
-
       const employeesResponse = await fetch(
         `/employees/${props.currentEmployee._id}`,
         {
@@ -96,6 +101,7 @@ const WeekLayout = (props) => {
         setError(EmployeeJson.error);
       } else {
         setError(null);
+        props.setCurrentEmployee(EmployeeJson);
         console.log("employee time card updated", EmployeeJson);
       }
     } else {
@@ -142,7 +148,6 @@ const WeekLayout = (props) => {
       };
 
       const timeCardId = await fetchTimeCard(props.currentTimeCard._id);
-      console.log("id:" + timeCardId);
       const response = await fetch(`/timeCards/${timeCardId._id}`, {
         method: "PATCH",
         body: JSON.stringify(timeCard),

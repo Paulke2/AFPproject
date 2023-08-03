@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 const findProjectInfo = (infoMatrix, setScope, setProjectID, setTurnoverDate, setLocation, setContractWith, setAmount,setProjectName) => {
-  console.log("in function");
   setScope(infoMatrix[18][1]);
   setProjectID(infoMatrix[6][1]);
   setTurnoverDate(infoMatrix[5][10]);
