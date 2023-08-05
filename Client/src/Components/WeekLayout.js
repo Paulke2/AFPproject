@@ -45,13 +45,36 @@ const WeekLayout = (props) => {
   const [weekTotalHours, setWeekTotalHours] = useState(0);
   useEffect(() => {
     setSundayJobList(props?.currentTimeCard?.Sunday.split(","));
-    setMondayJobList(props?.currentTimeCard?.Monday!=="" ? props?.currentTimeCard?.Monday.split(","):[]);
-    setTuesdayJobList(props?.currentTimeCard?.Tuesday!=="" ? props?.currentTimeCard?.Tuesday.split(","):[]);
-    setWednesdayJobList(props?.currentTimeCard?.Wednesday!=="" ? props?.currentTimeCard?.Wednesday.split(","):[]);
-    setThursdayJobList(props?.currentTimeCard?.Thursday!=="" ? props?.currentTimeCard?.Thursday.split(","):[]);
-    setFridayJobList(props?.currentTimeCard?.Friday!=="" ? props?.currentTimeCard?.Friday.split(","):[]);
-    setSaturdayJobList(props?.currentTimeCard?.Saturday!=="" ? props?.currentTimeCard?.Saturday.split(","):[]);
-    
+    setMondayJobList(
+      props?.currentTimeCard?.Monday !== ""
+        ? props?.currentTimeCard?.Monday.split(",")
+        : []
+    );
+    setTuesdayJobList(
+      props?.currentTimeCard?.Tuesday !== ""
+        ? props?.currentTimeCard?.Tuesday.split(",")
+        : []
+    );
+    setWednesdayJobList(
+      props?.currentTimeCard?.Wednesday !== ""
+        ? props?.currentTimeCard?.Wednesday.split(",")
+        : []
+    );
+    setThursdayJobList(
+      props?.currentTimeCard?.Thursday !== ""
+        ? props?.currentTimeCard?.Thursday.split(",")
+        : []
+    );
+    setFridayJobList(
+      props?.currentTimeCard?.Friday !== ""
+        ? props?.currentTimeCard?.Friday.split(",")
+        : []
+    );
+    setSaturdayJobList(
+      props?.currentTimeCard?.Saturday !== ""
+        ? props?.currentTimeCard?.Saturday.split(",")
+        : []
+    );
   }, [
     props?.currentTimeCard?.Sunday,
     props?.currentTimeCard?.Monday,
@@ -78,37 +101,62 @@ const WeekLayout = (props) => {
     SaturdayJobList,
     WednesdayJobList,
   ]);
-  const getStringForDay=(dayNumber, dayString)=>{
-    return(dayNumber!== undefined? dayString+"-"+dayNumber.toString(): "");
-
+  const getStringForDay = (dayNumber, dayString) => {
+    return dayNumber !== undefined
+      ? dayString + "-" + dayNumber.toString()
+      : "";
   };
   useEffect(() => {
     // Calculate the sum of hours for the week
     const sumOfWeek =
-    totalSundayNumber +
+      totalSundayNumber +
       totalMondayNumber +
       totalTuesdayNumber +
       totalWednesdayNumber +
       totalThursdayNumber +
       totalFridayNumber +
       totalSaturdayNumber;
-  
+
     // Update the weekTotalHours state
     setWeekTotalHours(sumOfWeek);
-    console.log(sumOfWeek)
   }, [
+    props?.currrentTimeCard,
+    props?.currentEmployee,
     totalMondayNumber,
     totalTuesdayNumber,
     totalWednesdayNumber,
     totalThursdayNumber,
     totalFridayNumber,
     totalSaturdayNumber,
-    totalSundayNumber
+    totalSundayNumber,
   ]);
+  const getTotalHours = () => {
+    return(
+    totalMondayNumber +
+      totalTuesdayNumber +
+      totalWednesdayNumber +
+      totalThursdayNumber +
+      totalFridayNumber +
+      totalSaturdayNumber +
+      totalSundayNumber +getWeekNumbers()
+      )
+  };
+  const getWeekNumbers=() => {
+    
+   const total= (MondayNumber!==undefined ?parseInt(MondayNumber): 0) +
+    (SundayNumber!==undefined ?parseInt(SundayNumber): 0) +
+     (TuesdayNumber!==undefined ?parseInt(TuesdayNumber): 0)+
+     (WednesdayNumber!==undefined ?parseInt(WednesdayNumber): 0)+
+     (ThursdayNumber!==undefined ?parseInt(ThursdayNumber): 0)+
+    (FridayNumber!==undefined ?parseInt(FridayNumber): 0) +
+     (SaturdayNumber!==undefined ?parseInt(SaturdayNumber): 0) 
+     console.log("total:"+total);
+     return total;
 
+  }
   const handleSave = async (event) => {
     event.preventDefault();
-
+    console.log("in patch" + totalSundayNumber);
     if (
       !props.currentTimeCard ||
       props.currentEmployee.timeCards.some(
@@ -117,20 +165,18 @@ const WeekLayout = (props) => {
     ) {
       //this is when is a brand new week.
       console.log("brand new week");
-      console.log(
-        props.currentTimeCard);
-        const timeCard = {
-          startOfWeek: startOfWeek.format("l"),
-          Sunday: getStringForDay(SundayNumber,SundayString),
-          Monday: getStringForDay(MondayNumber,MondayString),
-          Tuesday: getStringForDay(TuesdayNumber,TuesdayString),
-          Wednesday: getStringForDay(WednesdayNumber,WednesdayString),
-          Thursday: getStringForDay(ThursdayNumber,ThursdayString),
-          Friday: getStringForDay(FridayNumber,FridayString),
-          Saturday: getStringForDay(SaturdayNumber,SaturdayString),
-          employeeName: props.currentEmployee.employeeName,
-          totalHours: 0,
-        };
+      const timeCard = {
+        startOfWeek: startOfWeek.format("l"),
+        Sunday: getStringForDay(SundayNumber, SundayString),
+        Monday: getStringForDay(MondayNumber, MondayString),
+        Tuesday: getStringForDay(TuesdayNumber, TuesdayString),
+        Wednesday: getStringForDay(WednesdayNumber, WednesdayString),
+        Thursday: getStringForDay(ThursdayNumber, ThursdayString),
+        Friday: getStringForDay(FridayNumber, FridayString),
+        Saturday: getStringForDay(SaturdayNumber, SaturdayString),
+        employeeName: props.currentEmployee.employeeName,
+        totalHours: weekTotalHours,
+      };
       const response = await fetch("/timeCards/", {
         method: "POST",
         body: JSON.stringify(timeCard),
@@ -167,7 +213,7 @@ const WeekLayout = (props) => {
       }
     } else {
       //if its not a new time card, we need to update our new card.
-      
+
       const timeCard = {
         startOfWeek: startOfWeek.format("l"),
         Sunday: updateTimeCardDay(
@@ -206,7 +252,7 @@ const WeekLayout = (props) => {
           props.currentTimeCard.Saturday
         ),
         employeeName: props.currentEmployee.employeeName,
-        totalHours: weekTotalHours,
+        totalHours: getTotalHours(),
       };
 
       const timeCardId = await fetchTimeCard(props.currentTimeCard._id);
@@ -229,14 +275,14 @@ const WeekLayout = (props) => {
 
   return (
     <>
-      <CardGroup style={{ padding: "20px", minHeight: "100%" }}>
+      <CardGroup style={{ padding: "20px", height: "70%" }}>
         <Card>
           <Card.Body style={{ padding: "20px" }}>
             <Card.Title>Sunday</Card.Title>
             <ul>
-          
-                {SundayJobList?.map((job) => <li>{job}</li> )}
-               
+              {SundayJobList?.map((job) => (
+                <li>{job}</li>
+              ))}
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -269,7 +315,9 @@ const WeekLayout = (props) => {
           <Card.Body>
             <Card.Title>Monday</Card.Title>
             <ul>
-            {MondayJobList?.map((job) => <li>{job}</li> )}
+              {MondayJobList?.map((job) => (
+                <li>{job}</li>
+              ))}
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -302,7 +350,9 @@ const WeekLayout = (props) => {
           <Card.Body>
             <Card.Title>Tuesday</Card.Title>
             <ul>
-            {TuesdayJobList?.map((job) => <li>{job}</li> )}
+              {TuesdayJobList?.map((job) => (
+                <li>{job}</li>
+              ))}
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -335,7 +385,9 @@ const WeekLayout = (props) => {
           <Card.Body>
             <Card.Title>Wednesday</Card.Title>
             <ul>
-            {WednesdayJobList?.map((job) => <li>{job}</li> )}
+              {WednesdayJobList?.map((job) => (
+                <li>{job}</li>
+              ))}
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -368,7 +420,9 @@ const WeekLayout = (props) => {
           <Card.Body>
             <Card.Title>Thursday</Card.Title>
             <ul>
-            {ThursdayJobList?.map((job) => <li>{job}</li> )}
+              {ThursdayJobList?.map((job) => (
+                <li>{job}</li>
+              ))}
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -402,7 +456,9 @@ const WeekLayout = (props) => {
           <Card.Body>
             <Card.Title>Friday</Card.Title>
             <ul>
-            {FridayJobList?.map((job) => <li>{job}</li> )}
+              {FridayJobList?.map((job) => (
+                <li>{job}</li>
+              ))}
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -435,7 +491,9 @@ const WeekLayout = (props) => {
           <Card.Body>
             <Card.Title>Saturday</Card.Title>
             <ul>
-            {SaturdayJobList?.map((job) => <li>{job}</li> )}
+              {SaturdayJobList?.map((job) => (
+                <li>{job}</li>
+              ))}
             </ul>
             <Form.Group controlId="editName">
               <Form.Control
@@ -465,7 +523,6 @@ const WeekLayout = (props) => {
           </Card.Footer>
         </Card>
       </CardGroup>
-      <DisplayTimeCard currentTimeCard={props.currentTimeCard} />
     </>
   );
 };

@@ -62,18 +62,27 @@ const Home = () => {
 
   return (
     <>
-      <Navbar bg="dark" data-bs-theme="dark"style={{
-                backgroundColor: "#90ee90",
-                paddingLeft: "16px",
-                paddingRight: "16px",
-                boxShadow: "0 4px 6px -6px #222"
-            }}>
+      <Navbar
+        bg="dark"
+        data-bs-theme="dark"
+        style={{
+          backgroundColor: "#90ee90",
+          paddingLeft: "16px",
+          paddingRight: "16px",
+          boxShadow: "0 4px 6px -6px #222",
+        }}
+      >
         <Searchbar
           projectSearch={projectSearch}
           setProjectSearch={setProjectSearch}
         />
         <Nav className="me-auto"></Nav>
-        <Nav.Link onClick={() => navigate("/Calendar")} style={{color:"white",fontStyle:"oblique"}}>Calendar</Nav.Link>
+        <Nav.Link
+          onClick={() => navigate("/Calendar")}
+          style={{ color: "white", fontStyle: "oblique" }}
+        >
+          Calendar
+        </Nav.Link>
         <Navbar.Brand
           style={{ cursor: "pointer", marginLeft: `2%` }}
           onClick={() => navigate("/")}
@@ -102,17 +111,16 @@ const Home = () => {
       <br></br>
       <div
         className="dropBox"
+        stlye={{
+          border: draggingOver ? "5px dashed black" : "5px solid black",
+        }}
         onDragOver={() => {
-
           setDraggingOver(true);
         }}
         style={{
-          backgroundColor:
-            draggingOver
-              ? "white"
-              : "gray",
+          backgroundColor: draggingOver ? "#d3d3d3" : "white",
         }}
-        onDragEnd={() => {
+        onDragLeave={() => {
           setDraggingOver(false);
         }}
         onDrop={async (event) => {
@@ -129,8 +137,6 @@ const Home = () => {
 
             // Check if infoMatrix state is empty before setting it
             if (infoMatrix.length === 0) {
-              console.log("hello");
-              //console.log(allInfoMatrices[0]);
               setInfoMatrix(allInfoMatrices[0]);
               console.log(allInfoMatrices[0]);
               console.log("finding");

@@ -103,6 +103,7 @@ const Calendar = () => {
         </Col>
         <Col className="col-10" style={{ padding: "50px", fontSize: "large" }}>
           <GetTime dateToCheck={dateToCheck} setDateToCheck={setDateToCheck} setCurrentTimeCard={setCurrentTimeCard} />
+          <Row>
           <WeekLayout
             currentTimeCard={currentTimeCard}
             setCurrentTimeCard={setCurrentTimeCard}
@@ -110,6 +111,10 @@ const Calendar = () => {
             dateToCheck={dateToCheck}
             setCurrentEmployee={setCurrentEmployee}
           />
+          </Row>
+          <Row>
+          <DisplayTimeCard currentTimeCard={currentTimeCard} />
+          </Row>
         </Col>
       </Row>
     </div>
