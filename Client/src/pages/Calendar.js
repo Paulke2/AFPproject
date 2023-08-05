@@ -16,6 +16,7 @@ import Badge from "react-bootstrap/Badge";
 import GetEmployees from "../Components/GetEmployees.js";
 import GetTime from "../Components/GetTime.js";
 import fetchTimeCard from "../functions/fetchTimeCard.js";
+import TimeCardOptions from "../Components/TimeCardOptions.js";
 const Calendar = () => {
   const [employees, setEmployees] = useState(null);
   const [currentEmployee, setCurrentEmployee] = useState(null);
@@ -40,7 +41,7 @@ const Calendar = () => {
 
     //this is checking if the time card already exits for the week if there is an employee selected
     if (currentEmployee !== null && currentEmployee.timeCards.length > 0) {
-      console.log("here");
+    
       console.log(currentEmployee.timeCards);
       const checkTimeCards = async () => {
         const promises = currentEmployee.timeCards.map(async (timeCardId) => {
@@ -92,7 +93,7 @@ const Calendar = () => {
         </Navbar.Brand>
       </Navbar>
 
-      <Row>
+      <Row >
         <Col className="col-2 employeeList">
           <GetEmployees
             employees={employees}
@@ -101,9 +102,9 @@ const Calendar = () => {
             setCurrentTimeCard={setCurrentTimeCard}
           />
         </Col>
-        <Col className="col-10" style={{ padding: "50px", fontSize: "large" }}>
+        <Col className="col-10" style={{ padding: "10px", fontSize: "large" }}>
           <GetTime dateToCheck={dateToCheck} setDateToCheck={setDateToCheck} setCurrentTimeCard={setCurrentTimeCard} />
-          <Row>
+          <Row style={{ marginLeft: "0px" }}>
           <WeekLayout
             currentTimeCard={currentTimeCard}
             setCurrentTimeCard={setCurrentTimeCard}
@@ -111,10 +112,11 @@ const Calendar = () => {
             dateToCheck={dateToCheck}
             setCurrentEmployee={setCurrentEmployee}
           />
-          </Row>
-          <Row>
+
           <DisplayTimeCard currentTimeCard={currentTimeCard} />
+  
           </Row>
+
         </Col>
       </Row>
     </div>

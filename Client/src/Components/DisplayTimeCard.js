@@ -1,6 +1,6 @@
 import "./DisplayTimeCard.css";
 import { useState, useEffect } from "react";
-
+import { Row,Col,Button } from "react-bootstrap";
 const DisplayTimeCard = (props) => {
   //this state list loops through time card job
   //entries,checks for capitalization mistakes in job names, and combines the
@@ -32,7 +32,11 @@ const DisplayTimeCard = (props) => {
 
   return props.currentTimeCard !== null ? (
     <div className="timeCard">
-      <h5>{props?.currentTimeCard?.employeeName} </h5>
+      <h4>{props?.currentTimeCard?.employeeName} </h4>
+      <Row>
+        <Col style={{textAlign:"left", paddingLeft:"20px"}}>
+      
+      <h5>Jobs:</h5>
       <ul>
         {Object.entries(jobsForWeek).map(([jobName, jobHours]) => (
           <li key={jobName}>
@@ -40,6 +44,20 @@ const DisplayTimeCard = (props) => {
           </li>
         ))}
       </ul>
+      </Col>
+      <Col>
+      <span style={{fontWeight:"600"}}>Week:</span> {props.currentTimeCard.startOfWeek}
+      <br></br>
+      <span style={{fontWeight:"600"}}>Total Hours:</span> {props.currentTimeCard.totalHours}
+      <br></br>
+      <div className="buttonOptions">
+      <Button variant="success">export</Button>   <Button variant="danger" >delete</Button>
+
+ </div>
+      </Col>
+
+      </Row>
+      
     </div>
   ) : (
     <div></div>
