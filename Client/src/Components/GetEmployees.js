@@ -28,7 +28,7 @@ const GetEmployees = (props) => {
               }}
             >
               {employee.employeeName}
-              <Badge bg="primary" pill>
+              <Badge bg="primary" style={{backgroundColor:"red "}}pill>
                 14
               </Badge>
             </ListGroup.Item>

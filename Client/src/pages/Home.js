@@ -111,20 +111,20 @@ const Home = () => {
       <br></br>
       <div
         className="dropBox"
-        stlye={{
-          border: draggingOver ? "5px dashed black" : "5px solid black",
-        }}
-        onDragOver={() => {
+        onDragOver={(event) => {
+          event.preventDefault();
           setDraggingOver(true);
         }}
         style={{
           backgroundColor: draggingOver ? "#d3d3d3" : "white",
+          border:draggingOver ? "5px solid black": "5px dashed black",
         }}
         onDragLeave={() => {
           setDraggingOver(false);
         }}
         onDrop={async (event) => {
           event.preventDefault();
+          setDraggingOver(false);
           const files = Array.from(event.dataTransfer.files);
           const fileReadPromises = files.map(async (file) => {
             let text = await file.text();
@@ -137,6 +137,8 @@ const Home = () => {
 
             // Check if infoMatrix state is empty before setting it
             if (infoMatrix.length === 0) {
+              console.log("hello");
+              //console.log(allInfoMatrices[0]);
               setInfoMatrix(allInfoMatrices[0]);
               console.log(allInfoMatrices[0]);
               console.log("finding");
@@ -157,7 +159,8 @@ const Home = () => {
           }
         }}
       >
-        drop file
+        Drag & Drop a Turnover sheet <br></br>here
+         to add a new Project.
       </div>
       <NewProject
         showNewProject={showNewProject}

@@ -36,34 +36,36 @@ const NewProject = (props) => {
 
   return (
     <>
-      <Modal size="lg" show={props.showNewProject}>
+      <Modal size="lg" show={props.showNewProject} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>New Project</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           Please double check the new Project info below and make any necessary
           changes.
+          <br></br>
           <Form>
-            <Form.Group>
+            <Form.Group style={{padding:"5px",fontWeight:"500"}}>
+              Project Name:
               <Form.Control
                 type="text"
-                id="create plantType"
-                name="Project ID"
                 value={props.projectName}
                 onChange={(event) => props.setProjectName(event.target.value)}
                 autocomplete="off"
                 placeholder="Project Name"
               />
+              Project ID:
               <Form.Control
                 type="text"
-                id="create plantType"
+                
                 name="Project ID"
                 value={props.projectID}
                 onChange={(event) => props.setProjectID(event.target.value)}
                 autocomplete="off"
                 placeholder="Project ID"
               />
-            </Form.Group>
+           
+            Scope of Work:
             <Form.Control
               type="text"
               id="scope"
@@ -72,7 +74,8 @@ const NewProject = (props) => {
               onChange={(event) => props.setScope(event.target.value)}
               placeholder="project scope"
             />
-            <Form.Group>
+            
+              TurnOver Date:
               <Form.Control
                 type="name"
                 id="turnoverdate"
@@ -81,6 +84,7 @@ const NewProject = (props) => {
                 onChange={(event) => props.setTurnoverDate(event.target.value)}
                 placeholder="turnoverdate"
               />
+              Project Location:
               <Form.Control
                 type="location"
                 id="location"
@@ -89,6 +93,7 @@ const NewProject = (props) => {
                 onChange={(event) => props.setLocation(event.target.value)}
                 placeholder="location"
               />
+              Amount:
               <Form.Control
                 type="amount"
                 id="amount"
@@ -97,6 +102,7 @@ const NewProject = (props) => {
                 onChange={(event) => props.setAmount(event.target.value)}
                 placeholder="location"
               />
+              Contractor:
               <Form.Control
                 type="amount"
                 id="contract with"
@@ -106,12 +112,12 @@ const NewProject = (props) => {
                 placeholder="contractwith"
               />
             </Form.Group>
-            <Form.Group></Form.Group>
+  
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>Close</Button>
-          <Button variant="primary" onClick={handleSave}>Save</Button>
+          <Button variant="success" onClick={handleSave}>Save</Button>
         </Modal.Footer>
       </Modal>
     </>
