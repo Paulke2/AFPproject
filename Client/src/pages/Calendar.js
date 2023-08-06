@@ -100,6 +100,7 @@ const Calendar = () => {
             currentEmployee={currentEmployee}
             setCurrentEmployee={setCurrentEmployee}
             setCurrentTimeCard={setCurrentTimeCard}
+            dateToCheck={dateToCheck}
           />
         </Col>
         <Col className="col-10" style={{ padding: "10px", fontSize: "large" }}>
