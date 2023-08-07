@@ -21,7 +21,7 @@ const Calendar = () => {
   const [employees, setEmployees] = useState(null);
   const [currentEmployee, setCurrentEmployee] = useState(null);
   const [currentTimeCard, setCurrentTimeCard] = useState(null);
-  const [startOfDesiredWeek, setStartOfDesiredWeek] = useState(null);
+  const [currentWeekCards, setCurrentWeekCards] = useState({});
   useEffect(() => {
     const fetchEmployees = async () => {
       const response = await fetch("/employees");
@@ -33,38 +33,45 @@ const Calendar = () => {
       }
     };
     fetchEmployees();
-  }, [currentTimeCard,currentEmployee]);
+  }, []);
 
 
   const [dateToCheck, setDateToCheck] = useState(moment().format("l"));
-  useEffect(() => {
 
-    //this is checking if the time card already exits for the week if there is an employee selected
-    if (currentEmployee !== null && currentEmployee.timeCards.length > 0) {
-    
-      console.log(currentEmployee.timeCards);
-      const checkTimeCards = async () => {
-        const promises = currentEmployee.timeCards.map(async (timeCardId) => {
-          console.log(timeCardId);
-          const timeCard = await fetchTimeCard(timeCardId);
-          return timeCard;
-        });
+  useEffect(() => {
+    const checkTimeCards = async () => {
+      employees &&
+        employees.forEach(async (employee) => {
+          const resolvedTimeCards = await Promise.all(
+            (employee.timeCards || []).map(async (timeCardId) => {
+              const timeCard = await fetchTimeCard(timeCardId);
+              return timeCard;
+            })
+          );
   
-        const resolvedTimeCards = await Promise.all(promises);
-        const specificDate = moment(dateToCheck);
-        const startOfWeek = specificDate.clone().startOf("isoWeek");
-        for ( const timeCard of resolvedTimeCards) {
-          if (timeCard.startOfWeek === startOfWeek.format("l").toString()) {
-            setCurrentTimeCard(timeCard);
-            console.log("found match")
-            break;
+          const specificDate = moment(dateToCheck);
+          const startOfWeek = specificDate.clone().startOf("isoWeek");
+          let updatedWeekCards = { ...currentWeekCards };
+          console.log("here");
+          for (const timeCard of resolvedTimeCards) {
+            if (timeCard.startOfWeek === startOfWeek.format("l").toString()) {
+              updatedWeekCards = {
+                ...updatedWeekCards,
+                [employee.employeeName]: timeCard,
+              };
+  
+              console.log("found match")
+              console.log("found match");
+              break;
+            }
           }
-        }
-        
-      };
-      checkTimeCards();
-    }
-  }, [currentEmployee, dateToCheck]);
+  
+          setCurrentWeekCards(updatedWeekCards);
+        });
+    };
+  
+    checkTimeCards();
+  }, [dateToCheck,employees]);
   const navigate = useNavigate();
   return (
     <div>
@@ -112,6 +119,8 @@ const Calendar = () => {
             currentEmployee={currentEmployee}
             dateToCheck={dateToCheck}
             setCurrentEmployee={setCurrentEmployee}
+            currentWeekCards={currentWeekCards}
+            setCurrentWeekCards={setCurrentWeekCards}
           />
 
           <DisplayTimeCard currentTimeCard={currentTimeCard} />

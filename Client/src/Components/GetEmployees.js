@@ -16,39 +16,12 @@ const GetEmployees = (props) => {
     console.log(startOfDesiredWeek.format('l'));
   }, [props.dateToCheck]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let temp = {};
-
-      if (props?.employees) {
-        await Promise.all(
-          props.employees.map(async (employee) => {
-            await Promise.all(
-              employee.timeCards.map(async (timeCard) => {
-                let timeCardToFetch = await fetchTimeCard(timeCard);
-
-                if (timeCardToFetch.startOfWeek === startOfDesiredWeek.format('l').toString()) {
-                  temp = { ...temp, [employee.employeeName]: timeCardToFetch.totalHours };
-                  console.log("badge number");
-                }
-              })
-            );
-          })
-        );
-
-        setHoursForCurrentWeek(temp);
-        setLoading(false); // Set loading to false once data is fetched
-      }
-    };
-
-    fetchData();
-  }, [startOfDesiredWeek, props.employees]);
+  
 
   return (
     <>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
+      
+     
         <ListGroup as="ul">
           {props.employees &&
             props.employees.map((employee) => (
@@ -76,7 +49,6 @@ const GetEmployees = (props) => {
               </ListGroup.Item>
             ))}
         </ListGroup>
-      )}
     </>
   );
 }

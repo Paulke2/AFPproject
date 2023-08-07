@@ -43,64 +43,7 @@ const WeekLayout = (props) => {
   const [totalFridayNumber, setTotalFridayNumber] = useState(0);
   const [totalSaturdayNumber, setTotalSaturdayNumber] = useState(0);
   const [weekTotalHours, setWeekTotalHours] = useState(0);
-  useEffect(() => {
-    setSundayJobList(props?.currentTimeCard?.Sunday.split(","));
-    setMondayJobList(
-      props?.currentTimeCard?.Monday !== ""
-        ? props?.currentTimeCard?.Monday.split(",")
-        : []
-    );
-    setTuesdayJobList(
-      props?.currentTimeCard?.Tuesday !== ""
-        ? props?.currentTimeCard?.Tuesday.split(",")
-        : []
-    );
-    setWednesdayJobList(
-      props?.currentTimeCard?.Wednesday !== ""
-        ? props?.currentTimeCard?.Wednesday.split(",")
-        : []
-    );
-    setThursdayJobList(
-      props?.currentTimeCard?.Thursday !== ""
-        ? props?.currentTimeCard?.Thursday.split(",")
-        : []
-    );
-    setFridayJobList(
-      props?.currentTimeCard?.Friday !== ""
-        ? props?.currentTimeCard?.Friday.split(",")
-        : []
-    );
-    setSaturdayJobList(
-      props?.currentTimeCard?.Saturday !== ""
-        ? props?.currentTimeCard?.Saturday.split(",")
-        : []
-    );
-  }, [
-    props?.currentTimeCard?.Sunday,
-    props?.currentTimeCard?.Monday,
-    props?.currentTimeCard?.Tuesday,
-    props?.currentTimeCard?.Wednesday,
-    props?.currentTimeCard?.Thursday,
-    props?.currentTimeCard?.Friday,
-    props?.currentTimeCard?.Saturday,
-  ]);
-  useEffect(() => {
-    setTotalSundayNumber(getTotalHoursForDay(SundayJobList));
-    setTotalMondayNumber(getTotalHoursForDay(MondayJobList));
-    setTotalTuesdayNumber(getTotalHoursForDay(TuesdayJobList));
-    setTotalWednesdayNumber(getTotalHoursForDay(WednesdayJobList));
-    setTotalThursdayNumber(getTotalHoursForDay(ThursdayJobList));
-    setTotalFridayNumber(getTotalHoursForDay(FridayJobList));
-    setTotalSaturdayNumber(getTotalHoursForDay(SaturdayJobList));
-  }, [
-    SundayJobList,
-    MondayJobList,
-    TuesdayJobList,
-    ThursdayJobList,
-    FridayJobList,
-    SaturdayJobList,
-    WednesdayJobList,
-  ]);
+
   const getStringForDay = (dayNumber, dayString) => {
     return dayNumber !== undefined
       ? dayString + "-" + dayNumber.toString()
@@ -131,29 +74,29 @@ const WeekLayout = (props) => {
     totalSundayNumber,
   ]);
   const getTotalHours = () => {
-    return(
-    totalMondayNumber +
+    return (
+      totalMondayNumber +
       totalTuesdayNumber +
       totalWednesdayNumber +
       totalThursdayNumber +
       totalFridayNumber +
       totalSaturdayNumber +
-      totalSundayNumber +getWeekNumbers()
-      )
+      totalSundayNumber +
+      getWeekNumbers()
+    );
   };
-  const getWeekNumbers=() => {
-    
-   const total= (MondayNumber!==undefined ?parseInt(MondayNumber): 0) +
-    (SundayNumber!==undefined ?parseInt(SundayNumber): 0) +
-     (TuesdayNumber!==undefined ?parseInt(TuesdayNumber): 0)+
-     (WednesdayNumber!==undefined ?parseInt(WednesdayNumber): 0)+
-     (ThursdayNumber!==undefined ?parseInt(ThursdayNumber): 0)+
-    (FridayNumber!==undefined ?parseInt(FridayNumber): 0) +
-     (SaturdayNumber!==undefined ?parseInt(SaturdayNumber): 0) 
-     console.log("total:"+total);
-     return total;
-
-  }
+  const getWeekNumbers = () => {
+    const total =
+      (MondayNumber !== undefined ? parseInt(MondayNumber) : 0) +
+      (SundayNumber !== undefined ? parseInt(SundayNumber) : 0) +
+      (TuesdayNumber !== undefined ? parseInt(TuesdayNumber) : 0) +
+      (WednesdayNumber !== undefined ? parseInt(WednesdayNumber) : 0) +
+      (ThursdayNumber !== undefined ? parseInt(ThursdayNumber) : 0) +
+      (FridayNumber !== undefined ? parseInt(FridayNumber) : 0) +
+      (SaturdayNumber !== undefined ? parseInt(SaturdayNumber) : 0);
+    console.log("total:" + total);
+    return total;
+  };
   const handleSave = async (event) => {
     event.preventDefault();
     console.log("in patch" + totalSundayNumber);
@@ -190,6 +133,11 @@ const WeekLayout = (props) => {
         console.log("new card added", json);
 
         props.setCurrentTimeCard(json);
+        let updatedWeekCards = {
+          ...props.currentWeekCards,
+          [props.currentEmployee.employeeName]: json,
+        };
+        props.setCurrentWeekCards(updatedWeekCards);
       }
       const updatedTimeCards = [...props.currentEmployee.timeCards, json];
       const employee = { timeCards: updatedTimeCards };
@@ -266,13 +214,20 @@ const WeekLayout = (props) => {
         setError(json.error);
       } else {
         setError(null);
-        console.log("new card added", json);
+        console.log("card updated", json);
 
         props.setCurrentTimeCard(json);
+        //dont even think i need to do these two lines bellow. ill just leave them in for now
+        let updatedWeekCards = {
+          ...props.currentWeekCards,
+          [props.currentEmployee.employeeName]: json,
+        };
+        props.setCurrentWeekCards(updatedWeekCards);
+        
       }
     }
   };
-
+useEffect(()=>{console.log(props.updatedWeekCards)},[props.updatedWeekCards]);
   return (
     <>
       <CardGroup style={{ padding: "20px", height: "70%" }}>
@@ -309,217 +264,6 @@ const WeekLayout = (props) => {
           </Card.Body>
           <Card.Footer>
             <small className="text-muted">Hours: {totalSundayNumber}</small>
-          </Card.Footer>
-        </Card>
-        <Card>
-          <Card.Body>
-            <Card.Title>Monday</Card.Title>
-            <ul>
-              {MondayJobList?.map((job) => (
-                <li>{job}</li>
-              ))}
-            </ul>
-            <Form.Group controlId="editName">
-              <Form.Control
-                style={{ color: "black" }}
-                value={MondayString}
-                placeholder="job location"
-                onChange={(event) => {
-                  setMondayString(event.target.value);
-                }}
-              />
-              <Form.Group>
-                <Form.Label>-</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={MondayNumber}
-                  placeholder="hours"
-                  onChange={(event) => setMondayNumber(event.target.value)}
-                />
-              </Form.Group>
-              <Button variant="success" onClick={handleSave}>
-                Save
-              </Button>
-            </Form.Group>
-          </Card.Body>
-          <Card.Footer>
-            <small className="text-muted">Hours: {totalMondayNumber}</small>
-          </Card.Footer>
-        </Card>
-        <Card>
-          <Card.Body>
-            <Card.Title>Tuesday</Card.Title>
-            <ul>
-              {TuesdayJobList?.map((job) => (
-                <li>{job}</li>
-              ))}
-            </ul>
-            <Form.Group controlId="editName">
-              <Form.Control
-                style={{ color: "black" }}
-                value={TuesdayString}
-                placeholder="job location"
-                onChange={(event) => {
-                  setTuesdayString(event.target.value);
-                }}
-              />
-              <Form.Group>
-                <Form.Label>-</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={TuesdayNumber}
-                  placeholder="hours"
-                  onChange={(event) => setTuesdayNumber(event.target.value)}
-                />
-              </Form.Group>
-              <Button variant="success" onClick={handleSave}>
-                Save
-              </Button>
-            </Form.Group>
-          </Card.Body>
-          <Card.Footer>
-            <small className="text-muted">Hours: {totalTuesdayNumber}</small>
-          </Card.Footer>
-        </Card>
-        <Card>
-          <Card.Body>
-            <Card.Title>Wednesday</Card.Title>
-            <ul>
-              {WednesdayJobList?.map((job) => (
-                <li>{job}</li>
-              ))}
-            </ul>
-            <Form.Group controlId="editName">
-              <Form.Control
-                style={{ color: "black" }}
-                value={WednesdayString}
-                placeholder="job location"
-                onChange={(event) => {
-                  setWednesdayString(event.target.value);
-                }}
-              />
-              <Form.Group>
-                <Form.Label>-</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={WednesdayNumber}
-                  placeholder="hours"
-                  onChange={(event) => setWednesdayNumber(event.target.value)}
-                />
-              </Form.Group>
-              <Button variant="success" onClick={handleSave}>
-                Save
-              </Button>
-            </Form.Group>
-          </Card.Body>
-          <Card.Footer>
-            <small className="text-muted">Hours: {totalWednesdayNumber}</small>
-          </Card.Footer>
-        </Card>
-        <Card>
-          <Card.Body>
-            <Card.Title>Thursday</Card.Title>
-            <ul>
-              {ThursdayJobList?.map((job) => (
-                <li>{job}</li>
-              ))}
-            </ul>
-            <Form.Group controlId="editName">
-              <Form.Control
-                style={{ color: "black" }}
-                value={ThursdayString}
-                placeholder="job location"
-                onChange={(event) => {
-                  setThursdayString(event.target.value);
-                }}
-              />
-              <Form.Group>
-                <Form.Label>-</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={ThursdayNumber}
-                  placeholder="hours"
-                  onChange={(event) => setThursdayNumber(event.target.value)}
-                />
-              </Form.Group>
-              <Button variant="success" onClick={handleSave}>
-                Save
-              </Button>
-            </Form.Group>
-          </Card.Body>
-          <Card.Footer>
-            <small className="text-muted">Hours: {totalThursdayNumber} </small>
-          </Card.Footer>
-        </Card>
-
-        <Card>
-          <Card.Body>
-            <Card.Title>Friday</Card.Title>
-            <ul>
-              {FridayJobList?.map((job) => (
-                <li>{job}</li>
-              ))}
-            </ul>
-            <Form.Group controlId="editName">
-              <Form.Control
-                style={{ color: "black" }}
-                value={FridayString}
-                placeholder="job location"
-                onChange={(event) => {
-                  setFridayString(event.target.value);
-                }}
-              />
-              <Form.Group>
-                <Form.Label>-</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={FridayNumber}
-                  placeholder="hours"
-                  onChange={(event) => setFridayNumber(event.target.value)}
-                />
-              </Form.Group>
-              <Button variant="success" onClick={handleSave}>
-                Save
-              </Button>
-            </Form.Group>
-          </Card.Body>
-          <Card.Footer>
-            <small className="text-muted">Hours: {totalFridayNumber}</small>
-          </Card.Footer>
-        </Card>
-        <Card>
-          <Card.Body>
-            <Card.Title>Saturday</Card.Title>
-            <ul>
-              {SaturdayJobList?.map((job) => (
-                <li>{job}</li>
-              ))}
-            </ul>
-            <Form.Group controlId="editName">
-              <Form.Control
-                style={{ color: "black" }}
-                value={SaturdayString}
-                placeholder="job location"
-                onChange={(event) => {
-                  setSaturdayString(event.target.value);
-                }}
-              />
-              <Form.Group>
-                <Form.Label>-</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={SaturdayNumber}
-                  placeholder="hours"
-                  onChange={(event) => setSaturdayNumber(event.target.value)}
-                />
-              </Form.Group>
-              <Button variant="success" onClick={handleSave}>
-                Save
-              </Button>
-            </Form.Group>
-          </Card.Body>
-          <Card.Footer>
-            <small className="text-muted">Hours: {totalSaturdayNumber}</small>
           </Card.Footer>
         </Card>
       </CardGroup>

@@ -32,8 +32,7 @@ router.post('/', async (req, res) => {
         employeeName,
         officeWorker,
         officeWorkerHours,
-        timeCards,
-        currentTimeCard
+        timeCards
       } = req.body;
 
     try {
@@ -41,8 +40,7 @@ router.post('/', async (req, res) => {
             employeeName,
             officeWorker,
             officeWorkerHours,
-            timeCards,
-            currentTimeCard
+            timeCards
           });
         res.status(200).json(employee);
     } catch (error) {
