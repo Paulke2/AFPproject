@@ -33,7 +33,7 @@ const Calendar = () => {
       }
     };
     fetchEmployees();
-  }, []);
+  }, [currentTimeCard,currentEmployee]);
 
 
   const [dateToCheck, setDateToCheck] = useState(moment().format("l"));
