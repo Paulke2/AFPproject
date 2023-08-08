@@ -131,9 +131,10 @@ const Calendar = () => {
             currentWeekCards={currentWeekCards}
             setCurrentWeekCards={setCurrentWeekCards}
           />
-
+          <div style={{ display: "flex", justifyContent: "center" }}>
           <DisplayTimeCard currentTimeCard={currentTimeCard} currentEmployee={currentEmployee} />
-  
+         
+          </div>
           </Row>
 
         </Col>

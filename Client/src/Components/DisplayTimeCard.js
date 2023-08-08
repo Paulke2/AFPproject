@@ -50,10 +50,7 @@ const DisplayTimeCard = (props) => {
       <br></br>
       <span style={{fontWeight:"600"}}>Total Hours:</span> {props.currentTimeCard?.totalHours}
       <br></br>
-      <div className="buttonOptions">
-      <Button variant="success">export</Button>   <Button variant="danger" >delete</Button>
-
- </div>
+  
       </Col>
 
       </Row>
