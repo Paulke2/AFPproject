@@ -50,40 +50,28 @@ const WeekLayout = (props) => {
       ? dayString + "-" + dayNumber.toString()
       : "";
   };
+  const determineOfficeWorker=(weekDay)=>{
+    return (props?.currentTimeCard?.[weekDay] ? props?.currentTimeCard?.[weekDay].split(","):(props?.currentEmployee?.officeWorker ? ["Office"+"-"+props?.currentEmployee?.officeWorkerHours.toString()]:[] ))
+  }
 
   useEffect(() => {
-    setSundayJobList(props?.currentTimeCard?.Sunday.split(","));
-    setMondayJobList(
+    setSundayJobList(
       props?.currentTimeCard?.Monday !== ""
         ? props?.currentTimeCard?.Monday.split(",")
         : []
     );
-    setTuesdayJobList(
-      props?.currentTimeCard?.Tuesday !== ""
-        ? props?.currentTimeCard?.Tuesday.split(",")
-        : []
-    );
-    setWednesdayJobList(
-      props?.currentTimeCard?.Wednesday !== ""
-        ? props?.currentTimeCard?.Wednesday.split(",")
-        : []
-    );
-    setThursdayJobList(
-      props?.currentTimeCard?.Thursday !== ""
-        ? props?.currentTimeCard?.Thursday.split(",")
-        : []
-    );
-    setFridayJobList(
-      props?.currentTimeCard?.Friday !== ""
-        ? props?.currentTimeCard?.Friday.split(",")
-        : []
-    );
+    setMondayJobList(determineOfficeWorker("Monday"));
+    setTuesdayJobList(determineOfficeWorker("Tuesday"));
+    setWednesdayJobList(determineOfficeWorker("Wednesday"));
+    setThursdayJobList(determineOfficeWorker("Thursday"));
+    setFridayJobList(determineOfficeWorker("Friday"));
     setSaturdayJobList(
       props?.currentTimeCard?.Saturday !== ""
         ? props?.currentTimeCard?.Saturday.split(",")
         : []
     );
   }, [
+    props?.currentEmployee,
     props?.currentTimeCard?.Sunday,
     props?.currentTimeCard?.Monday,
     props?.currentTimeCard?.Tuesday,
