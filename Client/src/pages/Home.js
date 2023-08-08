@@ -29,6 +29,7 @@ const Home = (props) => {
   const navigate = useNavigate();
   //fetching data
   const [showNewProject, setShowNewProject] = useState(false);
+
   const handleClose = () => setShowNewProject(false);
   const handleShow = () => setShowNewProject(true);
   const [projects, setProjects] = useState(null);
@@ -68,6 +69,8 @@ const Home = (props) => {
     });
     props.setProjectNames(temp);
   }, [projects]);
+
+  let DetermineBackgroundColor=1;
   return (
     <>
       <Navbar
@@ -101,14 +104,28 @@ const Home = (props) => {
 
       <Card style={{ marginLeft: "50px", width: "90%" }}>
         <ListGroup variant="flush">
-          {projects &&
+          {
+          projects &&
             projects.map((project) =>
               determineShow(projectSearch, project.name, project.projectID) ? (
                 <ListGroup.Item
-                  style={{ cursor: "pointer" }}
+                style={{
+                  backgroundColor:(DetermineBackgroundColor%2?"white":"#F5F5F5"),
+                  cursor: "pointer",
+                  display: "flex",
+                  justifyContent: "space-between", // This aligns the content to both ends
+                  alignItems: "center" // This vertically centers the content
+                }}
                   onClick={() => navigate("/projects/" + project._id)}
                 >
                   {project.name} - {project.projectID}
+                  <div >
+                  <Button size="sm"style={{marginRight:"5px"}}>edit</Button>
+                  <Button size="sm" variant="danger">delete</Button>
+                  </div>
+                  <span hidden="true">
+                  {DetermineBackgroundColor=DetermineBackgroundColor+1}
+                  </span>
                 </ListGroup.Item>
               ) : (
                 <></>
