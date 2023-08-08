@@ -40,6 +40,8 @@ const Calendar = () => {
 
   useEffect(() => {
     const checkTimeCards = async () => {
+      const updatedWeekCards = { ...currentWeekCards }; // Initialize the updatedWeekCards object
+      
       employees &&
         employees.forEach(async (employee) => {
           const resolvedTimeCards = await Promise.all(
@@ -51,27 +53,28 @@ const Calendar = () => {
   
           const specificDate = moment(dateToCheck);
           const startOfWeek = specificDate.clone().startOf("isoWeek");
-          let updatedWeekCards = { ...currentWeekCards };
-          console.log("here");
+          
+          let matchedTimeCard = null; // Initialize matchedTimeCard
+  
           for (const timeCard of resolvedTimeCards) {
             if (timeCard.startOfWeek === startOfWeek.format("l").toString()) {
-              updatedWeekCards = {
-                ...updatedWeekCards,
-                [employee.employeeName]: timeCard,
-              };
-  
-              console.log("found match")
-              console.log("found match");
+              matchedTimeCard = timeCard; // Assign the matched time card
               break;
             }
           }
   
-          setCurrentWeekCards(updatedWeekCards);
+          updatedWeekCards[employee.employeeName] = matchedTimeCard; // Update the object with data for this employee
         });
+  
+      setCurrentWeekCards(updatedWeekCards); // Update state once after processing all employees
     };
   
     checkTimeCards();
-  }, [dateToCheck,employees]);
+  }, [dateToCheck, employees]);
+  useEffect(()=>{
+    console.log("in effect");
+    setCurrentTimeCard(currentWeekCards[currentEmployee.employeeName])
+    console.log(currentWeekCards)},[currentWeekCards,currentEmployee]);
   const navigate = useNavigate();
   return (
     <div>

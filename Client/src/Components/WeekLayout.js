@@ -7,6 +7,7 @@ import fetchTimeCard from "../functions/fetchTimeCard";
 import "./WeekLayout.css";
 import getTotalHoursForDay from "../functions/getTotalHoursForDay";
 import DisplayTimeCard from "./DisplayTimeCard";
+import WeekCard from "./WeekCard";
 const moment = require("moment");
 const WeekLayout = (props) => {
   //map over time employees time cards. if one matches the week, we want to load it. else, cr
@@ -49,6 +50,64 @@ const WeekLayout = (props) => {
       ? dayString + "-" + dayNumber.toString()
       : "";
   };
+  useEffect(() => {
+    setSundayJobList(props?.currentTimeCard?.Sunday.split(","));
+    setMondayJobList(
+      props?.currentTimeCard?.Monday !== ""
+        ? props?.currentTimeCard?.Monday.split(",")
+        : []
+    );
+    setTuesdayJobList(
+      props?.currentTimeCard?.Tuesday !== ""
+        ? props?.currentTimeCard?.Tuesday.split(",")
+        : []
+    );
+    setWednesdayJobList(
+      props?.currentTimeCard?.Wednesday !== ""
+        ? props?.currentTimeCard?.Wednesday.split(",")
+        : []
+    );
+    setThursdayJobList(
+      props?.currentTimeCard?.Thursday !== ""
+        ? props?.currentTimeCard?.Thursday.split(",")
+        : []
+    );
+    setFridayJobList(
+      props?.currentTimeCard?.Friday !== ""
+        ? props?.currentTimeCard?.Friday.split(",")
+        : []
+    );
+    setSaturdayJobList(
+      props?.currentTimeCard?.Saturday !== ""
+        ? props?.currentTimeCard?.Saturday.split(",")
+        : []
+    );
+  }, [
+    props?.currentTimeCard?.Sunday,
+    props?.currentTimeCard?.Monday,
+    props?.currentTimeCard?.Tuesday,
+    props?.currentTimeCard?.Wednesday,
+    props?.currentTimeCard?.Thursday,
+    props?.currentTimeCard?.Friday,
+    props?.currentTimeCard?.Saturday,
+  ]);
+  useEffect(() => {
+    setTotalSundayNumber(getTotalHoursForDay(SundayJobList));
+    setTotalMondayNumber(getTotalHoursForDay(MondayJobList));
+    setTotalTuesdayNumber(getTotalHoursForDay(TuesdayJobList));
+    setTotalWednesdayNumber(getTotalHoursForDay(WednesdayJobList));
+    setTotalThursdayNumber(getTotalHoursForDay(ThursdayJobList));
+    setTotalFridayNumber(getTotalHoursForDay(FridayJobList));
+    setTotalSaturdayNumber(getTotalHoursForDay(SaturdayJobList));
+  }, [
+    SundayJobList,
+    MondayJobList,
+    TuesdayJobList,
+    ThursdayJobList,
+    FridayJobList,
+    SaturdayJobList,
+    WednesdayJobList,
+  ]);
   useEffect(() => {
     // Calculate the sum of hours for the week
     const sumOfWeek =
@@ -227,45 +286,20 @@ const WeekLayout = (props) => {
       }
     }
   };
-useEffect(()=>{console.log(props.updatedWeekCards)},[props.updatedWeekCards]);
+
   return (
     <>
       <CardGroup style={{ padding: "20px", height: "70%" }}>
-        <Card>
-          <Card.Body style={{ padding: "20px" }}>
-            <Card.Title>Sunday</Card.Title>
-            <ul>
-              {SundayJobList?.map((job) => (
-                <li>{job}</li>
-              ))}
-            </ul>
-            <Form.Group controlId="editName">
-              <Form.Control
-                style={{ color: "black" }}
-                value={SundayString}
-                placeholder="job location"
-                onChange={(event) => {
-                  setSundayString(event.target.value);
-                }}
-              />
-              <Form.Group>
-                <Form.Label>-</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={SundayNumber}
-                  placeholder="hours"
-                  onChange={(event) => setSundayNumber(event.target.value)}
-                />
-              </Form.Group>
-              <Button variant="success" onClick={handleSave}>
-                Save
-              </Button>
-            </Form.Group>
-          </Card.Body>
-          <Card.Footer>
-            <small className="text-muted">Hours: {totalSundayNumber}</small>
-          </Card.Footer>
-        </Card>
+        <WeekCard
+        dayTitle="Sunday"
+        jobList={SundayJobList}
+        jobString={SundayString}
+        jobNumber={SundayNumber}
+        onJobStringChange={(event) => setSundayString(event.target.value)}
+        onJobNumberChange={(event) => setSundayNumber(event.target.value)}
+        onSave={handleSave}
+        totalHours={totalSundayNumber}
+      />
       </CardGroup>
     </>
   );

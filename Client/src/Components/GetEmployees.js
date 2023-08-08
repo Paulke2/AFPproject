@@ -9,7 +9,6 @@ const moment = require("moment");
 const GetEmployees = (props) => {
   const [hoursForCurrentWeek, setHoursForCurrentWeek] = useState({});
   let startOfDesiredWeek = moment(props.dateToCheck).startOf("isoWeek");
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     startOfDesiredWeek = moment(props.dateToCheck).startOf("isoWeek");
