@@ -29,6 +29,7 @@ const WeekCard = ({
           <Form.Group className="d-flex">
   <Typeahead
     labelKey="name"
+    id="job locatoin select"
     onChange={onJobStringChange}
     options={ProjectNames}
     placeholder="Jobs"

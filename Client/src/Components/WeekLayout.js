@@ -46,10 +46,11 @@ const WeekLayout = (props) => {
   const [weekTotalHours, setWeekTotalHours] = useState(0);
 
   const getStringForDay = (dayNumber, dayString) => {
-    return dayNumber !== undefined
+    return (dayNumber !== undefined&&dayNumber!== NaN&&dayString!=="")
       ? dayString + "-" + dayNumber.toString()
       : "";
   };
+  useEffect(()=>{console.log(props?.currentTimeCard)},[props?.currentTimeCard])
   useEffect(() => {
     setSundayJobList(props?.currentTimeCard?.Sunday.split(","));
     setMondayJobList(
@@ -200,25 +201,36 @@ const WeekLayout = (props) => {
         props.setCurrentWeekCards(updatedWeekCards);
       }
       const updatedTimeCards = [...props.currentEmployee.timeCards, json];
-      const employee = { timeCards: updatedTimeCards };
-      const employeesResponse = await fetch(
-        `/employees/${props.currentEmployee._id}`,
-        {
-          method: "PATCH",
-          body: JSON.stringify(employee),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+const employee = { timeCards: updatedTimeCards };
+const employeesResponse = await fetch(
+  `/employees/${props.currentEmployee._id}`,
+  {
+    method: "PATCH",
+    body: JSON.stringify(employee),
+    headers: { "Content-Type": "application/json" },
+  }
+);
 
-      const EmployeeJson = await employeesResponse.json();
+const EmployeeJson = await employeesResponse.json();
 
-      if (!employeesResponse.ok) {
-        setError(EmployeeJson.error);
-      } else {
-        setError(null);
-        props.setCurrentEmployee(EmployeeJson);
-        console.log("employee time card updated", EmployeeJson);
-      }
+if (!employeesResponse.ok) {
+  setError(EmployeeJson.error);
+} else {
+  setError(null);
+
+  console.log("employee time card updated", EmployeeJson);
+  props.setCurrentEmployee(EmployeeJson);
+  
+  // Update props.employees with the updated employee information
+  const updatedEmployees = props.employees.map(existingEmployee => {
+    if (existingEmployee._id === EmployeeJson._id) {
+      return EmployeeJson; // Replace the existing employee with the updated employee
+    }
+    return existingEmployee;
+  });
+
+  props.setEmployees(updatedEmployees);
+}
     } else {
       //if its not a new time card, we need to update our new card.
 

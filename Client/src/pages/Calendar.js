@@ -40,6 +40,7 @@ const Calendar = (props) => {
 
   useEffect(() => {
     const checkTimeCards = async () => {
+      console.log(employees);
       const updatedWeekCards = { ...currentWeekCards }; // Initialize the updatedWeekCards object
       if(employees!==null){
       for (const employee of employees) {
@@ -61,7 +62,7 @@ const Calendar = (props) => {
           
           if (timeCard.startOfWeek === startOfWeek.format("l").toString()) {
           
-  
+            console.log("matched"+employee.employeeName);
             matchedTimeCard = timeCard; // Assign the matched time card
             break;
           }
@@ -131,6 +132,9 @@ const Calendar = (props) => {
             currentWeekCards={currentWeekCards}
             setCurrentWeekCards={setCurrentWeekCards}
             ProjectNames={props.ProjectNames}
+            employees={employees}
+            setEmployees={setEmployees}
+            
           />
           <div style={{ display: "flex", justifyContent: "center" }}>
           <DisplayTimeCard currentTimeCard={currentTimeCard} currentEmployee={currentEmployee} />
