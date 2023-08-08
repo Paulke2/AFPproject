@@ -133,6 +133,7 @@ const WeekLayout = (props) => {
     totalSundayNumber,
   ]);
   const getTotalHours = () => {
+    console.log("hehrehrerererererer");
     return (
       totalMondayNumber +
       totalTuesdayNumber +
@@ -153,12 +154,12 @@ const WeekLayout = (props) => {
       (ThursdayNumber !== undefined ? parseInt(ThursdayNumber) : 0) +
       (FridayNumber !== undefined ? parseInt(FridayNumber) : 0) +
       (SaturdayNumber !== undefined ? parseInt(SaturdayNumber) : 0);
-    console.log("total:" + total);
+
     return total;
   };
   const handleSave = async (event) => {
     event.preventDefault();
-    console.log("in patch" + totalSundayNumber);
+
     if (
       !props.currentTimeCard ||
       props.currentEmployee.timeCards.some(
@@ -177,7 +178,7 @@ const WeekLayout = (props) => {
         Friday: getStringForDay(FridayNumber, FridayString),
         Saturday: getStringForDay(SaturdayNumber, SaturdayString),
         employeeName: props.currentEmployee.employeeName,
-        totalHours: weekTotalHours,
+        totalHours: getTotalHours(),
       };
       const response = await fetch("/timeCards/", {
         method: "POST",

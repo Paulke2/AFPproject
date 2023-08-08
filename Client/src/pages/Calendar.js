@@ -41,12 +41,14 @@ const Calendar = () => {
   useEffect(() => {
     const checkTimeCards = async () => {
       const updatedWeekCards = { ...currentWeekCards }; // Initialize the updatedWeekCards object
-  
+      if(employees!==null){
       for (const employee of employees) {
         const resolvedTimeCards = await Promise.all(
           (employee.timeCards || []).map(async (timeCardId) => {
             const timeCard = await fetchTimeCard(timeCardId);
+            
             return timeCard;
+
           })
         );
   
@@ -56,10 +58,9 @@ const Calendar = () => {
         let matchedTimeCard = null; // Initialize matchedTimeCard
   
         for (const timeCard of resolvedTimeCards) {
-          console.log(employee.employeeName);
-  
+          
           if (timeCard.startOfWeek === startOfWeek.format("l").toString()) {
-            console.log("matched");
+          
   
             matchedTimeCard = timeCard; // Assign the matched time card
             break;
@@ -68,17 +69,16 @@ const Calendar = () => {
   
         updatedWeekCards[employee.employeeName] = matchedTimeCard; // Update the object with data for this employee
       }
-  
+    }
       setCurrentWeekCards(updatedWeekCards); // Update state once after processing all employees
     };
   
     checkTimeCards();
   }, [dateToCheck, employees]);
   useEffect(()=>{
-    console.log("in effect");
-    console.log(dateToCheck.toString());
+  
     setCurrentTimeCard(currentWeekCards[currentEmployee?.employeeName])
-    console.log(currentWeekCards)},[currentWeekCards,currentEmployee]);
+    },[currentWeekCards,currentEmployee]);
   const navigate = useNavigate();
   return (
     <div>
@@ -115,6 +115,8 @@ const Calendar = () => {
             setCurrentEmployee={setCurrentEmployee}
             setCurrentTimeCard={setCurrentTimeCard}
             dateToCheck={dateToCheck}
+            currentWeekCards={currentWeekCards}
+
           />
         </Col>
         <Col className="col-10" style={{ padding: "10px", fontSize: "large" }}>
@@ -130,7 +132,7 @@ const Calendar = () => {
             setCurrentWeekCards={setCurrentWeekCards}
           />
 
-          <DisplayTimeCard currentTimeCard={currentTimeCard} />
+          <DisplayTimeCard currentTimeCard={currentTimeCard} currentEmployee={currentEmployee} />
   
           </Row>
 

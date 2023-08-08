@@ -30,7 +30,7 @@ const DisplayTimeCard = (props) => {
   }, [props.currentTimeCard]);
 
 
-  return props.currentTimeCard !== null ? (
+  return props.currentTimeCard !== null&&props.currentEmployee !== null ? (
     <div className="timeCard">
       <h4>{props?.currentTimeCard?.employeeName} </h4>
       <Row>

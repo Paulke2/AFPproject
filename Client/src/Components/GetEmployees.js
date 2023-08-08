@@ -7,7 +7,6 @@ import fetchTimeCard from "../functions/fetchTimeCard";
 const moment = require("moment");
 
 const GetEmployees = (props) => {
-  const [hoursForCurrentWeek, setHoursForCurrentWeek] = useState({});
   let startOfDesiredWeek = moment(props.dateToCheck).startOf("isoWeek");
 
   useEffect(() => {
@@ -43,7 +42,7 @@ const GetEmployees = (props) => {
               >
                 {employee.employeeName}
                 <Badge className="employeeBadge" bg="dark" pill>
-                  {hoursForCurrentWeek[employee.employeeName]}
+                  {props?.currentWeekCards[employee.employeeName]?.totalHours||0}
                 </Badge>
               </ListGroup.Item>
             ))}
