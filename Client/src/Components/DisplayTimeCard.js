@@ -46,9 +46,9 @@ const DisplayTimeCard = (props) => {
       </ul>
       </Col>
       <Col>
-      <span style={{fontWeight:"600"}}>Week:</span> {props.currentTimeCard.startOfWeek}
+      <span style={{fontWeight:"600"}}>Week:</span> {props.currentTimeCard?.startOfWeek}
       <br></br>
-      <span style={{fontWeight:"600"}}>Total Hours:</span> {props.currentTimeCard.totalHours}
+      <span style={{fontWeight:"600"}}>Total Hours:</span> {props.currentTimeCard?.totalHours}
       <br></br>
       <div className="buttonOptions">
       <Button variant="success">export</Button>   <Button variant="danger" >delete</Button>

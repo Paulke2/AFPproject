@@ -300,6 +300,66 @@ const WeekLayout = (props) => {
         onSave={handleSave}
         totalHours={totalSundayNumber}
       />
+      <WeekCard
+        dayTitle="Monday"
+        jobList={MondayJobList}
+        jobString={MondayString}
+        jobNumber={MondayNumber}
+        onJobStringChange={(event) => setMondayString(event.target.value)}
+        onJobNumberChange={(event) => setMondayNumber(event.target.value)}
+        onSave={handleSave}
+        totalHours={totalMondayNumber}
+      />
+      <WeekCard
+        dayTitle="Tuesday"
+        jobList={TuesdayJobList}
+        jobString={TuesdayString}
+        jobNumber={TuesdayNumber}
+        onJobStringChange={(event) => setTuesdayString(event.target.value)}
+        onJobNumberChange={(event) => setTuesdayNumber(event.target.value)}
+        onSave={handleSave}
+        totalHours={totalTuesdayNumber}
+      />
+      <WeekCard
+        dayTitle="Wednesday"
+        jobList={WednesdayJobList}
+        jobString={WednesdayString}
+        jobNumber={WednesdayNumber}
+        onJobStringChange={(event) => setWednesdayString(event.target.value)}
+        onJobNumberChange={(event) => setWednesdayNumber(event.target.value)}
+        onSave={handleSave}
+        totalHours={totalWednesdayNumber}
+      />
+      <WeekCard
+        dayTitle="Thursday"
+        jobList={ThursdayJobList}
+        jobString={ThursdayString}
+        jobNumber={ThursdayNumber}
+        onJobStringChange={(event) => setThursdayString(event.target.value)}
+        onJobNumberChange={(event) => setThursdayNumber(event.target.value)}
+        onSave={handleSave}
+        totalHours={totalThursdayNumber}
+      />
+      <WeekCard
+        dayTitle="Friday"
+        jobList={SundayJobList}
+        jobString={FridayString}
+        jobNumber={FridayNumber}
+        onJobStringChange={(event) => setFridayString(event.target.value)}
+        onJobNumberChange={(event) => setFridayNumber(event.target.value)}
+        onSave={handleSave}
+        totalHours={totalFridayNumber}
+      />
+      <WeekCard
+        dayTitle="Saturday"
+        jobList={SaturdayJobList}
+        jobString={SaturdayString}
+        jobNumber={SaturdayNumber}
+        onJobStringChange={(event) => setSaturdayString(event.target.value)}
+        onJobNumberChange={(event) => setSaturdayNumber(event.target.value)}
+        onSave={handleSave}
+        totalHours={totalSaturdayNumber}
+      />
       </CardGroup>
     </>
   );
