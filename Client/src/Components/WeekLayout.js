@@ -51,13 +51,15 @@ const WeekLayout = (props) => {
       : "";
   };
   const determineOfficeWorker=(weekDay)=>{
-    return (props?.currentTimeCard?.[weekDay] ? props?.currentTimeCard?.[weekDay].split(","):(props?.currentEmployee?.officeWorker ? ["Office"+"-"+props?.currentEmployee?.officeWorkerHours.toString()]:[] ))
+    console.log(weekDay+props?.currentTimeCard?.[weekDay])
+    return (props?.currentTimeCard?.[weekDay]!==undefined ? props?.currentTimeCard?.[weekDay]?.split(","):(props?.currentEmployee?.officeWorker ? ["Office"+"-"+props?.currentEmployee?.officeWorkerHours.toString()]:[] ))
+
   }
 
   useEffect(() => {
     setSundayJobList(
-      props?.currentTimeCard?.Monday !== ""
-        ? props?.currentTimeCard?.Monday.split(",")
+      (props?.currentTimeCard?.Sunday !== ""&&props?.currentTimeCard?.Sunday!==undefined)
+        ? props?.currentTimeCard?.Sunday.split(",")
         : []
     );
     setMondayJobList(determineOfficeWorker("Monday"));
@@ -66,7 +68,7 @@ const WeekLayout = (props) => {
     setThursdayJobList(determineOfficeWorker("Thursday"));
     setFridayJobList(determineOfficeWorker("Friday"));
     setSaturdayJobList(
-      props?.currentTimeCard?.Saturday !== ""
+      (props?.currentTimeCard?.Saturday !== ""&&props?.currentTimeCard?.Saturday !== undefined)
         ? props?.currentTimeCard?.Saturday.split(",")
         : []
     );
@@ -80,6 +82,9 @@ const WeekLayout = (props) => {
     props?.currentTimeCard?.Friday,
     props?.currentTimeCard?.Saturday,
   ]);
+  useEffect(()=>{ console.log("curr card:")
+    console.log(props.currentTimeCard)
+  },[props?.currentTimeCard])
   useEffect(() => {
     setTotalSundayNumber(getTotalHoursForDay(SundayJobList));
     setTotalMondayNumber(getTotalHoursForDay(MondayJobList));
@@ -156,8 +161,21 @@ const WeekLayout = (props) => {
       )
     ) {
       //this is when is a brand new week.
+      
+      console.log(SundayJobList?.join(","));
       console.log("brand new week");
-      const timeCard = {
+      const timeCard = props.currentEmployee.officeWorker ? {
+        startOfWeek: startOfWeek.format("l"),
+        Sunday: SundayJobList?.join(","),
+      
+        Monday: MondayJobList?.join(","),
+        Tuesday:TuesdayJobList?.join(","),
+        Wednesday: WednesdayJobList?.join(","),
+        Thursday: ThursdayJobList?.join(","),
+        Friday: FridayJobList?.join(","),
+        Saturday: SaturdayJobList?.join(","),
+        employeeName: props.currentEmployee.employeeName,
+        totalHours: getTotalHours(),}:{
         startOfWeek: startOfWeek.format("l"),
         Sunday: getStringForDay(SundayNumber, SundayString),
         Monday: getStringForDay(MondayNumber, MondayString),
@@ -169,6 +187,7 @@ const WeekLayout = (props) => {
         employeeName: props.currentEmployee.employeeName,
         totalHours: getTotalHours(),
       };
+      console.log(timeCard)
       const response = await fetch("/timeCards/", {
         method: "POST",
         body: JSON.stringify(timeCard),
