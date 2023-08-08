@@ -286,6 +286,20 @@ const WeekLayout = (props) => {
         
       }
     }
+  //clearing form options
+
+  setSundayNumber(NaN);
+  setMondayNumber(NaN);
+  setTuesdayNumber(NaN);
+  setWednesdayNumber(NaN);
+  setFridayNumber(NaN);
+  setSaturdayNumber(NaN);
+  setSundayString("");
+  setMondayString("");
+  setTuesdayString("");
+  setWednesdayString("");
+  setFridayString("");
+  setSaturdayString("");
   };
 
   return (
@@ -343,7 +357,7 @@ const WeekLayout = (props) => {
       />
       <WeekCard
         dayTitle="Friday"
-        jobList={SundayJobList}
+        jobList={FridayJobList}
         jobString={FridayString}
         jobNumber={FridayNumber}
         onJobStringChange={(event) => setFridayString(event.target.value)}
