@@ -25,7 +25,7 @@ const determineShow = (projectSearch, name, projectID) => {
     ? true
     : false;
 };
-const Home = () => {
+const Home = (props) => {
   const navigate = useNavigate();
   //fetching data
   const [showNewProject, setShowNewProject] = useState(false);
@@ -52,14 +52,22 @@ const Home = () => {
       const response = await fetch("/projects");
 
       const json = await response.json();
-
+      
       if (response.ok) {
         setProjects(json);
       }
     };
     fetchProjects();
   }, []);
-
+  useEffect(() => {
+    // Every time projects changes, set the state for project names
+    // for autocomplete so we only load projects once
+    let temp = [];
+    projects?.forEach((project) => {
+      temp = [...temp, project.name]; // Use spread operator to append
+    });
+    props.setProjectNames(temp);
+  }, [projects]);
   return (
     <>
       <Navbar

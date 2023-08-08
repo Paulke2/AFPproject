@@ -4,16 +4,18 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProjectPage from './pages/ProjectPage';
 import Home from './pages/Home'; 
 import Calendar from './pages/Calendar';
+import { useState } from 'react';
 
 function App() {
+  const [ProjectNames,setProjectNames]=useState([]);
   return (
     <div className="App">
       <BrowserRouter>
         <div className="pages">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home setProjectNames={setProjectNames}/>} />
             <Route path="/projects/:id" element={<ProjectPage />} />
-            <Route path="/Calendar" element={<Calendar />} />
+            <Route path="/Calendar" element={<Calendar ProjectNames={ProjectNames}/>} />
           </Routes>
         </div>
       </BrowserRouter>

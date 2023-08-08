@@ -310,70 +310,77 @@ const WeekLayout = (props) => {
         jobList={SundayJobList}
         jobString={SundayString}
         jobNumber={SundayNumber}
-        onJobStringChange={(event) => setSundayString(event.target.value)}
+        onJobStringChange={(selected) => setSundayString(selected[0])}
         onJobNumberChange={(event) => setSundayNumber(event.target.value)}
         onSave={handleSave}
         totalHours={totalSundayNumber}
+        ProjectNames={props.ProjectNames}
       />
       <WeekCard
         dayTitle="Monday"
         jobList={MondayJobList}
         jobString={MondayString}
         jobNumber={MondayNumber}
-        onJobStringChange={(event) => setMondayString(event.target.value)}
+        onJobStringChange={(selected) => setMondayString(selected[0])}
         onJobNumberChange={(event) => setMondayNumber(event.target.value)}
         onSave={handleSave}
         totalHours={totalMondayNumber}
+        ProjectNames={props.ProjectNames}
       />
       <WeekCard
         dayTitle="Tuesday"
         jobList={TuesdayJobList}
         jobString={TuesdayString}
         jobNumber={TuesdayNumber}
-        onJobStringChange={(event) => setTuesdayString(event.target.value)}
+        onJobStringChange={(selected) => setTuesdayString(selected[0])}
         onJobNumberChange={(event) => setTuesdayNumber(event.target.value)}
         onSave={handleSave}
         totalHours={totalTuesdayNumber}
+        ProjectNames={props.ProjectNames}
       />
       <WeekCard
         dayTitle="Wednesday"
         jobList={WednesdayJobList}
         jobString={WednesdayString}
         jobNumber={WednesdayNumber}
-        onJobStringChange={(event) => setWednesdayString(event.target.value)}
+        onJobStringChange={(selected) => setWednesdayString(selected[0])}
         onJobNumberChange={(event) => setWednesdayNumber(event.target.value)}
         onSave={handleSave}
         totalHours={totalWednesdayNumber}
+        ProjectNames={props.ProjectNames}
       />
       <WeekCard
         dayTitle="Thursday"
         jobList={ThursdayJobList}
         jobString={ThursdayString}
         jobNumber={ThursdayNumber}
-        onJobStringChange={(event) => setThursdayString(event.target.value)}
+        onJobStringChange={(selected) => setThursdayString(selected[0])}
         onJobNumberChange={(event) => setThursdayNumber(event.target.value)}
         onSave={handleSave}
         totalHours={totalThursdayNumber}
+        ProjectNames={props.ProjectNames}
       />
       <WeekCard
         dayTitle="Friday"
         jobList={FridayJobList}
         jobString={FridayString}
         jobNumber={FridayNumber}
-        onJobStringChange={(event) => setFridayString(event.target.value)}
+        onJobStringChange={(selected) => setFridayString(selected[0])}
         onJobNumberChange={(event) => setFridayNumber(event.target.value)}
         onSave={handleSave}
         totalHours={totalFridayNumber}
+        ProjectNames={props.ProjectNames}
       />
       <WeekCard
         dayTitle="Saturday"
         jobList={SaturdayJobList}
         jobString={SaturdayString}
         jobNumber={SaturdayNumber}
-        onJobStringChange={(event) => setSaturdayString(event.target.value)}
+        onJobStringChange={(selected) => {setSaturdayString(selected[0]);}}
         onJobNumberChange={(event) => setSaturdayNumber(event.target.value)}
         onSave={handleSave}
         totalHours={totalSaturdayNumber}
+        ProjectNames={props.ProjectNames}
       />
       </CardGroup>
     </>

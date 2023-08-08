@@ -3,6 +3,7 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import { Form ,Button} from "react-bootstrap";
 import "./WeekLayout.css";
+import { Typeahead } from 'react-bootstrap-typeahead';
 const WeekCard = ({
     dayTitle,
     jobList,
@@ -12,6 +13,7 @@ const WeekCard = ({
     onJobNumberChange,
     onSave,
     totalHours,
+    ProjectNames
   })=>{
     return (
       <Card  style={{ height: "100%" }}>
@@ -24,21 +26,22 @@ const WeekCard = ({
             ))}
           </ul>
           <div className="formsForJob" style={{ flexGrow: 1 }}>
-            <Form.Group className="d-flex">
-              <Form.Control
-                style={{ color: "black", width: "60%" }}
-                value={jobString}
-                placeholder="Job location"
-                onChange={onJobStringChange}
-              />
-              <Form.Control
-                type="number"
-                style={{ color: "black", width: "40%" }}
-                value={jobNumber}
-                placeholder="Hours"
-                onChange={onJobNumberChange}
-              />
-            </Form.Group>
+          <Form.Group className="d-flex">
+  <Typeahead
+    labelKey="name"
+    onChange={onJobStringChange}
+    options={ProjectNames}
+    placeholder="Jobs"
+    selected={jobString ? [jobString] : []} // Convert jobString to an array or use an empty array
+  />
+  <Form.Control
+    type="number"
+    style={{ color: "black", width: "40%" }}
+    value={jobNumber}
+    placeholder="Hours"
+    onChange={onJobNumberChange}
+  />
+</Form.Group>
           </div>
           <Button variant="success" onClick={onSave}>
             Save
@@ -52,4 +55,4 @@ const WeekCard = ({
       );
     
 }
-export default WeekCard
+export default WeekCard;

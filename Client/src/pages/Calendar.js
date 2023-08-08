@@ -17,7 +17,7 @@ import GetEmployees from "../Components/GetEmployees.js";
 import GetTime from "../Components/GetTime.js";
 import fetchTimeCard from "../functions/fetchTimeCard.js";
 import TimeCardOptions from "../Components/TimeCardOptions.js";
-const Calendar = () => {
+const Calendar = (props) => {
   const [employees, setEmployees] = useState(null);
   const [currentEmployee, setCurrentEmployee] = useState(null);
   const [currentTimeCard, setCurrentTimeCard] = useState(null);
@@ -130,6 +130,7 @@ const Calendar = () => {
             setCurrentEmployee={setCurrentEmployee}
             currentWeekCards={currentWeekCards}
             setCurrentWeekCards={setCurrentWeekCards}
+            ProjectNames={props.ProjectNames}
           />
           <div style={{ display: "flex", justifyContent: "center" }}>
           <DisplayTimeCard currentTimeCard={currentTimeCard} currentEmployee={currentEmployee} />
