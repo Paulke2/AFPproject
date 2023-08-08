@@ -290,7 +290,7 @@ const WeekLayout = (props) => {
 
   return (
     <>
-      <CardGroup style={{ padding: "20px", height: "70%" }}>
+      <CardGroup style={{ height: "60vh", padding:"10px"}}>
         <WeekCard
         dayTitle="Sunday"
         jobList={SundayJobList}
