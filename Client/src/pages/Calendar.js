@@ -138,7 +138,7 @@ const Calendar = (props) => {
           />
           <div style={{ display: "flex", justifyContent: "center" }}>
           <DisplayTimeCard currentTimeCard={currentTimeCard} currentEmployee={currentEmployee} />
-         
+        { currentTimeCard? <TimeCardOptions />:<></>}
           </div>
           </Row>
 

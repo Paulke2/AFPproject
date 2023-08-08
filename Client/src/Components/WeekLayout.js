@@ -50,7 +50,7 @@ const WeekLayout = (props) => {
       ? dayString + "-" + dayNumber.toString()
       : "";
   };
-  useEffect(()=>{console.log(props?.currentTimeCard)},[props?.currentTimeCard])
+
   useEffect(() => {
     setSundayJobList(props?.currentTimeCard?.Sunday.split(","));
     setMondayJobList(
@@ -134,7 +134,7 @@ const WeekLayout = (props) => {
     totalSundayNumber,
   ]);
   const getTotalHours = () => {
-    console.log("hehrehrerererererer");
+
     return (
       totalMondayNumber +
       totalTuesdayNumber +

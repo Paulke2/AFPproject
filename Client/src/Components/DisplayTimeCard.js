@@ -1,6 +1,7 @@
 import "./DisplayTimeCard.css";
 import { useState, useEffect } from "react";
 import { Row,Col,Button } from "react-bootstrap";
+
 const DisplayTimeCard = (props) => {
   //this state list loops through time card job
   //entries,checks for capitalization mistakes in job names, and combines the
