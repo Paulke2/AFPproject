@@ -4,12 +4,16 @@ import { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import ExportToWord from "../functions/ExportToWord";
 
-const Export = () => {
+const Export = (props) => {
   const [modalShow, setModalShow] = useState(false);
   const [exportEmployeeOption,setExportEmployeeOption]=useState("All Employees");
   const [exportMainOption,setExportMainOption]=useState("Excel");
   const [exportTimePeriod,setExportTimePeriod]=useState("Week");
-return(
+
+  const handleExportClick = () => {
+    ExportToWord(props.currentTimeCard);
+  };
+  return(
   <>
   
     <Button onClick={() => setModalShow(true)} variant="success">
@@ -95,7 +99,7 @@ return(
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => setModalShow(false)}>Close</Button>
-        <Button variant="success" onClick={ExportToWord}>export</Button>
+        <Button variant="success" onClick={handleExportClick}>export</Button>
       </Modal.Footer>
     </Modal>
   </>);

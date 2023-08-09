@@ -1,12 +1,13 @@
 import { Paragraph, Document, Packer } from "docx";
 import { saveAs } from "file-saver";
-const ExportToWord = () => {
+const ExportToWord = (currentTimeCard) => {
+    console.log("Current Time Card:", currentTimeCard);
     const doc = new Document({
       sections: [
         {
           children: [
             new Paragraph({
-              text: "text",
+              text: "test",
               bullet: {
                 level: 0 //How deep you want the bullet to be
               }
@@ -27,11 +28,5 @@ const ExportToWord = () => {
       saveAs(blob, "example.docx");
       console.log("Document created successfully");
     });
-
-//   return (
-//     <div className="App">
-//       <button onClick={ExportToWord}>Generate doc</button>
-//     </div>
-//   );
 };
 export default ExportToWord;

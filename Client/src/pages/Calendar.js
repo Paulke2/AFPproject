@@ -1,6 +1,5 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import WeekLayout from "../Components/WeekLayout.js";
-import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -9,10 +8,10 @@ import Nav from "react-bootstrap/Nav";
 import logo from "../pictures/AFPlogo.png";
 import { useNavigate, useParams } from "react-router-dom";
 import DisplayTimeCard from "../Components/DisplayTimeCard";
-import OutputTimeCards from "../Components/OutputTimeCards.js";
+
 import "./Calendar.css";
 const moment = require("moment");
-import Badge from "react-bootstrap/Badge";
+
 import GetEmployees from "../Components/GetEmployees.js";
 import GetTime from "../Components/GetTime.js";
 import fetchTimeCard from "../functions/fetchTimeCard.js";
@@ -138,7 +137,7 @@ const Calendar = (props) => {
           />
           <div style={{ display: "flex", justifyContent: "center" }}>
           <DisplayTimeCard currentTimeCard={currentTimeCard} currentEmployee={currentEmployee} />
-        { currentTimeCard? <TimeCardOptions />:<></>}
+        { currentTimeCard? <TimeCardOptions currentTimeCard={currentTimeCard} />:<></>}
           </div>
           </Row>
 
