@@ -103,7 +103,14 @@ const WeekLayout = (props) => {
     WednesdayJobList,
   ]);
   const getTotalHours = () => {
-
+    console.log("in getTotalHours. b4 weekNum:"+(
+      totalMondayNumber +
+      totalTuesdayNumber +
+      totalWednesdayNumber +
+      totalThursdayNumber +
+      totalFridayNumber +
+      totalSaturdayNumber +
+      totalSundayNumber).toString());
     return (
       totalMondayNumber +
       totalTuesdayNumber +
@@ -117,13 +124,13 @@ const WeekLayout = (props) => {
   };
   const getWeekNumbers = () => {
     const total =
-      (MondayNumber !== undefined ? parseInt(MondayNumber) : 0) +
-      (SundayNumber !== undefined ? parseInt(SundayNumber) : 0) +
-      (TuesdayNumber !== undefined ? parseInt(TuesdayNumber) : 0) +
-      (WednesdayNumber !== undefined ? parseInt(WednesdayNumber) : 0) +
-      (ThursdayNumber !== undefined ? parseInt(ThursdayNumber) : 0) +
-      (FridayNumber !== undefined ? parseInt(FridayNumber) : 0) +
-      (SaturdayNumber !== undefined ? parseInt(SaturdayNumber) : 0);
+      (MondayNumber ? parseInt(MondayNumber) : 0) +
+      (SundayNumber ? parseInt(SundayNumber) : 0) +
+      (TuesdayNumber  ? parseInt(TuesdayNumber) : 0) +
+      (WednesdayNumber  ? parseInt(WednesdayNumber) : 0) +
+      (ThursdayNumber ? parseInt(ThursdayNumber) : 0) +
+      (FridayNumber  ? parseInt(FridayNumber) : 0) +
+      (SaturdayNumber ? parseInt(SaturdayNumber) : 0);
     console.log("SundayNum"+SundayNumber?.toString());
     return total;
   };
