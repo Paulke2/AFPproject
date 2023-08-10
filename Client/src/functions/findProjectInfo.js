@@ -1,11 +1,21 @@
 import React, { useState } from "react";
+const moment = require('moment');
+function convertExcelSerialToDate(serialNumber) {
+  const baseDate = moment('1900-01-01'); // Excel's base date is January 1, 1900
+  const date = baseDate.add(serialNumber - 1, 'days');
+  return date.format('MM/DD/YYYY');
+}
+
+
+
+
 const findProjectInfo = (infoMatrix, setScope, setProjectID, setTurnoverDate, setLocation, setContractWith, setAmount,setProjectName) => {
   setScope(infoMatrix[18][1]);
   setProjectID(infoMatrix[6][1]);
-  setTurnoverDate(infoMatrix[5][10]);
-  setLocation(infoMatrix[10][2]);
+  setTurnoverDate(convertExcelSerialToDate(infoMatrix[5][9]));
+  setLocation(infoMatrix[10][2]+infoMatrix[12][2]);
   setContractWith(infoMatrix[9][7]);
-  setAmount(infoMatrix[5][7]+infoMatrix[5][8]);
+  setAmount(infoMatrix[5][7]+", "+infoMatrix[5][8]);
   setProjectName(infoMatrix[6][2]);
 }
 

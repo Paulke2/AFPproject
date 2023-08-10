@@ -67,17 +67,37 @@ const Home = (props) => {
   
       // Convert the worksheet to an array of arrays
       const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-  
-      return rows;
+      const rowsAsString = rows.map(row => row.map(cellValue => cellValue.toString()));
+      return rowsAsString;
     });
   
     try {
       const allInfoMatrices = await Promise.all(fileReadPromises);
   
       // Now you have arrays of rows from each Excel file
-      console.log(allInfoMatrices);
-  
-      // Process the data as needed
+      console.log("here is our array:");
+      console.log(allInfoMatrices[0]);
+      
+      
+      // Proc  // Check if infoMatrix state is empty before setting it
+            if (infoMatrix.length === 0) {
+              console.log("hello");
+              //console.log(allInfoMatrices[0]);
+              setInfoMatrix(allInfoMatrices[0]);
+              console.log(allInfoMatrices[0]);
+              console.log("finding");
+              findProjectInfo(
+                allInfoMatrices[0],
+                setScope,
+                setProjectID,
+                setTurnoverDate,
+                setLocation,
+                setContractWith,
+                setAmount,
+                setProjectName
+              );
+            }
+            handleShow();
       // ...
   
     } catch (error) {
