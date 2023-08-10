@@ -12,6 +12,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Searchbar from "../Components/Searchbar";
 import findProjectInfo from "../functions/findProjectInfo.js";
 import NewProject from "../Components/NewProject";
+import * as XLSX from 'xlsx'; 
 const determineShow = (projectSearch, name, projectID) => {
   //this function takes projectsearch as a prop
   //and if it matches the job location/project name/project id
@@ -47,7 +48,42 @@ const Home = (props) => {
   const [location, setLocation] = useState("");
   const [contractWith, setContractWith] = useState("");
   const [amount, setAmount] = useState("");
-
+  const handleDrop = async (event) => {
+    event.preventDefault();
+    setDraggingOver(false);
+  
+    const files = Array.from(event.dataTransfer.files);
+    const fileReadPromises = files.map(async (file) => {
+      const arrayBuffer = await file.arrayBuffer();
+      const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
+  
+      const sheetName = 'Turnover'; // Name of the sheet you want to target
+      const worksheet = workbook.Sheets[sheetName];
+  
+      if (!worksheet) {
+        console.error(`Sheet "${sheetName}" not found in the Excel file.`);
+        return [];
+      }
+  
+      // Convert the worksheet to an array of arrays
+      const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+  
+      return rows;
+    });
+  
+    try {
+      const allInfoMatrices = await Promise.all(fileReadPromises);
+  
+      // Now you have arrays of rows from each Excel file
+      console.log(allInfoMatrices);
+  
+      // Process the data as needed
+      // ...
+  
+    } catch (error) {
+      console.error('Error reading files:', error);
+    }
+  };
   useEffect(() => {
     const fetchProjects = async () => {
       const response = await fetch("/projects");
@@ -135,58 +171,22 @@ const Home = (props) => {
       </Card>
       <br></br>
       <div
-        className="dropBox"
-        onDragOver={(event) => {
-          event.preventDefault();
-          setDraggingOver(true);
-        }}
-        style={{
-          backgroundColor: draggingOver ? "#d3d3d3" : "white",
-          border:draggingOver ? "5px solid black": "5px dashed black",
-        }}
-        onDragLeave={() => {
-          setDraggingOver(false);
-        }}
-        onDrop={async (event) => {
-          event.preventDefault();
-          setDraggingOver(false);
-          const files = Array.from(event.dataTransfer.files);
-          const fileReadPromises = files.map(async (file) => {
-            let text = await file.text();
-            let rows = text.split("\n");
-            return rows.map((row) => row.split(","));
-          });
-
-          try {
-            const allInfoMatrices = await Promise.all(fileReadPromises);
-
-            // Check if infoMatrix state is empty before setting it
-            if (infoMatrix.length === 0) {
-              console.log("hello");
-              //console.log(allInfoMatrices[0]);
-              setInfoMatrix(allInfoMatrices[0]);
-              console.log(allInfoMatrices[0]);
-              console.log("finding");
-              findProjectInfo(
-                allInfoMatrices[0],
-                setScope,
-                setProjectID,
-                setTurnoverDate,
-                setLocation,
-                setContractWith,
-                setAmount,
-                setProjectName
-              );
-            }
-            handleShow();
-          } catch (error) {
-            console.error("Error reading files:", error);
-          }
-        }}
-      >
-        Drag & Drop a Turnover sheet <br></br>here
-         to add a new Project.
-      </div>
+      className="dropBox"
+      onDragOver={(event) => {
+        event.preventDefault();
+        setDraggingOver(true);
+      }}
+      style={{
+        backgroundColor: draggingOver ? '#d3d3d3' : 'white',
+        border: draggingOver ? '5px solid black' : '5px dashed black',
+      }}
+      onDragLeave={() => {
+        setDraggingOver(false);
+      }}
+      onDrop={handleDrop}
+    >
+      Drag & Drop an Excel file here to add a new Project.
+    </div>
       <NewProject
         showNewProject={showNewProject}
         setProjectName={setProjectName}
