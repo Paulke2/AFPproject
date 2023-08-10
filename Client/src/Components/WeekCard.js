@@ -41,6 +41,7 @@ const WeekCard = ({
     value={jobNumber}
     placeholder="Hours"
     onChange={onJobNumberChange}
+    className="no-spinners"
   />
 </Form.Group>
           </div>
