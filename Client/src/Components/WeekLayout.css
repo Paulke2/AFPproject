@@ -26,3 +26,12 @@ ul:nth-of-type(1) {
       display: none;
     }
   }
+
+.NoEmployeeAlert{
+    position:absolute!important;
+    top:75px!important;
+    width:60%!important;
+    margin-left:10%!important;
+    z-index: 1;
+    opacity: 90%;
+}

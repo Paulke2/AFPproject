@@ -1,14 +1,13 @@
-import Card from "react-bootstrap/Card";
-import { Button, Form } from "react-bootstrap";
 import CardGroup from "react-bootstrap/CardGroup";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import updateTimeCardDay from "../functions/updateTimeCardDay";
 import fetchTimeCard from "../functions/fetchTimeCard";
 import "./WeekLayout.css";
 import getTotalHoursForDay from "../functions/getTotalHoursForDay";
-import DisplayTimeCard from "./DisplayTimeCard";
+
 import WeekCard from "./WeekCard";
 const moment = require("moment");
+import Alert from 'react-bootstrap/Alert';
 const WeekLayout = (props) => {
   //map over time employees time cards. if one matches the week, we want to load it. else, cr
   //create a time sheet
@@ -43,7 +42,7 @@ const WeekLayout = (props) => {
   const [totalThursdayNumber, setTotalThursdayNumber] = useState(0);
   const [totalFridayNumber, setTotalFridayNumber] = useState(0);
   const [totalSaturdayNumber, setTotalSaturdayNumber] = useState(0);
-  const [weekTotalHours, setWeekTotalHours] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
 
   const getStringForDay = (dayNumber, dayString) => {
     return (dayNumber !== undefined&&dayNumber!== NaN&&dayString!=="")
@@ -136,7 +135,7 @@ const WeekLayout = (props) => {
   };
   const handleSave = async (event) => {
     event.preventDefault();
-
+  if(props.currentEmployee){
     if (
       !props.currentTimeCard ||
       props.currentEmployee.timeCards.some(
@@ -302,10 +301,15 @@ if (!employeesResponse.ok) {
   setWednesdayString("");
   setFridayString("");
   setSaturdayString("");
-  };
+  
+  }else{setShowAlert(true)}
+};
 
   return (
     <>
+    <Alert className="NoEmployeeAlert" hidden={!showAlert}variant="danger" onClose={() => setShowAlert(false)} dismissible>
+          This is a  alert—check it out!
+        </Alert>
       <CardGroup style={{ height: "60vh", padding:"10px"}}>
         <WeekCard
         dayTitle="Sunday"
