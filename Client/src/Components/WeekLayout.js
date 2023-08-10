@@ -121,6 +121,14 @@ const WeekLayout = (props) => {
       getWeekNumbers()
     );
   };
+
+  const handleAlertClose = () => {
+    setShowAlert(false);
+  };
+
+  const handleButtonClick = () => {
+    setShowAlert(true);
+  };
   const getWeekNumbers = () => {
     const total =
       (MondayNumber ? parseInt(MondayNumber) : 0) +
@@ -302,13 +310,14 @@ if (!employeesResponse.ok) {
   setFridayString("");
   setSaturdayString("");
   
-  }else{setShowAlert(true)}
+  }else{handleButtonClick();
+  console.log("should show alert")}
 };
-
+useEffect(()=>{ console.log(showAlert)},[showAlert])
   return (
     <>
-    <Alert className="NoEmployeeAlert" hidden={!showAlert}variant="danger" onClose={() => setShowAlert(false)} dismissible>
-          This is a  alert—check it out!
+    <Alert className="NoEmployeeAlert" hidden={!showAlert}variant="danger" onClose={handleAlertClose} dismissible>
+          Please select an employee to apply this time card.
         </Alert>
       <CardGroup style={{ height: "60vh", padding:"10px"}}>
         <WeekCard
