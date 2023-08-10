@@ -8,7 +8,8 @@ const projectSchema = new mongoose.Schema(
     location: String,
     contractWith:String,
     amount:String,
-    comments:[String]
+    comments:[String],
+    companyContact:String
   }
 );
 
