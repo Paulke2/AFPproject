@@ -19,6 +19,7 @@ const NewProject = (props) => {
       contractWith: props.contractWith,
       amount: props.amount,
       comments: [],
+      companyContact:props.companyContact,
     };
     const response = await fetch("/projects/", {
       method: "POST",
@@ -111,7 +112,19 @@ const NewProject = (props) => {
                 onChange={(event) => props.setContractWith(event.target.value)}
                 placeholder="contractwith"
               />
+              Site Contact:
+              <Form.Control
+                type="Site Contact"
+                id="Site Contact"
+                name="Site Contact"
+                value={props.companyContact}
+                onChange={(event) => props.setCompanyContact(event.target.value)}
+                placeholder="Site Contact"
+              />
+            
             </Form.Group>
+            
+              
   
           </Form>
         </Modal.Body>

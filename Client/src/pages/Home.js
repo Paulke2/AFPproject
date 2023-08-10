@@ -34,13 +34,14 @@ const Home = (props) => {
   const handleClose = () => setShowNewProject(false);
   const handleShow = () => setShowNewProject(true);
   const [projects, setProjects] = useState(null);
+
   const [projectSearch, setProjectSearch] = useState("");
   //for update, 1 indicates we are ready to read an new project. if 0, we are reading a new project.
   const [draggingOver, setDraggingOver] = useState(false);
   const [infoMatrix, setInfoMatrix] = useState([]);
 
   //state for a new project
-
+  const [companyContact, setCompanyContact] = useState("");
   const [projectName, setProjectName] = useState("");
   const [scope, setScope] = useState("");
   const [projectID, setProjectID] = useState("");
@@ -48,6 +49,9 @@ const Home = (props) => {
   const [location, setLocation] = useState("");
   const [contractWith, setContractWith] = useState("");
   const [amount, setAmount] = useState("");
+
+  useEffect(()=>{console.log("contact:"+companyContact)},[companyContact])
+
   const handleDrop = async (event) => {
     event.preventDefault();
     setDraggingOver(false);
@@ -88,6 +92,7 @@ const Home = (props) => {
               console.log("finding");
               findProjectInfo(
                 allInfoMatrices[0],
+                setCompanyContact,
                 setScope,
                 setProjectID,
                 setTurnoverDate,
@@ -209,6 +214,7 @@ const Home = (props) => {
     </div>
       <NewProject
         showNewProject={showNewProject}
+        setCompanyContact={setCompanyContact}
         setProjectName={setProjectName}
         setShowNewProject={setShowNewProject}
         setScope={setScope}
@@ -222,6 +228,7 @@ const Home = (props) => {
         projectID={projectID}
         turnoverDate={turnoverDate}
         location={location}
+        companyContact={companyContact}
         contractWith={contractWith}
         amount={amount}
       />

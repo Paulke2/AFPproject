@@ -9,14 +9,16 @@ function convertExcelSerialToDate(serialNumber) {
 
 
 
-const findProjectInfo = (infoMatrix, setScope, setProjectID, setTurnoverDate, setLocation, setContractWith, setAmount,setProjectName) => {
+const findProjectInfo = (infoMatrix,setCompanyContact, setScope, setProjectID, setTurnoverDate, setLocation, setContractWith, setAmount,setProjectName) => {
   setScope(infoMatrix[18][1]);
   setProjectID(infoMatrix[6][1]);
   setTurnoverDate(convertExcelSerialToDate(infoMatrix[5][9]));
   setLocation(infoMatrix[10][2]+infoMatrix[12][2]);
   setContractWith(infoMatrix[9][7]);
-  setAmount(infoMatrix[5][7]+", "+infoMatrix[5][8]);
+  setAmount(infoMatrix[5][7]);
   setProjectName(infoMatrix[6][2]);
+  setCompanyContact(infoMatrix[13][7]);
+  console.log("targetval:"+infoMatrix[13][7]);
 }
 
 export default findProjectInfo;
