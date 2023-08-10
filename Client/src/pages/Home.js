@@ -22,7 +22,7 @@ const determineShow = (projectSearch, name, projectID) => {
     .toLowerCase()
     .includes(projectSearch.toString().toLowerCase()) ||
     name.toLowerCase().includes(projectSearch) ||
-    projectSearch === "")&& name !== "Office"
+    projectSearch.toLowerCase() === "")&& name !== "Office"
     ? true
     : false;
 };
