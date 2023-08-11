@@ -197,13 +197,14 @@ const WeekLayout = (props) => {
         };
         props.setCurrentWeekCards(updatedWeekCards);
       }
+      console.log("new way:"+startOfWeek.format("l")+"~~"+json._id.toString());
       const updatedTimeCards = [...props.currentEmployee.timeCards, json];
-const employee = { timeCards: updatedTimeCards };
+const newTimeCards = { timeCards: updatedTimeCards };
 const employeesResponse = await fetch(
   `/employees/${props.currentEmployee._id}`,
   {
     method: "PATCH",
-    body: JSON.stringify(employee),
+    body: JSON.stringify(newTimeCards),
     headers: { "Content-Type": "application/json" },
   }
 );
