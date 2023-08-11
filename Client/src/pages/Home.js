@@ -15,6 +15,8 @@ import NewProject from "../Components/NewProject";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import * as XLSX from 'xlsx'; 
+import DesignJobList from "../Components/DesignJobList";
+import ProjectJobList from "../Components/ProjectJobList";
 const determineShow = (projectSearch, name, projectID) => {
   //this function takes projectsearch as a prop
   //and if it matches the job location/project name/project id
@@ -36,6 +38,7 @@ const Home = (props) => {
   const handleClose = () => setShowNewProject(false);
   const handleShow = () => setShowNewProject(true);
   const [projects, setProjects] = useState(null);
+  const [designJobs, setDesignJobs] = useState(null);
 
   const [projectSearch, setProjectSearch] = useState("");
   //for update, 1 indicates we are ready to read an new project. if 0, we are reading a new project.
@@ -120,6 +123,18 @@ const Home = (props) => {
     fetchProjects();
   }, [showNewProject]);
   useEffect(() => {
+    const fetchDesignJobs = async () => {
+      const response = await fetch("/designJobs");
+
+      const json = await response.json();
+      
+      if (response.ok) {
+        setDesignJobs(json);
+      }
+    };
+    fetchDesignJobs();
+  }, []);
+  useEffect(() => {
     // Every time projects changes, set the state for project names
     // for autocomplete so we only load projects once
     let temp = [];
@@ -168,39 +183,9 @@ const Home = (props) => {
       id="uncontrolled-tab-example"
       className="mb-3"
     >
-      <Tab eventKey="designJobs" title="Design Jobs"> HERE will be projects. </Tab>
+      <Tab eventKey="designJobs" title="Design Jobs"> {<DesignJobList designJobs={designJobs} projectSearch={projectSearch}/>} </Tab>
       <Tab eventKey="projects" title="Projects">
-      <Card style={{ marginLeft: "50px", width: "90%" }}>
-        <ListGroup variant="flush">
-          {
-          projects &&
-            projects.map((project) =>
-              determineShow(projectSearch, project.name, project.projectID) ? (
-                <ListGroup.Item
-                style={{
-                  backgroundColor:(DetermineBackgroundColor%2?"white":"#F5F5F5"),
-                  cursor: "pointer",
-                  display: "flex",
-                  justifyContent: "space-between", // This aligns the content to both ends
-                  alignItems: "center" // This vertically centers the content
-                }}
-                  onClick={() => navigate("/projects/" + project._id)}
-                >
-                  {project.name} - {project.projectID}
-                  <div >
-                  <Button size="sm" hidden={!editMode}style={{marginRight:"5px"}}>edit</Button>
-                  <Button size="sm" hidden={!editMode}variant="danger">delete</Button>
-                  </div>
-                  <span hidden="true">
-                  {DetermineBackgroundColor=DetermineBackgroundColor+1}
-                  </span>
-                </ListGroup.Item>
-              ) : (
-                <></>
-              )
-            )}
-        </ListGroup>
-      </Card>
+      <ProjectJobList projects={projects} editMode={editMode} projectSearch={projectSearch}/>
       </Tab>
       </Tabs>
       </div>
