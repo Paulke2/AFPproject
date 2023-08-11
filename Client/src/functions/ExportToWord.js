@@ -1,9 +1,9 @@
-import { Paragraph, Document, Packer, TableRow, TableCell, Table,WidthType ,TextRun} from "docx";
+const docx = require('docx');
+const { Document, Packer, Paragraph, Table, TableCell, TableRow } = docx;
 import { saveAs } from "file-saver";
 
 const ExportToWord = (currentTimeCard) => {
     console.log("Current Time Card:", currentTimeCard);
-    
 
     const table = new Table({
         rows: [

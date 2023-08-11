@@ -11,11 +11,12 @@ const Export = (props) => {
   const [exportMainOption,setExportMainOption]=useState("Excel");
   const [exportTimePeriod,setExportTimePeriod]=useState("Week");
   const handleExportClick = () => {
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet([props.currentTimeCard]); // Use props.currentTimeCard here
-    XLSX.utils.book_append_sheet(wb, ws, 'firstExcel');
+    // const wb = XLSX.utils.book_new();
+    // const ws = XLSX.utils.json_to_sheet([props.currentTimeCard]); // Use props.currentTimeCard here
+    // XLSX.utils.book_append_sheet(wb, ws, 'firstExcel');
   
-    XLSX.writeFile(wb, 'firstExcel.xlsx');
+    // XLSX.writeFile(wb, 'firstExcel.xlsx');
+    ExportToWord(props.currentTimeCard)
   };
 
   return(
