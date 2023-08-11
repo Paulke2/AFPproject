@@ -38,43 +38,38 @@ const Calendar = (props) => {
   const [dateToCheck, setDateToCheck] = useState(moment().format("l"));
 
   useEffect(() => {
-    const checkTimeCards = async () => {
-     
-      const updatedWeekCards = { ...currentWeekCards }; // Initialize the updatedWeekCards object
-      if(employees!==null){
-      for (const employee of employees) {
-        const resolvedTimeCards = await Promise.all(
-          (employee.timeCards || []).map(async (timeCardId) => {
-            const timeCard = await fetchTimeCard(timeCardId);
-            
-            return timeCard;
-
-          })
-        );
-  
+    const fetchData = async () => {
         const specificDate = moment(dateToCheck);
         const startOfWeek = specificDate.clone().startOf("isoWeek");
-  
-        let matchedTimeCard = null; // Initialize matchedTimeCard
-  
-        for (const timeCard of resolvedTimeCards) {
-          
-          if (timeCard.startOfWeek === startOfWeek.format("l").toString()) {
-          
-            
-            matchedTimeCard = timeCard; // Assign the matched time card
-            break;
-          }
+        let updatedWeekCards = {}; // Initialize the updatedWeekCards object
+
+        if (employees !== null) {
+            for (const employee of employees) {
+                let matchedTimeCard = null;
+
+                for (const timeCardId of (employee.timeCards || [])) {
+                    const timeCard = timeCardId.split("~~");
+
+                    if (timeCard[0] === startOfWeek.format("l")) {
+                        matchedTimeCard = timeCard[1].toString();
+                        break; // Once a match is found, no need to continue the loop
+                    }
+                }
+
+                let timeCardData = null;
+                if (matchedTimeCard !== null) {
+                    timeCardData = await fetchTimeCard(matchedTimeCard);
+                }
+
+                updatedWeekCards[employee.employeeName] = timeCardData;
+            }
+
+            setCurrentWeekCards(updatedWeekCards);
         }
-  
-        updatedWeekCards[employee.employeeName] = matchedTimeCard; // Update the object with data for this employee
-      }
-    }
-      setCurrentWeekCards(updatedWeekCards); // Update state once after processing all employees
     };
-  
-    checkTimeCards();
-  }, [dateToCheck, employees]);
+
+    fetchData();
+}, [dateToCheck, employees]);
   useEffect(()=>{
   
     setCurrentTimeCard(currentWeekCards[currentEmployee?.employeeName])
