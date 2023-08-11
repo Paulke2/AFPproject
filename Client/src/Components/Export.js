@@ -1,18 +1,23 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import * as XLSX from 'xlsx';
 import { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import ExportToWord from "../functions/ExportToWord";
-import ExportToExcel from "../functions/ExportToExcel";
+
 const Export = (props) => {
   const [modalShow, setModalShow] = useState(false);
   const [exportEmployeeOption,setExportEmployeeOption]=useState("All Employees");
   const [exportMainOption,setExportMainOption]=useState("Excel");
   const [exportTimePeriod,setExportTimePeriod]=useState("Week");
-
   const handleExportClick = () => {
-    ExportToWord(props.currentTimeCard);
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet([props.currentTimeCard]); // Use props.currentTimeCard here
+    XLSX.utils.book_append_sheet(wb, ws, 'firstExcel');
+  
+    XLSX.writeFile(wb, 'firstExcel.xlsx');
   };
+
   return(
   <>
   
