@@ -6,8 +6,9 @@ const SearchBar = (props) => {
     return (
         <div className="wrap">
             <div className="search">
-                <Form.Group controlId="editName">
+                <Form.Group controlId="search for project">
                     <Form.Control
+                    autoComplete="off"
                     style={{color:"black"}}
                         className="searchBar"
                         value={props.projectSearch}

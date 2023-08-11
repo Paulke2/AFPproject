@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import ExportToWord from "../functions/ExportToWord";
-
+import ExportToExcel from "../functions/ExportToExcel";
 const Export = (props) => {
   const [modalShow, setModalShow] = useState(false);
   const [exportEmployeeOption,setExportEmployeeOption]=useState("All Employees");

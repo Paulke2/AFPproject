@@ -307,6 +307,8 @@ if (!employeesResponse.ok) {
   setMondayString("");
   setTuesdayString("");
   setWednesdayString("");
+  setThursdayNumber(NaN);
+  setThursdayString("");
   setFridayString("");
   setSaturdayString("");
   

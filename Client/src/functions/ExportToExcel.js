@@ -1,21 +1,21 @@
-import React from "react";
-import XLSX from "xlsx";
-
-const ExportToExcel = (data) => {
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
-    const excelBlob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-    const excelUrl = URL.createObjectURL(excelBlob);
-
-    const link = document.createElement("a");
-    link.href = excelUrl;
-    link.download = "data.xlsx";
-    link.click();
-
-    URL.revokeObjectURL(excelUrl);
-};
+import React from 'react';
 
 
-export default ExportToExcel;
+function ExcelGenerator() {
+  const data = [
+    ["Name", "Age"],
+    ["John Doe", 30],
+    ["Jane Smith", 25],
+  ];
+
+  return (
+    <ExcelFile element={<button>Export to Excel</button>}>
+      <ExcelSheet data={data} name="Sheet 1">
+        <ExcelColumn label="Name" value="0" />
+        <ExcelColumn label="Age" value="1" />
+      </ExcelSheet>
+    </ExcelFile>
+  );
+}
+
+export default ExcelGenerator;

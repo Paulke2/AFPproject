@@ -5,13 +5,15 @@ import "./Home.css";
 import "../functions/findProjectInfo.js";
 import logo from "../pictures/AFPlogo.png";
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
+import { Row,Col } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import ListGroup from "react-bootstrap/ListGroup";
 import Searchbar from "../Components/Searchbar";
 import findProjectInfo from "../functions/findProjectInfo.js";
 import NewProject from "../Components/NewProject";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import * as XLSX from 'xlsx'; 
 const determineShow = (projectSearch, name, projectID) => {
   //this function takes projectsearch as a prop
@@ -49,9 +51,9 @@ const Home = (props) => {
   const [location, setLocation] = useState("");
   const [contractWith, setContractWith] = useState("");
   const [amount, setAmount] = useState("");
-
+  const [editMode,setEditMode]=useState(false);
   useEffect(()=>{console.log("contact:"+companyContact)},[companyContact])
-
+  const [key, setKey] = useState('home');
   const handleDrop = async (event) => {
     event.preventDefault();
     setDraggingOver(false);
@@ -79,14 +81,10 @@ const Home = (props) => {
       const allInfoMatrices = await Promise.all(fileReadPromises);
   
       // Now you have arrays of rows from each Excel file
-      console.log("here is our array:");
-      console.log(allInfoMatrices[0]);
-      
       
       // Proc  // Check if infoMatrix state is empty before setting it
             if (infoMatrix.length === 0) {
               console.log("hello");
-              //console.log(allInfoMatrices[0]);
               setInfoMatrix(allInfoMatrices[0]);
               console.log(allInfoMatrices[0]);
               console.log("finding");
@@ -120,7 +118,7 @@ const Home = (props) => {
       }
     };
     fetchProjects();
-  }, []);
+  }, [showNewProject]);
   useEffect(() => {
     // Every time projects changes, set the state for project names
     // for autocomplete so we only load projects once
@@ -162,7 +160,16 @@ const Home = (props) => {
           <img className="logo" src={logo} />
         </Navbar.Brand>
       </Navbar>
-
+        <Row  style={{ marginBottom: 0, marginTop: 0,padding:0 }}>
+          <Col className="col-10 dropBoxListRow">
+         <div>
+          <Tabs
+      defaultActiveKey="projects"
+      id="uncontrolled-tab-example"
+      className="mb-3"
+    >
+      <Tab eventKey="designJobs" title="Design Jobs"> HERE will be projects. </Tab>
+      <Tab eventKey="projects" title="Projects">
       <Card style={{ marginLeft: "50px", width: "90%" }}>
         <ListGroup variant="flush">
           {
@@ -181,8 +188,8 @@ const Home = (props) => {
                 >
                   {project.name} - {project.projectID}
                   <div >
-                  <Button size="sm"style={{marginRight:"5px"}}>edit</Button>
-                  <Button size="sm" variant="danger">delete</Button>
+                  <Button size="sm" hidden={!editMode}style={{marginRight:"5px"}}>edit</Button>
+                  <Button size="sm" hidden={!editMode}variant="danger">delete</Button>
                   </div>
                   <span hidden="true">
                   {DetermineBackgroundColor=DetermineBackgroundColor+1}
@@ -194,7 +201,13 @@ const Home = (props) => {
             )}
         </ListGroup>
       </Card>
-      <br></br>
+      </Tab>
+      </Tabs>
+      </div>
+      </Col>
+     
+      <Col className="col-2 dropBoxRow"style={{alignContent:"center"}}>
+        <div className="dropBoxContainer">
       <div
       className="dropBox"
       onDragOver={(event) => {
@@ -212,6 +225,10 @@ const Home = (props) => {
     >
       Drag & Drop an Excel file here to add a new Project.
     </div>
+    </div>
+    </Col>
+    </Row>
+    
       <NewProject
         showNewProject={showNewProject}
         setCompanyContact={setCompanyContact}

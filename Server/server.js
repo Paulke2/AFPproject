@@ -4,6 +4,7 @@ const app = express();
 const project_routes = require("./routes/project.js");
 const employee_routes = require("./routes/employee.js");
 const timeCard_routes = require("./routes/timeCard.js");
+const designJobs_routes = require("./routes/designJobs.js");
 const mongoose = require("mongoose");
 app.use(express.urlencoded({ extended: true }));
 mongoose.connect(process.env.DATABASE_URL)
@@ -27,3 +28,4 @@ app.use("/projects", project_routes);
 app.use("/employees", employee_routes);
 //timeCard is for testing. these routes will only be used by employees
 app.use("/timeCards", timeCard_routes);
+app.use("/designJobs", designJobs_routes);

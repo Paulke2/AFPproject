@@ -33,6 +33,7 @@ const NewProject = (props) => {
       setError(null);
       console.log("new project added", json);
     }
+    props.setShowNewProject(false)
   };
 
   return (

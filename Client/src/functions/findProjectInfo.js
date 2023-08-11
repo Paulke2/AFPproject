@@ -17,7 +17,7 @@ const findProjectInfo = (infoMatrix,setCompanyContact, setScope, setProjectID, s
   setContractWith(infoMatrix[9][7]);
   setAmount(infoMatrix[5][7]);
   setProjectName(infoMatrix[6][2]);
-  setCompanyContact(infoMatrix[13][7]);
+  setCompanyContact(infoMatrix[13][7]+", Phone: "+infoMatrix[14][7]+", Email:"+infoMatrix[14][8]);
   console.log("targetval:"+infoMatrix[13][7]);
 }
 

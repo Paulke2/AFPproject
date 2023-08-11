@@ -18,10 +18,28 @@
 
 .dropBox {
     
-    width:300px;
-    height:300px;
+    width:200px;
+    height:200px;
     text-align: center;
     margin: 0 auto;
-    padding-top: 120px;
+    padding-top: 75px;
     cursor:pointer  !important;
+}
+.dropBoxContainer{
+    position:sticky;
+    top:200px;
+    
+    width: 100%;
+    left:0px;
+    background-color: rgb(233, 233, 233);
+    padding-top: 50px;
+    height:400px;
+    border-radius: 10px 0px 0px 10px;
+}
+.dropBoxRow{
+
+    padding-left: 0px;
+}
+.dropBoxListRow{
+    padding-right: 0px;
 }

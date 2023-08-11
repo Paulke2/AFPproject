@@ -14,7 +14,13 @@ const ProjectPage = () => {
   let { id } = useParams();
   const [currentProject, setCurrentProject] = useState({});
   const [newComment, setNewComment] = useState("");
-  
+  const[ projectContactArray,setProjectContactArray]=useState(["","",""]);
+  useEffect(()=>{
+  if(currentProject.companyContact){
+    setProjectContactArray(currentProject.companyContact.split(","));
+  }
+    console.log(currentProject.companyContact);
+  },[currentProject])
   const handleSave = async () => {
     try {
       // Assuming currentProject.comments is the array of strings
@@ -86,10 +92,14 @@ const ProjectPage = () => {
       <hr></hr>
       <h5>Contract With:</h5> {currentProject.contractWith}
       <hr></hr>
-      
+      <h5>amount:</h5> {currentProject.amount}
       </Col>
       <Col>
-      <h5>amount:</h5> {currentProject.amount}
+      Site Contact:{projectContactArray[0]}
+      <br></br>
+      {projectContactArray[1]}
+      <br></br>
+      {projectContactArray[2]}
       <hr></hr>
 
       </Col>
