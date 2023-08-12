@@ -11,7 +11,7 @@ const GetEmployees = (props) => {
 
   useEffect(() => {
     startOfDesiredWeek = moment(props.dateToCheck).startOf("isoWeek");
-    console.log(startOfDesiredWeek.format("l"));
+    
   }, [props.dateToCheck]);
 
   return (

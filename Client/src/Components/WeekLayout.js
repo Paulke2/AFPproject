@@ -54,8 +54,6 @@ const WeekLayout = (props) => {
     return (props?.currentTimeCard?.[weekDay] !== "" && props?.currentTimeCard?.[weekDay]!==undefined ? props?.currentTimeCard?.[weekDay]?.split(","):(props?.currentEmployee?.officeWorker ? ["Office"+"-"+props?.currentEmployee?.officeWorkerHours.toString()]:[] ))
     
   }
-
-
   useEffect(() => {
     setSundayJobList(
       (props?.currentTimeCard?.Sunday !== ""&&props?.currentTimeCard?.Sunday!==undefined)
@@ -102,14 +100,7 @@ const WeekLayout = (props) => {
     WednesdayJobList,
   ]);
   const getTotalHours = () => {
-    console.log("in getTotalHours. b4 weekNum:"+(
-      totalMondayNumber +
-      totalTuesdayNumber +
-      totalWednesdayNumber +
-      totalThursdayNumber +
-      totalFridayNumber +
-      totalSaturdayNumber +
-      totalSundayNumber).toString());
+   
     return (
       totalMondayNumber +
       totalTuesdayNumber +
@@ -125,7 +116,7 @@ const WeekLayout = (props) => {
   const handleAlertClose = () => {
     setShowAlert(false);
   };
-
+useEffect(()=>{console.log(WednesdayJobList)},[WednesdayJobList])
   const handleButtonClick = () => {
     setShowAlert(true);
   };
@@ -138,7 +129,7 @@ const WeekLayout = (props) => {
       (ThursdayNumber ? parseInt(ThursdayNumber) : 0) +
       (FridayNumber  ? parseInt(FridayNumber) : 0) +
       (SaturdayNumber ? parseInt(SaturdayNumber) : 0);
-    console.log("SundayNum"+SundayNumber?.toString());
+    
     return total;
   };
   const handleSave = async (event) => {
@@ -197,7 +188,7 @@ const WeekLayout = (props) => {
         };
         props.setCurrentWeekCards(updatedWeekCards);
       }
-      console.log("new way:"+startOfWeek.format("l")+"~~"+json._id.toString());
+     
       const updatedTimeCards = [...props.currentEmployee.timeCards, startOfWeek.format("l")+"~~"+json._id.toString()];
 const newTimeCards = { timeCards: updatedTimeCards };
 const employeesResponse = await fetch(
@@ -237,36 +228,43 @@ if (!employeesResponse.ok) {
         Sunday: updateTimeCardDay(
           SundayString,
           SundayNumber,
+          SundayJobList,
           props.currentTimeCard.Sunday
         ),
         Monday: updateTimeCardDay(
           MondayString,
           MondayNumber,
+          MondayJobList,
           props.currentTimeCard.Monday
         ),
         Tuesday: updateTimeCardDay(
           TuesdayString,
           TuesdayNumber,
+          TuesdayJobList,
           props.currentTimeCard.Tuesday
         ),
         Wednesday: updateTimeCardDay(
           WednesdayString,
           WednesdayNumber,
+          WednesdayJobList,
           props.currentTimeCard.Wednesday
         ),
         Thursday: updateTimeCardDay(
           ThursdayString,
           ThursdayNumber,
+          ThursdayJobList,
           props.currentTimeCard.Thursday
         ),
         Friday: updateTimeCardDay(
           FridayString,
           FridayNumber,
+          FridayJobList,
           props.currentTimeCard.Friday
         ),
         Saturday: updateTimeCardDay(
           SaturdayString,
           SaturdayNumber,
+          SaturdayJobList,
           props.currentTimeCard.Saturday
         ),
         employeeName: props.currentEmployee.employeeName,
@@ -314,9 +312,9 @@ if (!employeesResponse.ok) {
   setSaturdayString("");
   
   }else{handleButtonClick();
-  console.log("should show alert")}
+  }
 };
-useEffect(()=>{ console.log(showAlert)},[showAlert])
+
   return (
     <>
     <Alert className="NoEmployeeAlert" hidden={!showAlert}variant="danger" onClose={handleAlertClose} dismissible>
@@ -326,6 +324,7 @@ useEffect(()=>{ console.log(showAlert)},[showAlert])
         <WeekCard
         dayTitle="Sunday"
         jobList={SundayJobList}
+        setJobList={setSundayJobList}
         jobString={SundayString}
         jobNumber={SundayNumber}
         onJobStringChange={(selected) => setSundayString(selected[0])}
@@ -337,6 +336,7 @@ useEffect(()=>{ console.log(showAlert)},[showAlert])
       <WeekCard
         dayTitle="Monday"
         jobList={MondayJobList}
+        setJobList={setMondayJobList}
         jobString={MondayString}
         jobNumber={MondayNumber}
         onJobStringChange={(selected) => setMondayString(selected[0])}
@@ -348,6 +348,7 @@ useEffect(()=>{ console.log(showAlert)},[showAlert])
       <WeekCard
         dayTitle="Tuesday"
         jobList={TuesdayJobList}
+        setJobList={setTuesdayJobList}
         jobString={TuesdayString}
         jobNumber={TuesdayNumber}
         onJobStringChange={(selected) => setTuesdayString(selected[0])}
@@ -359,6 +360,7 @@ useEffect(()=>{ console.log(showAlert)},[showAlert])
       <WeekCard
         dayTitle="Wednesday"
         jobList={WednesdayJobList}
+        setJobList={setWednesdayJobList}
         jobString={WednesdayString}
         jobNumber={WednesdayNumber}
         onJobStringChange={(selected) => setWednesdayString(selected[0])}
@@ -370,6 +372,7 @@ useEffect(()=>{ console.log(showAlert)},[showAlert])
       <WeekCard
         dayTitle="Thursday"
         jobList={ThursdayJobList}
+        setJobList={setThursdayJobList}
         jobString={ThursdayString}
         jobNumber={ThursdayNumber}
         onJobStringChange={(selected) => setThursdayString(selected[0])}
@@ -381,6 +384,7 @@ useEffect(()=>{ console.log(showAlert)},[showAlert])
       <WeekCard
         dayTitle="Friday"
         jobList={FridayJobList}
+        setJobList={setFridayJobList}
         jobString={FridayString}
         jobNumber={FridayNumber}
         onJobStringChange={(selected) => setFridayString(selected[0])}
@@ -392,6 +396,7 @@ useEffect(()=>{ console.log(showAlert)},[showAlert])
       <WeekCard
         dayTitle="Saturday"
         jobList={SaturdayJobList}
+        setJobList={setSaturdayJobList}
         jobString={SaturdayString}
         jobNumber={SaturdayNumber}
         onJobStringChange={(selected) => {setSaturdayString(selected[0]);}}

@@ -2,11 +2,13 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { Form ,Button} from "react-bootstrap";
+import { useEffect,useRef } from "react";
 import "./WeekLayout.css";
 import { Typeahead } from 'react-bootstrap-typeahead';
 const WeekCard = ({
     dayTitle,
     jobList,
+    setJobList,
     jobString,
     jobNumber,
     onJobStringChange,
@@ -15,6 +17,22 @@ const WeekCard = ({
     totalHours,
     ProjectNames
   })=>{
+   
+    const eventRef = useRef(null); // Create a ref to hold the event
+
+    const deleteJobFromList = async (jobToDelete, oldJobList, event) => {
+      const newJobList = oldJobList.filter(job => job !== jobToDelete);
+      await setJobList(newJobList);
+      eventRef.current = event; // Store the event in the ref
+    };
+  
+    useEffect(() => {
+      if (eventRef.current) {
+        onSave(eventRef.current); // Call onSave with the stored event
+        eventRef.current = null;
+      }
+    }, [jobList, onSave]);
+    
     return (
       <Card  style={{ height: "100%" }}>
       <Card.Body style={{ padding: "20px" }}>
@@ -22,7 +40,9 @@ const WeekCard = ({
           <Card.Title>{dayTitle}</Card.Title>
           <ul>
             {jobList?.map((job) => (
-              <li key={job}>{job}</li>
+              <li key={job}>{job}<Button variant="danger" onClick={(event) => {
+                deleteJobFromList(job, jobList,event);
+              }}>-</Button></li>
             ))}
           </ul>
           <div className="formsForJob" style={{ flexGrow: 1 }}>

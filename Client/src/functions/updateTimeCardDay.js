@@ -1,14 +1,14 @@
-const updateTimeCardDay=(newDayString,newDayNumber,CurrentDayString) =>{
-    if(CurrentDayString === null){
+const updateTimeCardDay=(newDayString,newDayNumber,currentJobList,CurrentDayString) =>{
+    if(currentJobList === []){
         return "";
     }
     if(newDayString===""||newDayNumber===undefined||newDayNumber===NaN){
-        return CurrentDayString;
-    }else if(CurrentDayString==""){
+        return currentJobList.join(",");
+    }else if(CurrentDayString===""){
         return newDayString+"-"+newDayNumber.toString();
     
     }else{
-        return CurrentDayString+","+newDayString+"-"+newDayNumber.toString();
+        return currentJobList.join(",")+","+newDayString+"-"+newDayNumber.toString();
     }
 }
 
