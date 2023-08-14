@@ -35,3 +35,14 @@ ul:nth-of-type(1) {
     z-index: 1;
     opacity: 90%;
 }
+
+.DeleteJobButton{
+  width: 20px !important;
+  height: 25px !important;
+  border-radius: 50% !important;
+  display: flex  !important;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+ margin-right:5px;
+}

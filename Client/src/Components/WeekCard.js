@@ -34,23 +34,38 @@ const WeekCard = ({
     }, [jobList, onSave]);
     
     return (
-      <Card  style={{ height: "100%" }}>
-      <Card.Body style={{ padding: "20px" }}>
-        <div className="d-flex flex-column " style={{ height: "100%" ,flexGrow: 1  }}>
+      <Card  style={{ height: "100%",padding:"0px" }}>
+      <Card.Body style={{ padding:"0px" }}>
+        <div  style={{ height: "100%"  }}>
           <Card.Title>{dayTitle}</Card.Title>
-          <ul>
-            {jobList?.map((job) => (
-              <li key={job}>{job}<Button variant="danger" onClick={(event) => {
-                deleteJobFromList(job, jobList,event);
-              }}>-</Button></li>
-            ))}
-          </ul>
+          <div style={{paddingLeft:"2px"}}>
+          <ul style={{ listStylePosition: "inside", margin: 0, padding: 0 }}>
+        {jobList?.map((job) => (
+          <li key={job} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "5px 0" }}>
+          <>
+            <span style={{marginLeft:"0px",paddingLeft:"0px"}}>{job}</span>
+            <Button
+              variant="danger"
+              className="DeleteJobButton"
+            
+              onClick={(event) => {
+                deleteJobFromList(job, jobList, event);
+              }}
+            >
+              -
+            </Button>
+            </>
+          </li>
+        ))}
+      </ul>
+          </div>
           <div className="formsForJob" style={{ flexGrow: 1 }}>
           <Form.Group className="d-flex">
   <Typeahead
     labelKey="name"
     id="job locatoin select"
     onChange={onJobStringChange}
+    style={{ color: "black", width: "60%" }}
     options={ProjectNames}
     placeholder="Jobs"
     selected={jobString ? [jobString] : []} // Convert jobString to an array or use an empty array
