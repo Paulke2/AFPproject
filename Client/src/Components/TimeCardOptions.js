@@ -15,7 +15,7 @@ const TimeCardOptions = (props) => {
   return (
     <div className="TimeCardOptionsContainer">
         <div className="buttonSpacing">
-      <Export currentTimeCard={props.currentTimeCard}/>
+      <Export currentEmployee={props.currentEmployee} currentWeekCards={props.currentWeekCards}/>
      <br></br>
      <br></br>
       <Button variant="danger"onClick={handleDelete}>delete</Button>

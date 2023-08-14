@@ -16,7 +16,7 @@ const Export = (props) => {
     // XLSX.utils.book_append_sheet(wb, ws, 'firstExcel');
   
     // XLSX.writeFile(wb, 'firstExcel.xlsx');
-    ExportToWord(props.currentTimeCard)
+    ExportToWord(props.currentEmployee, props.currentWeekCards)
   };
 
   return(
