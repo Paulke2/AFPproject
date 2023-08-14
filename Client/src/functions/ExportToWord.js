@@ -1,22 +1,78 @@
 const docx = require('docx');
-const { Document, Packer, Paragraph, Table, TableCell, TableRow,WidthType} = docx;
+const { Document, AlignmentType,Packer, Paragraph, Table, Header,TableCell, TableRow,TextRun,WidthType} = docx;
 import { saveAs } from "file-saver";
 
 const ExportToWord = (currentTimeCard) => {
+    const daysOfWeek = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
+      ];
+
     console.log("Current Time Card:", currentTimeCard);
-    const leftCell = new TableCell({
-        children: [new Paragraph("Left Cell Content")]
+
+    const pageHeader = new Paragraph({
+        children: [
+            new TextRun({
+                text: "Week: ",
+                bold: true,
+            }),
+            new TextRun({
+                text: currentTimeCard.startOfWeek.toString(),
+                
+            }),
+            new TextRun({
+                text: "\t\t\t\t\t\t", // Add appropriate number of tabs for spacing
+            }),
+            new TextRun({
+                text: "Employee Name:",
+                bold: true,
+                alignment: AlignmentType.RIGHT,
+            }),
+            new TextRun({
+                text: currentTimeCard.employeeName,
+                alignment: AlignmentType.RIGHT,
+            }),
+        ],
+    });
+    const leftCell = new TableCell(
+        {
+        children: [new Paragraph(daysOfWeek[0]+": "+currentTimeCard.startOfWeek.toString())],
+        width: {
+            size: 30,
+            type: WidthType.PERCENTAGE,
+        }
     });
     
     // Create rows for the nested table
     const nestedTableRows = [];
-    for (let i = 0; i < 4; i++) {
+    const JobRowHeader = new TableRow({
+        children: [
+            new TableCell({
+                children: [new Paragraph("Job Name")] // Add content if needed,
+                
+            })
+        ],width: {
+            size: 30,
+            type: WidthType.PERCENTAGE,
+        }
+    });
+    nestedTableRows.push(JobRowHeader);
+    for (let i = 0; i < 3; i++) {
         const nestedRow = new TableRow({
             children: [
                 new TableCell({
-                    children: [new Paragraph(`Nested Row ${i + 1}`)] // Add content if needed
+                    children: [new Paragraph(`Nested Row ${i + 1}`)] // Add content if needed,
+                    
                 })
-            ]
+            ],width: {
+                size: 30,
+                type: WidthType.PERCENTAGE,
+            }
         });
         nestedTableRows.push(nestedRow);
     }
@@ -52,13 +108,13 @@ const ExportToWord = (currentTimeCard) => {
     const doc = new Document({
         sections: [
             {
-                children: [mainTable]
+                children: [pageHeader,mainTable]
             }
         ]
     });
     Packer.toBlob(doc).then((blob) => {
         console.log(blob);
-        saveAs(blob, "example.docx");
+        saveAs(blob, currentTimeCard.startOfWeek.toString()+".docx");
         console.log("Document created successfully");
     });
 };

@@ -45,4 +45,5 @@ ul:nth-of-type(1) {
   align-items: center;
   font-size: 14px;
  margin-right:5px;
+ border-color:rgb(179, 79, 79) !important;
 }
