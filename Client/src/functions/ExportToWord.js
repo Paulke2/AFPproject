@@ -25,7 +25,9 @@ const ExportToWord = (currentEmployee,currentWeekCards) => {
     "Saturday",
   ];
 
-  //onsole.log("Current Time Card:", currentTimeCard);
+  console.log("Current Time Card:", currentWeekCards);
+  console.log(currentEmployee[0])
+  console.log(currentWeekCards[currentEmployee[0]].startOfWeek)
   const PageContents = [];
   const pageHeader = new Paragraph({
     children: [
@@ -34,7 +36,7 @@ const ExportToWord = (currentEmployee,currentWeekCards) => {
         bold: true,
       }),
       new TextRun({
-        text: currentWeekCards[currentEmployee.employeeName].startOfWeek.toString(),
+        text: currentWeekCards[currentEmployee[0]].startOfWeek.toString(),
       }),
       new TextRun({
         text: "\t\t\t\t\t\t", // Add appropriate number of tabs for spacing
@@ -52,12 +54,12 @@ const ExportToWord = (currentEmployee,currentWeekCards) => {
   });
   PageContents.push(pageHeader);
   
-  var startOfWeek = moment(currentWeekCards[currentEmployee.employeeName].startOfWeek.toString()); 
+ var startOfWeek = moment(currentWeekCards[currentEmployee[0]]?.startOfWeek); 
   daysOfWeek.map((day)=>{
   const leftCell = new TableCell({
     children: [
       new Paragraph(
-        startOfWeek.format("l").toString()
+        day+startOfWeek.format("l").toString()
       
       ),
     ],
@@ -66,8 +68,8 @@ const ExportToWord = (currentEmployee,currentWeekCards) => {
       type: WidthType.PERCENTAGE,
     },
   });
-  // Create rows for the nested table
   startOfWeek.add(1,"days");
+  // Create rows for the nested table
   const nestedJobTitleTableRows = [];
   const JobRowHeader = new TableRow({
     children: [
@@ -93,10 +95,9 @@ const ExportToWord = (currentEmployee,currentWeekCards) => {
     },
   });
   nestedJobTitleTableRows.push(JobRowHeader);
-const JobList = currentWeekCards[currentEmployee.employeeName]?.[day].split(",");
+const JobList = currentWeekCards[currentEmployee[0]]?.[day].split(",");
  let TotalHoursCounter=0;
-  console.log("newList:");
-  console.log(JobList);
+
   for (let i = 0; i < 4; i++) {
     const nestedRow = new TableRow({
       children: [
@@ -190,8 +191,7 @@ const JobList = currentWeekCards[currentEmployee.employeeName]?.[day].split(",")
     ],
   });
   Packer.toBlob(doc).then((blob) => {
-    console.log(blob);
-    saveAs(blob, currentWeekCards[currentEmployee.employeeName].startOfWeek.toString() + ".docx");
+    saveAs(blob, "test"+ ".docx");
     console.log("Document created successfully");
   });
 };

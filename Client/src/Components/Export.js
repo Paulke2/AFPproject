@@ -10,13 +10,16 @@ const Export = (props) => {
   const [exportEmployeeOption,setExportEmployeeOption]=useState("All Employees");
   const [exportMainOption,setExportMainOption]=useState("Excel");
   const [exportTimePeriod,setExportTimePeriod]=useState("Week");
+
+  
   const handleExportClick = () => {
     // const wb = XLSX.utils.book_new();
     // const ws = XLSX.utils.json_to_sheet([props.currentTimeCard]); // Use props.currentTimeCard here
     // XLSX.utils.book_append_sheet(wb, ws, 'firstExcel');
   
     // XLSX.writeFile(wb, 'firstExcel.xlsx');
-    ExportToWord(props.currentEmployee, props.currentWeekCards)
+    const employeesToExport = exportEmployeeOption==="All Employees" ? Object.keys(props.currentWeekCards) : [props.currentEmployee.employeeName]
+    ExportToWord(employeesToExport, props.currentWeekCards)
   };
 
   return(
