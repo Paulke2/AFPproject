@@ -44,6 +44,7 @@ const Calendar = (props) => {
         let updatedWeekCards = {}; // Initialize the updatedWeekCards object
 
         if (employees !== null) {
+          updatedWeekCards["date"]=startOfWeek.format("l");
             for (const employee of employees) {
                 let matchedTimeCard = null;
 
@@ -69,6 +70,7 @@ const Calendar = (props) => {
     };
 
     fetchData();
+    console.log(currentWeekCards);
 }, [dateToCheck, employees]);
   useEffect(()=>{
   
@@ -88,6 +90,12 @@ const Calendar = (props) => {
         data-bs-theme="dark"
       >
         <Nav className="me-auto"></Nav>
+        <Nav.Link
+          onClick={() => navigate("/DesignJobs")}
+          style={{ color: "white", fontStyle: "oblique",marginRight:"4%" }}
+        >
+          Design
+        </Nav.Link>
         <Nav.Link
           onClick={() => navigate("/Calendar")}
           style={{ color: "white", fontStyle: "oblique" }}

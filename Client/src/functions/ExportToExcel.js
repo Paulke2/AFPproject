@@ -26,13 +26,14 @@ const ExportToExcel = (employees, currentWeekCards) => {
           });
         }
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.aoa_to_sheet([[""],[""],["","NAME","Regular","OT","VAC.","HOL.","RATE JOB","RATE","OTHER"]]); // Create an empty worksheet
+    const ws = XLSX.utils.aoa_to_sheet([[""],["","",currentWeekCards["date"]],["","NAME","Regular","OT","VAC.","HOL.","RATE JOB","RATE","OTHER"]]); // Create an empty worksheet
     
     XLSX.utils.sheet_add_json(ws, [""], { skipHeader: true, origin: -1 });
     employees.forEach((employee) => {
         // Assuming currentWeekCards[employee] is an object with key-value pairs
         const employeeData = currentWeekCards[employee];
-        
+        console.log(currentWeekCards[employee]);
+        console.log(employeeData);
         // Convert employeeData object to an array of objects
         let employeeDataObject=employeeData!==null ?
         employeeData:setDefault(employee)

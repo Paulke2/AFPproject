@@ -14,7 +14,10 @@ const Export = (props) => {
 
   
   const handleExportClick = () => {
-    const employeesToExport = exportEmployeeOption==="All Employees" ? Object.keys(props.currentWeekCards) : [props.currentEmployee.employeeName]
+    const employeesToExport = exportEmployeeOption==="All Employees" ? Object.keys(props.currentWeekCards)
+    .filter(employee => employee !== "date") : [props.currentEmployee.employeeName]
+    console.log("export");
+    console.log(employeesToExport);
     if(exportMainOption === "Excel"){
       ExportToExcel(employeesToExport, props.currentWeekCards)
     }else{
