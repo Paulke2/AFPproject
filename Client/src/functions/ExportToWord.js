@@ -11,6 +11,7 @@ const {
   TableRow,
   TextRun,
   WidthType,
+  PageBreak,
 } = docx;
 import { saveAs } from "file-saver";
 
@@ -24,11 +25,27 @@ const ExportToWord = (currentEmployee,currentWeekCards) => {
     "Friday",
     "Saturday",
   ];
-
+ const setDefault = (name)=>{
+    return( {
+        "startOfWeek":"8/1/23",
+        "Sunday":"job name-12",
+        "Monday":"job name-12",
+        "Tuesday":"job name-12",
+        "Wednesday":"job name-12",
+        "Thursday":"job name-12",
+        "Friday":"job name-12",
+        "Saturday":"job name-12",
+        "employeeName":name,
+        "totalHours":40
+    
+      });
+ }
   console.log("Current Time Card:", currentWeekCards);
-  console.log(currentEmployee[0])
-  console.log(currentWeekCards[currentEmployee[0]].startOfWeek)
+
   const PageContents = [];
+  currentEmployee.map((employee)=>{
+    let card = (currentWeekCards[employee]===null ? setDefault(employee): currentWeekCards[employee])
+      
   const pageHeader = new Paragraph({
     children: [
       new TextRun({
@@ -36,7 +53,7 @@ const ExportToWord = (currentEmployee,currentWeekCards) => {
         bold: true,
       }),
       new TextRun({
-        text: currentWeekCards[currentEmployee[0]].startOfWeek.toString(),
+        text: card.startOfWeek.toString(),
       }),
       new TextRun({
         text: "\t\t\t\t\t\t", // Add appropriate number of tabs for spacing
@@ -47,14 +64,15 @@ const ExportToWord = (currentEmployee,currentWeekCards) => {
         alignment: AlignmentType.RIGHT,
       }),
       new TextRun({
-        text: currentEmployee.employeeName,
+        text: employee,
         alignment: AlignmentType.RIGHT,
       }),
     ],
   });
   PageContents.push(pageHeader);
   
- var startOfWeek = moment(currentWeekCards[currentEmployee[0]]?.startOfWeek); 
+
+ var startOfWeek = moment(card?.startOfWeek); 
   daysOfWeek.map((day)=>{
   const leftCell = new TableCell({
     children: [
@@ -68,7 +86,7 @@ const ExportToWord = (currentEmployee,currentWeekCards) => {
       type: WidthType.PERCENTAGE,
     },
   });
-  startOfWeek.add(1,"days");
+  startOfWeek.add(1,"days")
   // Create rows for the nested table
   const nestedJobTitleTableRows = [];
   const JobRowHeader = new TableRow({
@@ -95,7 +113,7 @@ const ExportToWord = (currentEmployee,currentWeekCards) => {
     },
   });
   nestedJobTitleTableRows.push(JobRowHeader);
-const JobList = currentWeekCards[currentEmployee[0]]?.[day].split(",");
+const JobList = card?.[day].split(",");
  let TotalHoursCounter=0;
 
   for (let i = 0; i < 4; i++) {
@@ -181,6 +199,15 @@ const JobList = currentWeekCards[currentEmployee[0]]?.[day].split(",");
   });
   PageContents.push(mainTable);
   PageContents.push( new Paragraph(""));
+})
+PageContents.push( new Paragraph(""));
+PageContents.push( new Paragraph(""));
+PageContents.push( new Paragraph(""));
+PageContents.push( new Paragraph(""));
+PageContents.push( new Paragraph(""));
+PageContents.push( new Paragraph(""));
+PageContents.push( new Paragraph(""));
+PageContents.push( new Paragraph(""));
 })
   // Create the document
   const doc = new Document({
