@@ -1,9 +1,10 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import * as XLSX from 'xlsx';
+//import * as XLSX from 'xlsx';
 import { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import ExportToWord from "../functions/ExportToWord";
+import ExportToExcel from "../functions/ExportToExcel";
 
 const Export = (props) => {
   const [modalShow, setModalShow] = useState(false);
@@ -13,14 +14,11 @@ const Export = (props) => {
 
   
   const handleExportClick = () => {
-    if(exportMainOption === "Excel"){
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet([props.currentWeekCards[props.currentEmployee.employeeName]]); // Use props.currentTimeCard here
-    XLSX.utils.book_append_sheet(wb, ws, 'firstExcel');
-  
-    XLSX.writeFile(wb, 'firstExcel.xlsx');
-    }else{
     const employeesToExport = exportEmployeeOption==="All Employees" ? Object.keys(props.currentWeekCards) : [props.currentEmployee.employeeName]
+    if(exportMainOption === "Excel"){
+      ExportToExcel(employeesToExport, props.currentWeekCards)
+    }else{
+    //const employeesToExport = exportEmployeeOption==="All Employees" ? Object.keys(props.currentWeekCards) : [props.currentEmployee.employeeName]
     ExportToWord(employeesToExport, props.currentWeekCards)
     }
   };
