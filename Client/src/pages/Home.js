@@ -143,6 +143,15 @@ const Home = (props) => {
     });
     props.setProjectNames(temp);
   }, [projects]);
+  useEffect(() => {
+    // Every time projects changes, set the state for project names
+    // for autocomplete so we only load projects once
+    let temp = [];
+    designJobs?.forEach((job) => {
+      temp = [...temp, job.projectName]; // Use spread operator to append
+    });
+    props.setDesignJobNames(temp);
+  }, [designJobs]);
 
   let DetermineBackgroundColor=1;
   return (

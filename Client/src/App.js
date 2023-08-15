@@ -9,14 +9,15 @@ import { useState } from 'react';
 
 function App() {
   const [ProjectNames,setProjectNames]=useState([]);
+  const [designJobNames,setDesignJobNames]=useState([]);
   return (
     <div className="App">
       <BrowserRouter>
         <div className="pages">
           <Routes>
-            <Route path="/" element={<Home setProjectNames={setProjectNames}/>} />
+            <Route path="/" element={<Home setProjectNames={setProjectNames} setDesignJobNames={setDesignJobNames}/>} />
             <Route path="/projects/:id" element={<ProjectPage />} />
-            <Route path="/DesignJobs" element={<DesignJobs />} />
+            <Route path="/DesignJobs" element={<DesignJobs designJobNames={designJobNames}/>} />
             <Route path="/Calendar" element={<Calendar ProjectNames={ProjectNames}/>} />
           </Routes>
         </div>

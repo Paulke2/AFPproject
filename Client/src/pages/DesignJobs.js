@@ -2,13 +2,13 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import logo from "../pictures/AFPlogo.png";
 import { useNavigate, useParams } from "react-router-dom";
-
-const DesignJobs = ()=>{
+import GetJobList from "../Components/DesignJobPageComponents/GetJobList"
+const DesignJobs = (props)=>{
 //make it so ppl can claim jobs. have a backlog, ordered by date or priority
 //make it like a ticket system
 const navigate = useNavigate();
 console.log("herererererere");
-return ( <Navbar
+return (<> <Navbar
     style={{
       backgroundColor: "#90ee90",
       paddingLeft: "16px",
@@ -37,7 +37,9 @@ return ( <Navbar
     >
       <img className="logo" src={logo} />
     </Navbar.Brand>
-  </Navbar>);
+  </Navbar>
+  <div><GetJobList designJobNames={props.designJobNames}/></div>
+  </>);
 }
 
 export default DesignJobs;
