@@ -13,13 +13,16 @@ const Export = (props) => {
 
   
   const handleExportClick = () => {
-    // const wb = XLSX.utils.book_new();
-    // const ws = XLSX.utils.json_to_sheet([props.currentTimeCard]); // Use props.currentTimeCard here
-    // XLSX.utils.book_append_sheet(wb, ws, 'firstExcel');
+    if(exportMainOption === "Excel"){
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet([props.currentWeekCards[props.currentEmployee.employeeName]]); // Use props.currentTimeCard here
+    XLSX.utils.book_append_sheet(wb, ws, 'firstExcel');
   
-    // XLSX.writeFile(wb, 'firstExcel.xlsx');
+    XLSX.writeFile(wb, 'firstExcel.xlsx');
+    }else{
     const employeesToExport = exportEmployeeOption==="All Employees" ? Object.keys(props.currentWeekCards) : [props.currentEmployee.employeeName]
     ExportToWord(employeesToExport, props.currentWeekCards)
+    }
   };
 
   return(
