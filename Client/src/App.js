@@ -17,7 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home setProjectNames={setProjectNames} setDesignJobNames={setDesignJobNames}/>} />
             <Route path="/projects/:id" element={<ProjectPage />} />
-            <Route path="/DesignJobs" element={<DesignJobs designJobNames={designJobNames}/>} />
+            <Route path="/DesignJobs" element={<DesignJobs designJobNames={designJobNames} setDesignJobNames={setDesignJobNames}/>} />
             <Route path="/Calendar" element={<Calendar ProjectNames={ProjectNames}/>} />
           </Routes>
         </div>

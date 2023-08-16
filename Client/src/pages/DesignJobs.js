@@ -34,7 +34,7 @@ const DesignJobs = (props) => {
       <Row style={{ height: "500px", width: "100%" }}>
         <Col className="col-2 employeeList">
           <div>
-            <GetJobList designJobNames={props.designJobNames} />
+            <GetJobList designJobNames={props.designJobNames} setDesignJobNames={props.setDesignJobNames} />
           </div>
         </Col>
         <Col className="col-10 DragContainerContainer">

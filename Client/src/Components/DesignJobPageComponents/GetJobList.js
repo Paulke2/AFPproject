@@ -2,6 +2,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { Badge } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import "../GetEmployee.css";
+
 const moment = require("moment");
 
 const GetJobList = (props) => {
@@ -15,12 +16,10 @@ console.log(props.designJobNames);
         {props.designJobNames &&
           props.designJobNames.map((job) => (
             <ListGroup.Item
-              action
+             
               key={job}
               
-              onClick={() => {
-                props.setSelectedJob(job);
-              }}
+              
             >
               {job}
               <Badge className="employeeBadge" bg="dark" pill>
