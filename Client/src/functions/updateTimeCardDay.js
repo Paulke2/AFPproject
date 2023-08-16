@@ -5,10 +5,10 @@ const updateTimeCardDay=(newDayString,newDayNumber,currentJobList,CurrentDayStri
     if(newDayString===""||newDayNumber===undefined||newDayNumber===NaN){
         return currentJobList.join(",");
     }else if(CurrentDayString===""){
-        return newDayString+"-"+newDayNumber.toString();
+        return newDayString+"-"+"REG"+newDayNumber.toString();
     
     }else{
-        return currentJobList.join(",")+","+newDayString+"-"+newDayNumber.toString();
+        return currentJobList.join(",")+","+newDayString+"-"+"REG"+newDayNumber.toString();
     }
 }
 

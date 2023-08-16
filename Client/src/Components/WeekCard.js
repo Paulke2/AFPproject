@@ -30,24 +30,20 @@ const WeekCard = ({
   };
 
   const deleteJobFromList = async (jobToDelete, oldJobList, event) => {
+    console.log(jobToDelete);
+    console.log(oldJobList);
     const newJobList = oldJobList.filter((job) => job !== jobToDelete);
     await setJobList(newJobList);
     eventRef.current = event; // Store the event in the ref
   };
   const saveNewJobList = async(jobToAdd,oldJobList,event) => {
     if(!oldJobList.includes(jobToAdd)){
-      console.log("trying to delete:"+selectedJob)
-      console.log("trying to add:"+jobToAdd)
-      console.log(oldJobList)
       let newJobList = oldJobList.filter((job) => job !== selectedJob);
-      console.log(newJobList)
      newJobList = [...newJobList,jobToAdd]
     await setJobList(newJobList);
-    console.log("saving job:");
-    console.log(jobToAdd);
-    console.log(newJobList);
     eventRef.current = event; // Store the event in the ref
-    }
+    handleClose() 
+  }
   };
   useEffect(() => {
     if (eventRef.current) {
@@ -56,9 +52,9 @@ const WeekCard = ({
     }
   }, [jobList, onSave]);
   let index=selectedJob.lastIndexOf("-");
-  useEffect(()=>{setSelectedJobHours(selectedJob.slice(index+1))
+  useEffect(()=>{setSelectedJobHours(selectedJob.slice(index+4))
   console.log("hours:")
-  console.log(selectedJobHours)},[index])
+  console.log(selectedJob.slice(index+4))},[selectedJobHours])
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -108,6 +104,7 @@ const WeekCard = ({
             variant="danger"
             onClick={(event) => {
               deleteJobFromList(selectedJob, jobList, event);
+              handleClose();
             }}
           >
             Delete Job Entry
@@ -117,7 +114,7 @@ const WeekCard = ({
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="success" onClick={(event)=>saveNewJobList(selectedJob.slice(0,index)+"-"+selectedJobHours.toString(),jobList,event)}>
+          <Button variant="success" onClick={(event)=>saveNewJobList(overTime==="Yes" ? selectedJob.slice(0,index)+"-"+"OTT"+selectedJobHours.toString():selectedJob.slice(0,index)+"-"+"REG"+selectedJobHours.toString(),jobList,event)}>
             Save Changes
           </Button>
         </Modal.Footer>
