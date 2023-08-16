@@ -54,7 +54,12 @@ const WeekCard = ({
   let index=selectedJob.lastIndexOf("-");
   useEffect(()=>{setSelectedJobHours(selectedJob.slice(index+4))
   console.log("hours:")
-  console.log(selectedJob.slice(index+4))},[selectedJobHours])
+  
+  console.log(selectedJob.slice(index+4))
+  selectedJob.slice(index+1,index+4)==="REG" ? setOverTime("No"):setOverTime("Yes")
+  console.log(selectedJob.slice(index+1,index+4))
+},[selectedJob])
+  
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -87,6 +92,7 @@ const WeekCard = ({
     value="Yes"
     onClick={() => setOverTime("Yes")}
     label="Yes"
+    checked={overTime === "Yes"}
     style={{ marginRight: "10px" }}
   />
   <Form.Check
