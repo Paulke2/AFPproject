@@ -1,11 +1,13 @@
-.inProgressContainer{
+.DragContainer{
+width:30% !important;
+height:80% !important;
+}
+.DragContainerContainer {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px !important; 
+    padding:10px;
     
-}
-
-.backlogContainer{
-
-}
-
-.doneContainer{
 
 }

@@ -1,85 +1,86 @@
+import React, { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import logo from "../pictures/AFPlogo.png";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import { Card } from "react-bootstrap";
-import GetJobList from "../Components/DesignJobPageComponents/GetJobList"
-const DesignJobs = (props)=>{
-//make it so ppl can claim jobs. have a backlog, ordered by date or priority
-//make it like a ticket system
-const navigate = useNavigate();
-console.log("herererererere");
-return (<> <Navbar
-    style={{
-      backgroundColor: "#90ee90",
-      paddingLeft: "16px",
-      paddingRight: "16px",
-      boxShadow: "0 4px 6px -6px #222",
-    }}
-    bg="dark"
-    data-bs-theme="dark"
-  >
-    <Nav className="me-auto"></Nav>
-    <Nav.Link
-      onClick={() => navigate("/DesignJobs")}
-      style={{ color: "white", fontStyle: "oblique",marginRight:"4%" }}
-    >
-      Design
-    </Nav.Link>
-    <Nav.Link
-      onClick={() => navigate("/Calendar")}
-      style={{ color: "white", fontStyle: "oblique" }}
-    >
-      Calendar
-    </Nav.Link>
-    <Navbar.Brand
-      style={{ cursor: "pointer", marginLeft: "20px" }}
-      onClick={() => navigate("/")}
-    >
-      <img className="logo" src={logo} />
-    </Navbar.Brand>
-  </Navbar>
-  <Row style={{height:"100%",width:"100%"}}>
-  <Col className="col-2 employeeList">
-  <div><GetJobList designJobNames={props.designJobNames}/></div>
-  </Col>
-  <Col className="col-10">
-  <Card style={{ width: '18rem'}}>
-      <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-      
-      </Card.Body>
-    </Card>
-    <Card style={{ width: '18rem'}}>
-      <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-      
-      </Card.Body>
-    </Card><Card style={{ width: '18rem'}}>
-      <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-      
-      </Card.Body>
-    </Card>
-  </Col>
-  </Row>
-  </>);
-}
+import "./DesignJobs.css";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import GetJobList from "../Components/DesignJobPageComponents/GetJobList";
+
+const DesignJobs = (props) => {
+  const navigate = useNavigate();
+
+  const [tasks, setTasks] = useState([
+    { id: "1", content: "Task 1" },
+    { id: "2", content: "Task 2" },
+    { id: "3", content: "Task 3" },
+  ]);
+
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const newTasks = Array.from(tasks);
+    const [reorderedTask] = newTasks.splice(result.source.index, 1);
+    newTasks.splice(result.destination.index, 0, reorderedTask);
+
+    setTasks(newTasks);
+  };
+
+  return (
+    <>
+      {/* Your Navbar code */}
+      <Row style={{ height: "500px", width: "100%" }}>
+        <Col className="col-2 employeeList">
+          <div>
+            <GetJobList designJobNames={props.designJobNames} />
+          </div>
+        </Col>
+        <Col className="col-10 DragContainerContainer">
+          <Card className="DragContainer">
+            <Card.Body>
+              <Card.Title>Done</Card.Title>
+              <Card.Text>
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <Droppable droppableId="done" type="CARD">
+                    {(provided) => (
+                      <div
+                        className="characters"
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                      >
+                        {tasks.map((item, index) => (
+                          <Draggable
+                            key={item.id}
+                            draggableId={item.id} // Ensure this matches the task ID
+                            index={index}
+                          >
+                            
+                                                     {(provided) => (
+                              <span
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                className="task-span" // Add a CSS class for styling
+                              >
+                                {item.id}
+                              </span>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
+  );
+};
 
 export default DesignJobs;
