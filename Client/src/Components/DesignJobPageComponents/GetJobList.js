@@ -7,18 +7,16 @@ import { DragDropContext,Droppable , Draggable} from 'react-beautiful-dnd';
 const moment = require("moment");
 
 const GetJobList = (props) => {
-    const [selectedJob,setSelectedJob]=useState(null);
-  let startOfDesiredWeek = moment(props.dateToCheck).startOf("isoWeek");
-  const [jobList, setJobList] = useState(props.designJobNames);
-console.log(props.designJobNames);
+  
 const handleOnDragEnd = (result)=>{
-  if (!result.destination) return;
   console.log(result)
-    const newTasks = Array.from(jobList);
+  if (!result.destination) return;
+  
+    const newTasks = Array.from(props.jobList);
     const [reorderedTask] = newTasks.splice(result.source.index, 1);
     newTasks.splice(result.destination.index, 0, reorderedTask);
 
-    setJobList(newTasks);
+    props.setJobList(newTasks);
 }
 
   return (
@@ -27,10 +25,15 @@ const handleOnDragEnd = (result)=>{
       {(provided) => (
         <Card style={{ width: "100%" }}{...provided.droppableProps} ref={provided.innerRef}>
 <ListGroup variant="flush">
-          {jobList &&
-            jobList.map((job, index) => {
+          {props.jobList &&
+            props.jobList.map((job, index) => {
               return (
-                <Draggable key={job} draggableId={job} index={index}>
+                <Draggable
+                key={job}
+                draggableId={`job-${job}`} // Use a prefix like 'job-' to distinguish jobs
+                index={index}
+              >
+                
                   {(provided) => (
                     <ListGroup.Item
                       ref={provided.innerRef}

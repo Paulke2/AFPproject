@@ -14,8 +14,9 @@ const DesignJobs = (props) => {
   const navigate = useNavigate();
  
   const [tasks, setTasks] = useState(["test1", "test2","test3","teset4"]);
-
+  const [jobList, setJobList] = useState(props.designJobNames);
   const onDragEnd = (result) => {
+    console.log(result)
     if (!result.destination) return;
 
     const newTasks = Array.from(tasks);
@@ -58,28 +59,56 @@ const DesignJobs = (props) => {
         </Navbar.Brand>
       </Navbar>
       <Row style={{ height: "500px", width: "100%" }}>
+      <DragDropContext onDragEnd={onDragEnd}>
         <Col className="col-2 employeeList">
           <div>
-            <GetJobList designJobNames={props.designJobNames} setDesignJobNames={props.setDesignJobNames} />
+          
+    <Droppable droppableId="Jobs">
+      {(provided) => (
+        <Card style={{ width: "100%" }}{...provided.droppableProps} ref={provided.innerRef}>
+<ListGroup variant="flush">
+          {jobList &&
+            jobList.map((job, index) => {
+              return (
+                <Draggable
+                key={job}
+                draggableId={`job-${job}`} // Use a prefix like 'job-' to distinguish jobs
+                index={index}
+              >
+                
+                  {(provided) => (
+                    <ListGroup.Item
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                   >
+                      <div>{job}</div>
+                    
+                    </ListGroup.Item>
+                  )}
+                </Draggable>
+              );
+            })}
+          {provided.placeholder}
+          </ListGroup>
+        </Card>
+      )}
+    </Droppable>
           </div>
         </Col>
         <Col className="col-10 DragContainerContainer">
-          <Card className="DragContainer">
-            <Card.Body>
-              <Card.Title>Done</Card.Title>
-              <Card.Text>
-                <DragDropContext onDragEnd={onDragEnd}>
+                
                   <Droppable droppableId="Jobs">
                     {(provided) => (
                          <Card style={{ width: "100%" }}{...provided.droppableProps} ref={provided.innerRef}>
-                        {tasks.map((job, index) => (
+                        <ListGroup variant="flush">
+                        {jobList.map((job, index) => (
                           <Draggable
-                            key={job}
-                            draggableId={job} // Ensure this matches the task ID
-                            index={index}
-                          >
-                
-                                                     {(provided) => (
+                          key={job}
+                          draggableId={`task-${job}`} // Use a prefix like 'task-' to distinguish tasks
+                          index={index}
+                        >
+                              {(provided) => (
                               <ListGroup.Item
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
@@ -92,15 +121,16 @@ const DesignJobs = (props) => {
                           </Draggable>
                         ))}
                         {provided.placeholder}
+                        </ListGroup>
                       </Card>
                     )}
                   </Droppable>
-                </DragDropContext>
-              </Card.Text>
-            </Card.Body>
-          </Card>
+                
+             
         </Col>
+        </DragDropContext>
       </Row>
+      
     </>
   );
 };
