@@ -6,6 +6,7 @@ const designJobSchema = new mongoose.Schema(
       estimatedTime:String,
       priority:Number,
       assignedTo:String,
+      currentContainer:String,
       comments:[String]
       
     }

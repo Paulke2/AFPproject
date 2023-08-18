@@ -34,6 +34,7 @@ router.post('/', async (req, res) => {
         estimatedTime,
         priority,
         assignedTo,
+        currentContainer,
         comments
       } = req.body;
 
@@ -44,6 +45,7 @@ router.post('/', async (req, res) => {
         estimatedTime,
         priority,
         assignedTo,
+        currentContainer,
         comments
           });
         res.status(200).json(designJob);

@@ -13,7 +13,7 @@ import "./Calendar.css";
 const DesignJobs = (props) => {
   const navigate = useNavigate();
  
-  const [tasks, setTasks] = useState(["test1", "test2","test3","teset4"]);
+  
   const [jobList, setJobList] = useState(props.designJobNames);
   const onDragEnd = (result) => {
     console.log(result)
