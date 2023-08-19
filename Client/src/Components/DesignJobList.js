@@ -8,13 +8,13 @@ const DesignJobList = (props)=>{
       {
       props.designJobs &&
       props.designJobs.map((designJob) =>
-      SearchResultFilter(props.projectSearch, designJob.name, "none") ? (
+      
             <ListGroup.Item>
               {designJob.projectName} - {designJob.dueDate}
               <div >
               </div>
             </ListGroup.Item>
-      ):<></>
+     
           
         )}
     </ListGroup>

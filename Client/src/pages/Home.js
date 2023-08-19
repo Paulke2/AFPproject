@@ -38,7 +38,7 @@ const Home = (props) => {
   const handleClose = () => setShowNewProject(false);
   const handleShow = () => setShowNewProject(true);
   const [projects, setProjects] = useState(null);
-  const [designJobs, setDesignJobs] = useState(null);
+
 
   const [projectSearch, setProjectSearch] = useState("");
   //for update, 1 indicates we are ready to read an new project. if 0, we are reading a new project.
@@ -55,8 +55,8 @@ const Home = (props) => {
   const [contractWith, setContractWith] = useState("");
   const [amount, setAmount] = useState("");
   const [editMode,setEditMode]=useState(false);
-  useEffect(()=>{console.log("contact:"+companyContact)},[companyContact])
-  const [key, setKey] = useState('home');
+
+
   const handleDrop = async (event) => {
     event.preventDefault();
     setDraggingOver(false);
@@ -129,11 +129,12 @@ const Home = (props) => {
       const json = await response.json();
       
       if (response.ok) {
-        setDesignJobs(json);
+        props.setDesignJobs(json);
       }
     };
     fetchDesignJobs();
   }, []);
+  useEffect(()=>{console.log(props.designJobs)},[props.designJobs])
   useEffect(() => {
     // Every time projects changes, set the state for project names
     // for autocomplete so we only load projects once
@@ -141,18 +142,11 @@ const Home = (props) => {
     projects?.forEach((project) => {
       temp = [...temp, project.name]; // Use spread operator to append
     });
+  
     props.setProjectNames(temp);
+  
   }, [projects]);
-  useEffect(() => {
-    // Every time projects changes, set the state for project names
-    // for autocomplete so we only load projects once
-    let temp = [];
-    designJobs?.forEach((job) => {
-      temp = [...temp, job.projectName]; // Use spread operator to append
-    });
-    props.setDesignJobNames(temp);
-  }, [designJobs]);
-
+ 
   let DetermineBackgroundColor=1;
   return (
     <>
@@ -198,7 +192,7 @@ const Home = (props) => {
       id="uncontrolled-tab-example"
       className="mb-3"
     >
-      <Tab eventKey="designJobs" title="Design Jobs"> {<DesignJobList designJobs={designJobs} projectSearch={projectSearch}/>} </Tab>
+      <Tab eventKey="designJobs" title="Design Jobs"> {<DesignJobList designJobs={props.designJobs} projectSearch={projectSearch}/>} </Tab>
       <Tab eventKey="projects" title="Projects">
       <ProjectJobList projects={projects} editMode={editMode} projectSearch={projectSearch}/>
       </Tab>
