@@ -6,7 +6,7 @@ const SearchResultFilter = (projectSearch, name, projectID) => {
       .toString()
       .toLowerCase()
       .includes(projectSearch.toString().toLowerCase()) ||
-      name.toLowerCase().includes(projectSearch) ||
+      name.toLowerCase().includes(projectSearch.toString().toLowerCase()) ||
       projectSearch.toLowerCase() === "")&& name !== "Office"
       ? true
       : false;

@@ -186,16 +186,17 @@ const Home = (props) => {
       </Navbar>
         <Row  style={{ marginBottom: 0, marginTop: 0,padding:0 }}>
           <Col className="col-10 dropBoxListRow">
-         <div>
+         <div >
           <Tabs
-      defaultActiveKey="projects"
-      id="uncontrolled-tab-example"
+      defaultActiveKey="designJobs"
       className="mb-3"
+      style={{paddingLeft:"10px"}}
     >
-      <Tab eventKey="designJobs" title="Design Jobs"> {<DesignJobList designJobs={props.designJobs} projectSearch={projectSearch}/>} </Tab>
+         <Tab eventKey="designJobs" title="Design Jobs"> {<DesignJobList designJobs={props.designJobs} projectSearch={projectSearch}/>} </Tab>
       <Tab eventKey="projects" title="Projects">
       <ProjectJobList projects={projects} editMode={editMode} projectSearch={projectSearch}/>
       </Tab>
+   
       </Tabs>
       </div>
       </Col>
