@@ -164,36 +164,33 @@ const {logout}=useLogout()
           projectSearch={projectSearch}
           setProjectSearch={setProjectSearch}
         />
-        <Nav className="me-auto"></Nav>
-        <Nav.Link
-          onClick={() => navigate("/DesignJobs")}
-          style={{ color: "white", fontStyle: "oblique",marginRight:"4%" }}
-        >
-          Design
-        </Nav.Link>
-        <Nav.Link
-          onClick={() => navigate("/login")}
-          style={{ color: "white", fontStyle: "oblique",marginRight:"4%" }}
-        >
-          Login
-        </Nav.Link>
-        <Nav.Link
-          onClick={() => navigate("/Calendar")}
-          style={{ color: "white", fontStyle: "oblique" }}
-        >
-          Calendar
-        </Nav.Link>
-        <Navbar.Brand
-          style={{ cursor: "pointer", marginLeft: `2%` }}
-          onClick={() => navigate("/")}
-        >
-          <img className="logo" src={logo} />
-        </Navbar.Brand>
+       <Nav className="me-auto"></Nav>
+<Nav.Link
+          onClick={() =>{handleLogOut()}}
+          style={{ color: "white", fontStyle: "oblique",marginRight:"20px"}}
+        >Logout</Nav.Link>
+<Nav.Link
+  onClick={() => navigate("/DesignJobs")}
+  style={{ color: "white", fontStyle: "oblique",marginLeft:"20px",marginRight:"20px"}}
+>
+  Design
+</Nav.Link>
+<Nav.Link
+  onClick={() => navigate("/Calendar")}
+  style={{ color: "white", fontStyle: "oblique",marginLeft:"20px",marginRight:"20px" }}
+>
+  Calendar
+</Nav.Link>
+<Navbar.Brand
+  style={{ cursor: "pointer",marginRight:"10px" }}
+  onClick={() => navigate("/")}
+>
+  <img className="logo" src={logo} />
+</Navbar.Brand>
       </Navbar>
         <Row  style={{ marginBottom: 0, marginTop: 0,padding:0 }}>
           <Col className="col-10 dropBoxListRow">
          <div >
-          <Button onClick={() =>{handleLogOut()}}>LogOUt</Button>
           <Tabs
       defaultActiveKey="designJobs"
       className="mb-3"

@@ -79,7 +79,7 @@ const Calendar = (props) => {
     },[currentWeekCards,currentEmployee]);
   const navigate = useNavigate();
   return (
-    <div>
+    <>
       <NavBar />
       <Row >
         <Col className="col-2 employeeList">
@@ -117,7 +117,7 @@ const Calendar = (props) => {
 
         </Col>
       </Row>
-    </div>
+    </>
   );
 };
 export default Calendar;

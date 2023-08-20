@@ -1,0 +1,43 @@
+body {
+	margin: 0;
+	background-attachment: fixed;
+	
+	background-size: cover;
+	background-repeat: no-repeat
+}
+
+.loginForm{
+    width:30%;
+    border-radius: 10px;
+    padding:20px;
+    height:30%;
+
+    background-color: #5353538a!important;
+   
+}
+.formInput{
+    background-color: rgb(255, 255, 255,.7) !important;
+    border-width: 1px !important;
+    border-color: black !important;
+   
+}
+.formRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Add spacing between rows as needed */
+  }
+  
+.loginButton {
+width: 50%;
+    background-color: rgb(146, 1, 1) !important;
+    border-color: rgb(90, 0, 0)!important;
+  
+  }
+.loginFormContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    background-color: rgba(0, 0, 0, 0.9);
+    height: 100vh;
+  }

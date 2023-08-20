@@ -3,6 +3,8 @@ import { Form, Button } from "react-bootstrap";
 import { useLogin } from "../CustomHooks/useLogin";
 import { userAuthContext } from "../CustomHooks/userAuthContext";
 import { useNavigate } from "react-router-dom";
+import "./LoginPage.css"
+import backgroundLogo from "../pictures/backgroundLogo.png"
 const LoginPage = () => {
   const {user}=userAuthContext();
   const [name, setName] = useState("");
@@ -25,30 +27,38 @@ const LoginPage = () => {
   };
 
   return (
-    <>
+    <div className="loginFormContainer">
+      <img src={backgroundLogo} />
+    <div className="loginForm">
       <Form onSubmit={handleSubmit}>
-        <h3>Login</h3>
-        name
+        <h3 style={{color:"white"}}>Login</h3>
+        
         <Form.Control
+        placeholder="Name"
           type="name"
           id="inputname"
+           className="formInput"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        password
+        <br></br>
         <Form.Control
           type="password"
+          placeholder="Password"
+          className="formInput"
           id="inputPassword"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button disabled={isLoading} type="submit">
+        <br></br>
+        <Button variant="danger"className="loginButton" disabled={isLoading} type="submit">
           Login
         </Button>
         <span>{user?.name}</span>
         {error && <div>{error}</div>}
       </Form>
-    </>
+      </div>
+    </div>
   );
 };
 

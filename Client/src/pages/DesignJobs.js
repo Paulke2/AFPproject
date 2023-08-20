@@ -9,6 +9,7 @@ import { Card } from "react-bootstrap";
 import "./DesignJobs.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import GetJobList from "../Components/DesignJobPageComponents/GetJobList";
+import NavBar from "../Components/NavBar.js";
 import "./Calendar.css";
 const DesignJobs = (props) => {
   const navigate = useNavigate();
@@ -107,36 +108,7 @@ const DesignJobs = (props) => {
 
   return (
     <>
-      <Navbar
-        style={{
-          backgroundColor: "#90ee90",
-          paddingLeft: "16px",
-          paddingRight: "16px",
-          boxShadow: "0 4px 6px -6px #222",
-        }}
-        bg="dark"
-        data-bs-theme="dark"
-      >
-        <Nav className="me-auto"></Nav>
-        <Nav.Link
-          onClick={() => navigate("/DesignJobs")}
-          style={{ color: "white", fontStyle: "oblique", marginRight: "4%" }}
-        >
-          Design
-        </Nav.Link>
-        <Nav.Link
-          onClick={() => navigate("/Calendar")}
-          style={{ color: "white", fontStyle: "oblique" }}
-        >
-          Calendar
-        </Nav.Link>
-        <Navbar.Brand
-          style={{ cursor: "pointer", marginLeft: "20px" }}
-          onClick={() => navigate("/")}
-        >
-          <img className="logo" src={logo} />
-        </Navbar.Brand>
-      </Navbar>
+      <NavBar />
       <Row style={{ height: "500px", width: "100%" }}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Col className="col-2 employeeList">
