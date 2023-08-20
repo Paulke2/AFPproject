@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import DesignJobs from "./pages/DesignJobs";
 import { useState } from "react";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   const [ProjectNames, setProjectNames] = useState([]);
@@ -38,6 +39,10 @@ function App() {
             <Route
               path="/Calendar"
               element={<Calendar ProjectNames={ProjectNames} />}
+            />
+             <Route
+              path="/login"
+              element={<LoginPage />}
             />
           </Routes>
         </div>

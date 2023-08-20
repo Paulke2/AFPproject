@@ -16,6 +16,7 @@ import GetEmployees from "../Components/GetEmployees.js";
 import GetTime from "../Components/GetTime.js";
 import fetchTimeCard from "../functions/fetchTimeCard.js";
 import TimeCardOptions from "../Components/TimeCardOptions.js";
+import NavBar from "../Components/NavBar.js";
 const Calendar = (props) => {
   const [employees, setEmployees] = useState(null);
   const [currentEmployee, setCurrentEmployee] = useState(null);
@@ -79,37 +80,7 @@ const Calendar = (props) => {
   const navigate = useNavigate();
   return (
     <div>
-      <Navbar
-        style={{
-          backgroundColor: "#90ee90",
-          paddingLeft: "16px",
-          paddingRight: "16px",
-          boxShadow: "0 4px 6px -6px #222",
-        }}
-        bg="dark"
-        data-bs-theme="dark"
-      >
-        <Nav className="me-auto"></Nav>
-        <Nav.Link
-          onClick={() => navigate("/DesignJobs")}
-          style={{ color: "white", fontStyle: "oblique",marginRight:"4%" }}
-        >
-          Design
-        </Nav.Link>
-        <Nav.Link
-          onClick={() => navigate("/Calendar")}
-          style={{ color: "white", fontStyle: "oblique" }}
-        >
-          Calendar
-        </Nav.Link>
-        <Navbar.Brand
-          style={{ cursor: "pointer", marginLeft: "20px" }}
-          onClick={() => navigate("/")}
-        >
-          <img className="logo" src={logo} />
-        </Navbar.Brand>
-      </Navbar>
-
+      <NavBar />
       <Row >
         <Col className="col-2 employeeList">
           <GetEmployees

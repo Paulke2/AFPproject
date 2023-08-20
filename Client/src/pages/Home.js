@@ -172,6 +172,12 @@ const Home = (props) => {
           Design
         </Nav.Link>
         <Nav.Link
+          onClick={() => navigate("/login")}
+          style={{ color: "white", fontStyle: "oblique",marginRight:"4%" }}
+        >
+          Login
+        </Nav.Link>
+        <Nav.Link
           onClick={() => navigate("/Calendar")}
           style={{ color: "white", fontStyle: "oblique" }}
         >
