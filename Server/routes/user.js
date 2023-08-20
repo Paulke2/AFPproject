@@ -8,6 +8,14 @@ const createToken = (_id)=> {
     return jwt.sign({_id},process.env.SECRET,{expiresIn:"30d"})
    }
 
+   router.get('/', async (req, res) => {
+    try {
+        const users = await User.find().sort();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 //login route
 router.post("/login", async (req, res) => {
     const { name, password } = req.body;
