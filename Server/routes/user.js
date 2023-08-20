@@ -1,15 +1,29 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const user = require("../models/userModel.js");
-const mongoose = require('mongoose');
-//login route
-router.post('/login', async (req, res)=>{
-res.json({mssg:"login user"})
+const User = require("../models/userModel.js");
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
-})
+const createToken = (_id)=> {
+    return jwt.sign({_id},process.env.SECRET,{expiresIn:"30d"})
+   }
+
 //login route
-router.post('/signup', async (req, res)=>{
-    res.json({mssg:"sign up user"})
-    
-    })
-module.exports = router
+router.post("/login", async (req, res) => {
+  res.json({ mssg: "login user" });
+});
+//signin route
+router.post("/signup", async (req, res) => {
+  const { name, password } = req.body;
+
+  try {
+    const user = await User.signup(name,password)
+    const token = createToken(user._id)
+    //we will now send a jason web token (JSW) to ensure that future logins are from this user and their password is correct
+    res.status(200).json({name, token})
+  } catch (error) {
+    res.status(440).json({error:error.message})
+  }
+
+});
+module.exports = router;
