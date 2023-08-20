@@ -10,7 +10,17 @@ const createToken = (_id)=> {
 
 //login route
 router.post("/login", async (req, res) => {
-  res.json({ mssg: "login user" });
+    const { name, password } = req.body;
+    try {
+        const user = await User.login(name,password)
+        const token = createToken(user._id)
+        //we will now send a jason web token (JSW) to ensure that future logins are from this user and their password is correct
+        res.status(200).json({name, token})
+      } catch (error) {
+        res.status(440).json({error:error.message})
+      }
+    
+
 });
 //signin route
 router.post("/signup", async (req, res) => {

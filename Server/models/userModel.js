@@ -5,8 +5,6 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
 });
 
-
-
 //our signup method
 userSchema.statics.signup = async function(name, password){
   const exists = await this.findOne({ name });
@@ -24,5 +22,24 @@ userSchema.statics.signup = async function(name, password){
   const user = await this.create({name,password:hash})
   return user
 };
+
+userSchema.statics.login = async function(name,password) {
+    if(!name || !password){
+        throw Error("All fields must be filled")
+    }
+
+    const user = await this.findOne({ name });
+
+    if (!user) {
+      throw Error("user not found")
+    }
+
+    const match = await bcrypt.compare(password, user.password  )
+
+    if(!match) {
+        throw Error("Incorrect Password")
+    }
+    return user
+}
 
 module.exports = mongoose.model("user", userSchema);
