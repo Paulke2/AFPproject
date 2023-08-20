@@ -22,6 +22,8 @@ if (!response.ok){
 }
 if (response.ok){
     //save the user to lacal
+    console.log("should be saving")
+    console.log(JSON.stringify(json))
     localStorage.setItem('user',JSON.stringify(json))
     dispatch({type:'LOGIN',payload:json})
     stIsLoading(false)

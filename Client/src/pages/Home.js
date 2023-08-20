@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
+import { useLogout } from "../CustomHooks/useLogout";
 import "../functions/findProjectInfo.js";
 import logo from "../pictures/AFPlogo.png";
-import Button from "react-bootstrap/Button";
-import { Row,Col } from "react-bootstrap";
+import { Row,Col, Button } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import ListGroup from "react-bootstrap/ListGroup";
 import Searchbar from "../Components/Searchbar";
 import findProjectInfo from "../functions/findProjectInfo.js";
 import NewProject from "../Components/NewProject";
@@ -55,8 +53,10 @@ const Home = (props) => {
   const [contractWith, setContractWith] = useState("");
   const [amount, setAmount] = useState("");
   const [editMode,setEditMode]=useState(false);
-
-
+const {logout}=useLogout()
+  const handleLogOut = ()=>{
+    logout()
+  }
   const handleDrop = async (event) => {
     event.preventDefault();
     setDraggingOver(false);
@@ -193,6 +193,7 @@ const Home = (props) => {
         <Row  style={{ marginBottom: 0, marginTop: 0,padding:0 }}>
           <Col className="col-10 dropBoxListRow">
          <div >
+          <Button onClick={() =>{handleLogOut()}}>LogOUt</Button>
           <Tabs
       defaultActiveKey="designJobs"
       className="mb-3"
