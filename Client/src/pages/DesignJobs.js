@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
+import patchDesignProject from "../functions/patchDesignProject";
 import ListGroup from "react-bootstrap/ListGroup";
 import logo from "../pictures/AFPlogo.png";
 import { useNavigate } from "react-router-dom";
@@ -8,24 +7,42 @@ import { Col, Row } from "react-bootstrap";
 import { Card } from "react-bootstrap";
 import "./DesignJobs.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import GetJobList from "../Components/DesignJobPageComponents/GetJobList";
+
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 import NavBar from "../Components/NavBar.js";
 import "./Calendar.css";
 const DesignJobs = (props) => {
   const navigate = useNavigate();
   const resultRef = useRef(null);
 
-  const jobList = props.designJobs;
+  
   const [unAssignedList, setUnAssignedList] = useState(null);
   const [backLogList, setBackLogList] = useState(null);
   const [progressList, setProgressList] = useState(null);
   const [doneList, setDoneList] = useState(null);
+  const [userList, setUserList] = useState([]);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await fetch("/user");
+
+      const json = await response.json();
+
+      if (response.ok) {
+        setUserList(json);
+      }
+    };
+    fetchUsers();
+  }, []);
+
   useEffect(() => {
     let tempUnAssignedList = [];
     let tempBackLogList = [];
     let tempProgressList = [];
     let tempDoneList = [];
-    jobList.map((job) => {
+    props?.designJobs?.map((job) => {
+     
       if (job.currentContainer === "unassigned") {
         tempUnAssignedList = [...tempUnAssignedList, job];
       } else if (job.currentContainer === "backlog") {
@@ -40,11 +57,8 @@ const DesignJobs = (props) => {
     setBackLogList(tempBackLogList);
     setProgressList(tempProgressList);
     setDoneList(tempDoneList);
-  }, [jobList]);
-  useEffect(() => {
-    console.log(progressList);
-  }, [progressList]);
-  const onDragEnd = (result) => {
+  }, [props.designJobs]);
+  const onDragEnd = async (result) => {
     let removedJob = null;
     if (!result.destination) return;
     let newUnassignedList= Array.from(unAssignedList);
@@ -55,48 +69,54 @@ const DesignJobs = (props) => {
     if (result.source.droppableId === "unassigned") {
       removedJob=unAssignedList[result.source.index]
       newUnassignedList.splice(result.source.index, 1);
-      
+      setUnAssignedList(newUnassignedList);
     } else if (result.source.droppableId === "progress") {
       removedJob=newProgressList[result.source.index]
       newProgressList.splice(result.source.index, 1);
-     
+     setProgressList(newProgressList);
     } else if (result.source.droppableId === "backlog") {
       removedJob=newBackLogList[result.source.index]
       newBackLogList.splice(result.source.index, 1);
-      
+      setBackLogList(newBackLogList);
     } else if (result.source.droppableId === "done") {
       removedJob=newDoneList[result.source.index]
       newDoneList.splice(result.source.index, 1);
+      
    
     }
- console.log("removed:")
- console.log(removedJob)
- console.log(result.source.droppableId)
- console.log(result.destination.droppableId)
+    //const newJob={...props.designJobs[result.source.index],currentContainer:result.destination.droppableId}
+    // let jobList=props.designJobs.filter((job) => job.projectName !== removedJob.projectName);
+    //  jobList=[...jobList,newJob]
+    // props.setDesignJobs(jobList)
+    console.log("newLISTTT")
+    //console.log(jobList)
+    //console.log(newJob)
     if (result.destination.droppableId === "unassigned") {
-      
-      newUnassignedList.splice(result.destination.index, 0, removedJob);
-  
-    
+      patchDesignProject(event,removedJob,"currentContainer","unassigned",setError,unAssignedList,setUnAssignedList)
     } else if (result.destination.droppableId === "progress") {
-      
-      newProgressList.splice(result.destination.index, 0, removedJob);
-  
+      patchDesignProject(event,removedJob,"currentContainer","progress",setError,progressList,setProgressList)
     } else if (result.destination.droppableId === "backlog") {
-     
-      newBackLogList.splice(result.destination.index, 0, removedJob);
-  
+      patchDesignProject(event,removedJob,"currentContainer","backlog",setError,backLogList,setBackLogList)
     } else if (result.destination.droppableId === "done") {
-   
-      newDoneList.splice(result.destination.index, 0, removedJob);
-  
+      patchDesignProject(event,removedJob,"currentContainer","done",setError,doneList,setDoneList)
       
-      console.log(newDoneList)
+      console.log(newDoneList);
+
+    
     }
-    setUnAssignedList(newUnassignedList);
-    setBackLogList(newBackLogList);
-    setDoneList(newDoneList);
-    setProgressList(newProgressList);
+    if(unAssignedList != newUnassignedList){
+      setUnAssignedList(newUnassignedList)
+    }
+    if(newProgressList != progressList){
+      setProgressList(newProgressList)
+    }
+    if(backLogList != newBackLogList){
+      setBackLogList(newBackLogList)
+    }
+    if(newDoneList != doneList){
+      setDoneList(newDoneList)
+    }
+    
     //if destination ===source, do the following. ill fix once code not so redundant
 
     // const newTasks = Array.from(jobList);
@@ -110,7 +130,7 @@ const DesignJobs = (props) => {
     <>
       <NavBar />
       <Row style={{ height: "500px", width: "100%" }}>
-        <DragDropContext onDragEnd={onDragEnd}>
+        <DragDropContext onDragEnd={(result)=>{onDragEnd(result)}}>
           <Col className="col-2 employeeList">
             <div>
               <Droppable droppableId="unassigned">
@@ -136,6 +156,39 @@ const DesignJobs = (props) => {
                                   {...provided.dragHandleProps}
                                 >
                                   <div>{job.projectName}</div>
+                                  <DropdownButton
+                                    title={
+                                      job.assignedTo === ""
+                                        ? "Assign To"
+                                        : job.assignedTo
+                                    }
+                                  >
+                                    {userList &&
+                                      userList.map((user) => {
+                                        return (
+                                          <Dropdown.Item
+                                            eventKey="1"
+                                            onClick={(event) =>
+                                              patchDesignProject(
+                                                event,
+                                                job,
+                                                "assignedTo",
+                                                user.name,
+                                                setError,
+                                                unAssignedList,
+                                                setUnAssignedList
+                                              )
+                                            }
+                                          >
+                                            {user.name}
+                                          </Dropdown.Item>
+                                        );
+                                      })}
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item eventKey="4">
+                                      Separated link
+                                    </Dropdown.Item>
+                                  </DropdownButton>
                                 </ListGroup.Item>
                               )}
                             </Draggable>
@@ -149,7 +202,7 @@ const DesignJobs = (props) => {
             </div>
           </Col>
           <Col className="col-10 DragContainerContainer">
-            <Droppable droppableId="backlog" style={{paddingLeft:"20px"}}>
+            <Droppable droppableId="backlog" style={{ paddingLeft: "20px" }}>
               {(provided) => (
                 <Card
                   className="DragContainer"
@@ -173,6 +226,36 @@ const DesignJobs = (props) => {
                               className="task-span" // Add a CSS class for styling
                             >
                               {job.projectName}
+                              <DropdownButton
+                                    title={
+                                      job.assignedTo === ""
+                                        ? "Assign To"
+                                        : job.assignedTo
+                                    }
+                                  >
+                                    {userList &&
+                                      userList.map((user) => {
+                                        return (
+                                          <Dropdown.Item
+                                            eventKey="1"
+                                            onClick={(event) =>
+                                              patchDesignProject(
+                                                event,
+                                                job,
+                                                "assignedTo",
+                                                user.name,
+                                                setError,
+                                                backLogList,
+                                                setBackLogList
+                                              )
+                                            }
+                                          >
+                                            {user.name}
+                                          </Dropdown.Item>
+                                        );
+                                      })}
+                                    
+                                  </DropdownButton>
                             </ListGroup.Item>
                           )}
                         </Draggable>
@@ -185,7 +268,7 @@ const DesignJobs = (props) => {
             <Droppable droppableId="progress">
               {(provided) => (
                 <Card
-                className="DragContainer"
+                  className="DragContainer"
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
@@ -206,6 +289,36 @@ const DesignJobs = (props) => {
                               className="task-span" // Add a CSS class for styling
                             >
                               {job.projectName}
+                              <DropdownButton
+                                    title={
+                                      job.assignedTo === ""
+                                        ? "Assign To"
+                                        : job.assignedTo
+                                    }
+                                  >
+                                    {userList &&
+                                      userList.map((user) => {
+                                        return (
+                                          <Dropdown.Item
+                                            eventKey="1"
+                                            onClick={(event) =>
+                                              patchDesignProject(
+                                                event,
+                                                job,
+                                                "assignedTo",
+                                                user.name,
+                                                setError,
+                                                progressList,
+                                                setProgressList
+                                              )
+                                            }
+                                          >
+                                            {user.name}
+                                          </Dropdown.Item>
+                                        );
+                                      })}
+                                    
+                                  </DropdownButton>
                             </ListGroup.Item>
                           )}
                         </Draggable>
@@ -219,7 +332,7 @@ const DesignJobs = (props) => {
             <Droppable droppableId="done">
               {(provided) => (
                 <Card
-                className="DragContainer"
+                  className="DragContainer"
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
@@ -240,6 +353,36 @@ const DesignJobs = (props) => {
                               className="task-span" // Add a CSS class for styling
                             >
                               {job.projectName}
+                              <DropdownButton
+                                    title={
+                                      job.assignedTo === ""
+                                        ? "Assign To"
+                                        : job.assignedTo
+                                    }
+                                  >
+                                    {userList &&
+                                      userList.map((user) => {
+                                        return (
+                                          <Dropdown.Item
+                                            eventKey="1"
+                                            onClick={(event) =>
+                                              patchDesignProject(
+                                                event,
+                                                job,
+                                                "assignedTo",
+                                                user.name,
+                                                setError,
+                                                doneList,
+                                                setDoneList
+                                              )
+                                            }
+                                          >
+                                            {user.name}
+                                          </Dropdown.Item>
+                                        );
+                                      })}
+                                    
+                                  </DropdownButton>
                             </ListGroup.Item>
                           )}
                         </Draggable>
