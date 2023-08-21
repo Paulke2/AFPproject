@@ -1,7 +1,6 @@
 .DragContainer{
 width:30% ;
 height:80% !important;
-
 }
 .DragContainerContainer {
     height: 100vh;
@@ -12,5 +11,15 @@ height:80% !important;
     padding:30px;
     padding-top: 50px;
     
+
+}
+
+.designJobCard {
+    border-width: 1px !important;
+    border-color: black !important;
+    justify-content:space-between;
+}
+.unassignedContainer{
+    height:1000px !important;  
 
 }

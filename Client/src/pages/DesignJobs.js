@@ -57,9 +57,10 @@ const DesignJobs = (props) => {
     setBackLogList(tempBackLogList);
     setProgressList(tempProgressList);
     setDoneList(tempDoneList);
-  }, [props.designJobs]);
+  }, []);
   const onDragEnd = async (result) => {
     let removedJob = null;
+    console.log(result.destination.index)
     if (!result.destination) return;
     let newUnassignedList= Array.from(unAssignedList);
     let newProgressList = Array.from(progressList);
@@ -84,21 +85,20 @@ const DesignJobs = (props) => {
       
    
     }
-    //const newJob={...props.designJobs[result.source.index],currentContainer:result.destination.droppableId}
-    // let jobList=props.designJobs.filter((job) => job.projectName !== removedJob.projectName);
-    //  jobList=[...jobList,newJob]
-    // props.setDesignJobs(jobList)
-    console.log("newLISTTT")
-    //console.log(jobList)
-    //console.log(newJob)
+    const newList = props.designJobs.map((job) => (
+      job.projectName === removedJob.projectName
+        ? { ...removedJob, currentContainer: result.destination.droppableId }
+        : job
+    ));
+    props.setDesignJobs(newList);
     if (result.destination.droppableId === "unassigned") {
-      patchDesignProject(event,removedJob,"currentContainer","unassigned",setError,unAssignedList,setUnAssignedList)
+      patchDesignProject(event,removedJob,"currentContainer","unassigned",setError,newUnassignedList,setUnAssignedList,result.destination.index)
     } else if (result.destination.droppableId === "progress") {
-      patchDesignProject(event,removedJob,"currentContainer","progress",setError,progressList,setProgressList)
+      patchDesignProject(event,removedJob,"currentContainer","progress",setError,newProgressList,setProgressList,result.destination.index)
     } else if (result.destination.droppableId === "backlog") {
-      patchDesignProject(event,removedJob,"currentContainer","backlog",setError,backLogList,setBackLogList)
+      patchDesignProject(event,removedJob,"currentContainer","backlog",setError,newBackLogList,setBackLogList,result.destination.index)
     } else if (result.destination.droppableId === "done") {
-      patchDesignProject(event,removedJob,"currentContainer","done",setError,doneList,setDoneList)
+      patchDesignProject(event,removedJob,"currentContainer","done",setError,newDoneList,setDoneList,result.destination.index)
       
       console.log(newDoneList);
 
@@ -131,12 +131,13 @@ const DesignJobs = (props) => {
       <NavBar />
       <Row style={{ height: "500px", width: "100%" }}>
         <DragDropContext onDragEnd={(result)=>{onDragEnd(result)}}>
-          <Col className="col-2 employeeList">
+          <Col className="col-3 employeeList">
             <div>
               <Droppable droppableId="unassigned">
                 {(provided) => (
                   <Card
-                    style={{ width: "100%" }}
+                  className="unassignedContainer"
+                    style={{ width: "100%", height:"100%"}}
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
@@ -151,12 +152,15 @@ const DesignJobs = (props) => {
                             >
                               {(provided) => (
                                 <ListGroup.Item
+                                className="designJobCard"
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                 >
                                   <div>{job.projectName}</div>
                                   <DropdownButton
+                                  size="sm"
+                                  variant="danger"
                                     title={
                                       job.assignedTo === ""
                                         ? "Assign To"
@@ -165,6 +169,7 @@ const DesignJobs = (props) => {
                                   >
                                     {userList &&
                                       userList.map((user) => {
+                                      
                                         return (
                                           <Dropdown.Item
                                             eventKey="1"
@@ -176,7 +181,8 @@ const DesignJobs = (props) => {
                                                 user.name,
                                                 setError,
                                                 unAssignedList,
-                                                setUnAssignedList
+                                                setUnAssignedList,
+                                                index
                                               )
                                             }
                                           >
@@ -201,7 +207,7 @@ const DesignJobs = (props) => {
               </Droppable>
             </div>
           </Col>
-          <Col className="col-10 DragContainerContainer">
+          <Col className="col-9 DragContainerContainer">
             <Droppable droppableId="backlog" style={{ paddingLeft: "20px" }}>
               {(provided) => (
                 <Card
@@ -212,8 +218,9 @@ const DesignJobs = (props) => {
                   <Card.Title>backlog</Card.Title>
                   <ListGroup variant="flush">
                     {backLogList &&
-                      backLogList.map((job, index) => (
-                        <Draggable
+                      backLogList.map((job, index) => {
+                  
+                       return <Draggable
                           key={job.projectName}
                           draggableId={job.projectName} // Use a prefix like 'task-' to distinguish tasks
                           index={index}
@@ -227,6 +234,8 @@ const DesignJobs = (props) => {
                             >
                               {job.projectName}
                               <DropdownButton
+                              size="sm"
+                              variant="danger"
                                     title={
                                       job.assignedTo === ""
                                         ? "Assign To"
@@ -246,7 +255,8 @@ const DesignJobs = (props) => {
                                                 user.name,
                                                 setError,
                                                 backLogList,
-                                                setBackLogList
+                                                setBackLogList,
+                                                index
                                               )
                                             }
                                           >
@@ -259,7 +269,7 @@ const DesignJobs = (props) => {
                             </ListGroup.Item>
                           )}
                         </Draggable>
-                      ))}
+                      })}
                     {provided.placeholder}
                   </ListGroup>
                 </Card>
@@ -290,6 +300,8 @@ const DesignJobs = (props) => {
                             >
                               {job.projectName}
                               <DropdownButton
+                              size="sm"
+                              variant="danger"
                                     title={
                                       job.assignedTo === ""
                                         ? "Assign To"
@@ -309,7 +321,8 @@ const DesignJobs = (props) => {
                                                 user.name,
                                                 setError,
                                                 progressList,
-                                                setProgressList
+                                                setProgressList,
+                                                index
                                               )
                                             }
                                           >
@@ -354,6 +367,8 @@ const DesignJobs = (props) => {
                             >
                               {job.projectName}
                               <DropdownButton
+                              size="sm"
+                              variant="danger"
                                     title={
                                       job.assignedTo === ""
                                         ? "Assign To"
@@ -373,7 +388,8 @@ const DesignJobs = (props) => {
                                                 user.name,
                                                 setError,
                                                 doneList,
-                                                setDoneList
+                                                setDoneList,
+                                                index
                                               )
                                             }
                                           >
