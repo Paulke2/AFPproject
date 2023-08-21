@@ -1,0 +1,11 @@
+.DeleteJobButton{
+    width: 20px !important;
+    height: 25px !important;
+    border-radius: 50% !important;
+    display: flex  !important;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+   margin-right:5px;
+   border-color:rgb(179, 79, 79) !important;
+  }

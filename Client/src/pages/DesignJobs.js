@@ -3,11 +3,11 @@ import patchDesignProject from "../functions/patchDesignProject";
 import ListGroup from "react-bootstrap/ListGroup";
 import logo from "../pictures/AFPlogo.png";
 import { useNavigate } from "react-router-dom";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row ,Badge} from "react-bootstrap";
 import { Card } from "react-bootstrap";
 import "./DesignJobs.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import DesignJobModal from "../Components/DesignJobPageComponents/DesignJobModal";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import NavBar from "../Components/NavBar.js";
@@ -15,6 +15,13 @@ import "./Calendar.css";
 const DesignJobs = (props) => {
   const navigate = useNavigate();
   const resultRef = useRef(null);
+
+  const [clickedJob, setClickedJob]=useState(null);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (job) => { setClickedJob(job);
+     setShow(true)};
 
   
   const [unAssignedList, setUnAssignedList] = useState(null);
@@ -117,18 +124,12 @@ const DesignJobs = (props) => {
       setDoneList(newDoneList)
     }
     
-    //if destination ===source, do the following. ill fix once code not so redundant
-
-    // const newTasks = Array.from(jobList);
-    // const [reorderedTask] = newTasks.splice(result.source.index, 1);
-    // newTasks.splice(result.destination.index, 0, reorderedTask);
-
-    // setJobList(newTasks);
   };
 
   return (
     <>
       <NavBar />
+      <DesignJobModal clickedJob={clickedJob} show={show} handleClose={handleClose}/>
       <Row style={{ height: "500px", width: "100%" }}>
         <DragDropContext onDragEnd={(result)=>{onDragEnd(result)}}>
           <Col className="col-3 employeeList">
@@ -151,13 +152,15 @@ const DesignJobs = (props) => {
                               index={index}
                             >
                               {(provided) => (
+                                <>
+                               
                                 <ListGroup.Item
                                 className="designJobCard"
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                 >
-                                  <div>{job.projectName}</div>
+                                 <div  style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} onClick={()=>handleShow(job)}>{job.projectName}<Badge pill  bg="dark">{job?.comments?.length}</Badge></div>
                                   <DropdownButton
                                   size="sm"
                                   variant="danger"
@@ -196,6 +199,7 @@ const DesignJobs = (props) => {
                                     </Dropdown.Item>
                                   </DropdownButton>
                                 </ListGroup.Item>
+                                </>
                               )}
                             </Draggable>
                           );
