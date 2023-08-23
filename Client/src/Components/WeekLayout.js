@@ -50,11 +50,12 @@ const WeekLayout = (props) => {
       : "";
   };
   const determineOfficeWorker = (weekDay) => {
+    console.log("getting hours for "+weekDay)
     return props?.currentTimeCard?.[weekDay] !== "" &&
       props?.currentTimeCard?.[weekDay] !== undefined
       ? props?.currentTimeCard?.[weekDay]?.split(",")
       : props?.currentEmployee?.officeWorker
-      ? ["Office" + "-" + props?.currentEmployee?.officeWorkerHours.toString()]
+      ? ["Office" + "-REG" + props?.currentEmployee?.officeWorkerHours.toString()]
       : [];
   };
   useEffect(() => {
@@ -83,10 +84,12 @@ const WeekLayout = (props) => {
     props?.currentTimeCard?.Wednesday,
     props?.currentTimeCard?.Thursday,
     props?.currentTimeCard?.Friday,
-    props?.currentTimeCard?.Saturday,
+    
+
   ]);
 
   useEffect(() => {
+    console.log("getting hours")
     setTotalSundayNumber(getTotalHoursForDay(SundayJobList));
     setTotalMondayNumber(getTotalHoursForDay(MondayJobList));
     setTotalTuesdayNumber(getTotalHoursForDay(TuesdayJobList));

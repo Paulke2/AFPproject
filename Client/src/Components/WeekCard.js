@@ -28,7 +28,6 @@ const WeekCard = ({
     setSelectedJob(job); // Store the clicked job in the state
     setShow(true); // Show the modal
   };
-
   const deleteJobFromList = async (jobToDelete, oldJobList, event) => {
     console.log(jobToDelete);
     console.log(oldJobList);

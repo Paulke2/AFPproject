@@ -19,9 +19,9 @@ const Export = (props) => {
     console.log("export");
     console.log(employeesToExport);
     if(exportMainOption === "Excel"){
-      ExportToExcel(employeesToExport, props.currentWeekCards)
+      ExportToExcel(employeesToExport, props.currentWeekCards,props.employees)
     }else{
-    //const employeesToExport = exportEmployeeOption==="All Employees" ? Object.keys(props.currentWeekCards) : [props.currentEmployee.employeeName]
+
     ExportToWord(employeesToExport, props.currentWeekCards)
     }
   };

@@ -35,53 +35,51 @@ const Calendar = (props) => {
     fetchEmployees();
   }, []);
 
-
   const [dateToCheck, setDateToCheck] = useState(moment().format("l"));
 
   useEffect(() => {
     const fetchData = async () => {
-        const specificDate = moment(dateToCheck);
-        const startOfWeek = specificDate.clone().startOf("isoWeek");
-        let updatedWeekCards = {}; // Initialize the updatedWeekCards object
+      const specificDate = moment(dateToCheck);
+      const startOfWeek = specificDate.clone().startOf("isoWeek");
+      let updatedWeekCards = {}; // Initialize the updatedWeekCards object
 
-        if (employees !== null) {
-          updatedWeekCards["date"]=startOfWeek.format("l");
-            for (const employee of employees) {
-                let matchedTimeCard = null;
+      if (employees !== null) {
+        updatedWeekCards["date"] = startOfWeek.format("l");
+        for (const employee of employees) {
+          let matchedTimeCard = null;
 
-                for (const timeCardId of (employee.timeCards || [])) {
-                    const timeCard = timeCardId.split("~~");
+          for (const timeCardId of employee.timeCards || []) {
+            const timeCard = timeCardId.split("~~");
 
-                    if (timeCard[0] === startOfWeek.format("l")) {
-                        matchedTimeCard = timeCard[1].toString();
-                        break; // Once a match is found, no need to continue the loop
-                    }
-                }
-
-                let timeCardData = null;
-                if (matchedTimeCard !== null) {
-                    timeCardData = await fetchTimeCard(matchedTimeCard);
-                }
-
-                updatedWeekCards[employee.employeeName] = timeCardData;
+            if (timeCard[0] === startOfWeek.format("l")) {
+              matchedTimeCard = timeCard[1].toString();
+              break; // Once a match is found, no need to continue the loop
             }
+          }
 
-            setCurrentWeekCards(updatedWeekCards);
+          let timeCardData = null;
+          if (matchedTimeCard !== null) {
+            timeCardData = await fetchTimeCard(matchedTimeCard);
+          }
+
+          updatedWeekCards[employee.employeeName] = timeCardData;
         }
+
+        setCurrentWeekCards(updatedWeekCards);
+      }
     };
 
     fetchData();
     console.log(currentWeekCards);
-}, [dateToCheck, employees]);
-  useEffect(()=>{
-  
-    setCurrentTimeCard(currentWeekCards[currentEmployee?.employeeName])
-    },[currentWeekCards,currentEmployee]);
+  }, [dateToCheck, employees]);
+  useEffect(() => {
+    setCurrentTimeCard(currentWeekCards[currentEmployee?.employeeName]);
+  }, [currentWeekCards, currentEmployee]);
   const navigate = useNavigate();
   return (
     <>
       <NavBar />
-      <Row >
+      <Row>
         <Col className="col-2 employeeList">
           <GetEmployees
             employees={employees}
@@ -90,31 +88,43 @@ const Calendar = (props) => {
             setCurrentTimeCard={setCurrentTimeCard}
             dateToCheck={dateToCheck}
             currentWeekCards={currentWeekCards}
-
           />
         </Col>
         <Col className="col-10" style={{ padding: "0px", fontSize: "large" }}>
-          <GetTime dateToCheck={dateToCheck} setDateToCheck={setDateToCheck} setCurrentTimeCard={setCurrentTimeCard} />
-          <Row style={{ padding: "5px",paddingRight:"20px"}}>
-          <WeekLayout
-            currentTimeCard={currentTimeCard}
-            setCurrentTimeCard={setCurrentTimeCard}
-            currentEmployee={currentEmployee}
+          <GetTime
             dateToCheck={dateToCheck}
-            setCurrentEmployee={setCurrentEmployee}
-            currentWeekCards={currentWeekCards}
-            setCurrentWeekCards={setCurrentWeekCards}
-            ProjectNames={props.ProjectNames}
-            employees={employees}
-            setEmployees={setEmployees}
-            
+            setDateToCheck={setDateToCheck}
+            setCurrentTimeCard={setCurrentTimeCard}
           />
-          <div style={{ display: "flex", justifyContent: "center" }}>
-          <DisplayTimeCard currentTimeCard={currentTimeCard} currentEmployee={currentEmployee} />
-        { currentTimeCard? <TimeCardOptions currentEmployee={currentEmployee} currentWeekCards={currentWeekCards} />:<></>}
-          </div>
+          <Row style={{ padding: "5px", paddingRight: "20px" }}>
+            <WeekLayout
+              currentTimeCard={currentTimeCard}
+              setCurrentTimeCard={setCurrentTimeCard}
+              currentEmployee={currentEmployee}
+              dateToCheck={dateToCheck}
+              setCurrentEmployee={setCurrentEmployee}
+              currentWeekCards={currentWeekCards}
+              setCurrentWeekCards={setCurrentWeekCards}
+              ProjectNames={props.ProjectNames}
+              employees={employees}
+              setEmployees={setEmployees}
+            />
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <DisplayTimeCard
+                currentTimeCard={currentTimeCard}
+                currentEmployee={currentEmployee}
+              />
+              {currentTimeCard ? (
+                <TimeCardOptions
+                  currentEmployee={currentEmployee}
+                  employees={employees}
+                  currentWeekCards={currentWeekCards}
+                />
+              ) : (
+                <></>
+              )}
+            </div>
           </Row>
-
         </Col>
       </Row>
     </>

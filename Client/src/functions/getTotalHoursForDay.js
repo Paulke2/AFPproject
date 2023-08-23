@@ -1,8 +1,9 @@
 
 const getTotalHoursForDay = (jobList) => {
- 
+ console.log("getting hours for")
+ console.log(jobList)
   let sum=0;
-  (jobList?.length >0 ? jobList.map((job) => {
+  (jobList?.length > 0 ? jobList.map((job) => {
     let index=job.lastIndexOf("-");
     sum += parseInt(job[index+4]);
   }):sum=0);

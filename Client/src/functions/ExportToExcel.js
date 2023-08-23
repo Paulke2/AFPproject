@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx';
 
-const ExportToExcel = (employees, currentWeekCards) => {
+const ExportToExcel = (employees, currentWeekCards,employeeObjects) => {
     const daysOfWeek = [
         "Sunday",
         "Monday",
@@ -25,6 +25,37 @@ const ExportToExcel = (employees, currentWeekCards) => {
         
           });
         }
+
+
+    const setOfficeWorker = ( time, name) =>{
+        return( {
+            "startOfWeek":"8/1/23",
+            "Sunday":"",
+            "Monday":"Office"+ time,
+            "Tuesday":"Office"+ time,
+            "Wednesday":"Office"+ time,
+            "Thursday":"Office"+ time,
+            "Friday":"Office"+ time,
+            "Saturday":"",
+            "employeeName":name,
+            "totalHours":0
+        
+          });
+    }
+    const findEmployee = (target, employees) =>{
+        
+        for (let i = 0; i < employees.length; i++) {
+            if (employeeObjects[i].employeeName === target) {
+              return employeeObjects[i]
+              
+            }
+           
+          }
+          return null;
+        
+            }
+        console.log("employees");
+        console.log(employeeObjects);
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.aoa_to_sheet([[""],["","",currentWeekCards["date"]],["","NAME","Regular","OT","VAC.","HOL.","RATE JOB","RATE","OTHER"]]); // Create an empty worksheet
     
@@ -32,13 +63,13 @@ const ExportToExcel = (employees, currentWeekCards) => {
     employees.forEach((employee) => {
         // Assuming currentWeekCards[employee] is an object with key-value pairs
         const employeeData = currentWeekCards[employee];
-        console.log(currentWeekCards[employee]);
-        console.log(employeeData);
+        console.log(employee);
+        console.log(findEmployee(employee,employeeObjects).officeWorker);
         // Convert employeeData object to an array of objects
         let employeeDataObject=employeeData!==null ?
-        employeeData:setDefault(employee)
+        employeeData :(findEmployee(employee,employeeObjects).officeWorker===false ?  setDefault(employee) : setOfficeWorker(findEmployee(employee,employeeObjects).officeWorkerHours,employee))
 
-       
+       console.log(employeeDataObject)
         const employeeDataArray = [];
 
         daysOfWeek.forEach((day) => {
