@@ -97,6 +97,8 @@ const WeekLayout = (props) => {
     setTotalThursdayNumber(getTotalHoursForDay(ThursdayJobList));
     setTotalFridayNumber(getTotalHoursForDay(FridayJobList));
     setTotalSaturdayNumber(getTotalHoursForDay(SaturdayJobList));
+    console.log("loggingngg LISTT")
+    console.log(MondayJobList)
   }, [
     SundayJobList,
     MondayJobList,

@@ -35,6 +35,12 @@ const WeekCard = ({
     await setJobList(newJobList);
     eventRef.current = event; // Store the event in the ref
   };
+  const getRidOfOverTimeMarker=(job)=>{
+    let temp = job;
+    temp = temp.replace("REG","")
+    temp = temp.replace("OTT","")
+    return temp;
+  }
   const saveNewJobList = async(jobToAdd,oldJobList,event) => {
     if(!oldJobList.includes(jobToAdd)){
       let newJobList = oldJobList.filter((job) => job !== selectedJob);
@@ -151,7 +157,7 @@ const WeekCard = ({
                         }}
                         onClick={() => handleShow(job)}
                       >
-                        {job}
+                        {getRidOfOverTimeMarker(job)}
                       </span>
                     </>
                   </li>

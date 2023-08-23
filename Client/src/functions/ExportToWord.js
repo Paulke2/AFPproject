@@ -28,13 +28,13 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
   const setDefault = (name) => {
     return {
       startOfWeek: "8/1/23",
-      Sunday: "job name-12",
-      Monday: "job name-12",
-      Tuesday: "job name-12",
-      Wednesday: "job name-12",
-      Thursday: "job name-12",
-      Friday: "job name-12",
-      Saturday: "job name-12",
+      Sunday: "",
+      Monday: "",
+      Tuesday: "",
+      Wednesday: "",
+      Thursday: "",
+      Friday: "",
+      Saturday: "",
       employeeName: name,
       totalHours: 40,
     };
@@ -43,11 +43,11 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
     return {
       startOfWeek: "8/1/23",
       Sunday: "",
-      Monday: "Office" + time,
-      Tuesday: "Office" + time,
-      Wednesday: "Office" + time,
-      Thursday: "Office" + time,
-      Friday: "Office" + time,
+      Monday: "Office-REG" + time,
+      Tuesday: "Office-REG" + time,
+      Wednesday: "Office-REG" + time,
+      Thursday: "Office-REG" + time,
+      Friday: "Office-REG" + time,
       Saturday: "",
       employeeName: name,
       totalHours: 0,
@@ -145,7 +145,7 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
             new TableCell({
               children: [
                 JobList[i] !== undefined
-                  ? new Paragraph(JobList[i].slice(0, -2))
+                  ? new Paragraph(JobList[i].slice(0, -4))
                   : new Paragraph(""),
               ],
             }),
