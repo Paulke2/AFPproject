@@ -20,9 +20,12 @@ const Export = (props) => {
     console.log(employeesToExport);
     if(exportMainOption === "Excel"){
       ExportToExcel(employeesToExport, props.currentWeekCards,props.employees)
-    }else{
+    }else if (exportMainOption === "Employee"){
+    console.log("cant do that yeyt")
+    }
+    else{
 
-    ExportToWord(employeesToExport, props.currentWeekCards)
+    ExportToWord(employeesToExport, props.currentWeekCards,props.employees)
     }
   };
 
@@ -98,6 +101,15 @@ const Export = (props) => {
         checked={exportMainOption === "Excel"}
         onClick={()=>setExportMainOption("Excel")}
         label="excel"
+      />
+       <Form.Check // prettier-ignore
+         type="radio"
+        label="Word"
+        name="exportMainOption"
+        value={exportMainOption}
+        disabled={exportTimePeriod==="Month"}
+        onClick={()=>setExportMainOption("Word")}
+        id="disabled-custom-switch"
       />
       <Form.Check // prettier-ignore
          type="radio"

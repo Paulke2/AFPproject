@@ -15,7 +15,7 @@ const {
 } = docx;
 import { saveAs } from "file-saver";
 
-const ExportToWord = (currentEmployee,currentWeekCards) => {
+const ExportToWord = (currentEmployee,currentWeekCards,employeeObjects) => {
   const daysOfWeek = [
     "Sunday",
     "Monday",
@@ -40,11 +40,38 @@ const ExportToWord = (currentEmployee,currentWeekCards) => {
     
       });
  }
+  const setOfficeWorker = ( time, name) =>{
+        return( {
+            "startOfWeek":"8/1/23",
+            "Sunday":"",
+            "Monday":"Office"+ time,
+            "Tuesday":"Office"+ time,
+            "Wednesday":"Office"+ time,
+            "Thursday":"Office"+ time,
+            "Friday":"Office"+ time,
+            "Saturday":"",
+            "employeeName":name,
+            "totalHours":0
+        
+          });
+    }
+    const findEmployee = (target, employees) =>{
+        
+        for (let i = 0; i < employees.length; i++) {
+            if (employeeObjects[i].employeeName === target) {
+              return employeeObjects[i]
+              
+            }
+           
+          }
+          return null;
+        
+            }
   console.log("Current Time Card:", currentWeekCards);
 
   const PageContents = [];
   currentEmployee.map((employee)=>{
-    let card = (currentWeekCards[employee]===null ? setDefault(employee): currentWeekCards[employee])
+    let card = (currentWeekCards[employee]===null ? (findEmployee(employee,employeeObjects).officeWorker ? setOfficeWorker(findEmployee(employee,employeeObjects).officeWorkerHours,employee):setDefault(employee)): currentWeekCards[employee])
       
   const pageHeader = new Paragraph({
     children: [
