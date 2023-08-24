@@ -109,6 +109,16 @@ const WeekLayout = (props) => {
     WednesdayJobList,
   ]);
   const getTotalHours = () => {
+    console.log("totalWeedDay Num suM:" +( totalMondayNumber +
+    totalTuesdayNumber +
+    totalWednesdayNumber +
+    totalThursdayNumber +
+    totalFridayNumber +
+    totalSaturdayNumber +
+    totalSundayNumber).toString() )
+    console.log("totalWeedDay Num suM:" +( 
+      totalWednesdayNumber 
+     ).toString() )
     return (
       totalMondayNumber +
       totalTuesdayNumber +

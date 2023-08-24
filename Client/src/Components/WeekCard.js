@@ -192,7 +192,7 @@ const WeekCard = ({
           </div>
         </Card.Body>
         <Card.Footer>
-          <small className="text-muted">Hours: {totalHours}</small>
+          <small className="text-muted">Hours: {isNaN(totalHours) ? 0 : totalHours}</small>
         </Card.Footer>
       </Card>
     </>
