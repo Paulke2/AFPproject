@@ -117,8 +117,13 @@ const Calendar = (props) => {
               {currentTimeCard ? (
                 <TimeCardOptions
                   currentEmployee={currentEmployee}
+                  setCurrentEmployee={setCurrentEmployee}
+                  setEmployees={setEmployees}
                   employees={employees}
+                  setCurrentTimeCard={setCurrentTimeCard}
                   currentWeekCards={currentWeekCards}
+                  currentTimeCard={currentTimeCard}
+                  setCurrentWeekCards={setCurrentWeekCards}
                 />
               ) : (
                 <></>
