@@ -104,10 +104,10 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
     var startOfWeek = moment(card?.startOfWeek);
     daysOfWeek.map((day) => {
       const leftCell = new TableCell({
-        children: [new Paragraph(day +":\n"+ startOfWeek.format("l").toString())],
+        children: [new Paragraph(day + ":\n" + startOfWeek.format("l").toString())],
         width: {
-          size: 40,
-          type: WidthType.PERCENTAGE,
+          size: 5, // Set a fixed width of 2 inches (adjust the value as needed)
+          type: WidthType.DXA, // Use DXA (twentieths of a point) to specify inches
         },
       });
       startOfWeek.add(1, "days");
@@ -117,9 +117,11 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
         children: [
           new TableCell({
             children: [new Paragraph("Job Name")], // Add content if needed,
+          
+           
           }),
           new TableCell({
-            children: [new Paragraph("Invoice #")], // Add content if needed,
+            children: [new Paragraph("Invoice #")], // Add content if needed
           }),
           new TableCell({
             children: [new Paragraph("Reg")], // Add content if needed,
@@ -160,25 +162,38 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
             }),
             new TableCell({
               children: [
-                JobList[i] !== undefined &&index !==-1
-                  ? (() => {
-                      TotalHoursCounter =
-                        TotalHoursCounter +
-                        parseInt(JobList[i].substring(index + 4));
-                      return new Paragraph(JobList[i].substring(index + 4));
-                    })() // Invoke the function to get the returned value
-                  : new Paragraph(""), // Return an empty paragraph if JobList[i] is undefined
+                JobList[i] !== undefined && index !== -1
+                  ? JobList[i]?.substring(index + 1, index + 4) === "REG"
+                    ? (() => {
+                        TotalHoursCounter =
+                          TotalHoursCounter +
+                          parseInt(JobList[i].substring(index + 4));
+                        return new Paragraph(JobList[i].substring(index + 4));
+                      })()
+                    : new Paragraph("") // Return an empty paragraph if the condition is not met
+                  : new Paragraph("") // Return an empty paragraph if JobList[i] is undefined or index is -1
               ],
             }),
             new TableCell({
-              children: [new Paragraph("")],
+              children: [
+                JobList[i] !== undefined && index !== -1
+                  ? JobList[i]?.substring(index + 1, index + 4) === "OTT"
+                    ? (() => {
+                        TotalHoursCounter =
+                          TotalHoursCounter +
+                          parseInt(JobList[i].substring(index + 4));
+                        return new Paragraph(JobList[i].substring(index + 4));
+                      })()
+                    : new Paragraph("") // Return an empty paragraph if the condition is not met
+                  : new Paragraph("") // Return an empty paragraph if JobList[i] is undefined or index is -1
+              ],
             }),
             new TableCell({
               children: [
                 i === 3 && day !== "Saturday"
                   ? new Paragraph(TotalHoursCounter.toString())
                   : day === "Saturday"&& i ===3
-                  ? new Paragraph("TOTAL"+(TotalHoursForWeekCounter+TotalHoursCounter).toString())
+                  ? new Paragraph("TOTAL: "+(TotalHoursForWeekCounter+TotalHoursCounter).toString())
                   : new Paragraph(""),
               ],
             }),
