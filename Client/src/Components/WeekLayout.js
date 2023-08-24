@@ -51,13 +51,14 @@ const WeekLayout = (props) => {
   };
   const determineOfficeWorker = (weekDay) => {
   
-    return props?.currentTimeCard?.[weekDay] !== "" &&
-      props?.currentTimeCard?.[weekDay] !== undefined
+    return props?.currentTimeCard?.[weekDay] !== undefined
       ? props?.currentTimeCard?.[weekDay]?.split(",")
-      : props?.currentEmployee?.officeWorker
+      : props?.currentEmployee?.officeWorker 
       ? ["Office" + "-REG" + props?.currentEmployee?.officeWorkerHours.toString()]
       : [];
   };
+
+  useEffect(() => {console.log(MondayJobList)},[MondayJobList])
   useEffect(() => {
     setSundayJobList(
       props?.currentTimeCard?.Sunday !== "" &&
@@ -151,7 +152,7 @@ const WeekLayout = (props) => {
         //this is when is a brand new week.
 
         console.log("brand new week");
-        console.log(MondayJobList?.join(",")+(MondayString&& MondayNumber ? ","+MondayString+"-REG"+MondayNumber:""))
+        
         const timeCard = props.currentEmployee.officeWorker
           ? {
               startOfWeek: startOfWeek.format("l"),
