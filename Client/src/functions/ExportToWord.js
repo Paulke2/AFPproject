@@ -65,6 +65,7 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
 
   const PageContents = [];
   currentEmployee.map((employee) => {
+    let TotalHoursForWeekCounter = 0;
     let card =
       currentWeekCards[employee] === null
         ? findEmployee(employee, employeeObjects).officeWorker
@@ -88,7 +89,7 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
           text: "\t\t\t\t\t\t", // Add appropriate number of tabs for spacing
         }),
         new TextRun({
-          text: "Employee Name:",
+          text: "Employee Name: ",
           bold: true,
           alignment: AlignmentType.RIGHT,
         }),
@@ -99,11 +100,11 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
       ],
     });
     PageContents.push(pageHeader);
-
+    let totalHoursForWeek;
     var startOfWeek = moment(card?.startOfWeek);
     daysOfWeek.map((day) => {
       const leftCell = new TableCell({
-        children: [new Paragraph(day + startOfWeek.format("l").toString())],
+        children: [new Paragraph(day +":\n"+ startOfWeek.format("l").toString())],
         width: {
           size: 40,
           type: WidthType.PERCENTAGE,
@@ -138,14 +139,15 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
       nestedJobTitleTableRows.push(JobRowHeader);
       const JobList = card?.[day].split(",");
       let TotalHoursCounter = 0;
-
+      //first cell job name, second is invoice(blank), 3rd is reg hours, 4th OT, 5th is total
       for (let i = 0; i < 4; i++) {
+        let index = JobList[i]?.lastIndexOf("-");
         const nestedRow = new TableRow({
           children: [
             new TableCell({
               children: [
                 JobList[i] !== undefined
-                  ? new Paragraph(JobList[i].slice(0, -4))
+                  ? new Paragraph(JobList[i].slice(0, index))
                   : new Paragraph(""),
               ],
             }),
@@ -158,11 +160,12 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
             }),
             new TableCell({
               children: [
-                JobList[i] !== undefined
+                JobList[i] !== undefined &&index !==-1
                   ? (() => {
                       TotalHoursCounter =
-                        TotalHoursCounter + parseInt(JobList[i].slice(-1));
-                      return new Paragraph(JobList[i].slice(-1));
+                        TotalHoursCounter +
+                        parseInt(JobList[i].substring(index + 4));
+                      return new Paragraph(JobList[i].substring(index + 4));
                     })() // Invoke the function to get the returned value
                   : new Paragraph(""), // Return an empty paragraph if JobList[i] is undefined
               ],
@@ -171,12 +174,20 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
               children: [new Paragraph("")],
             }),
             new TableCell({
-              children: [new Paragraph("")],
+              children: [
+                i === 3 && day !== "Saturday"
+                  ? new Paragraph(TotalHoursCounter.toString())
+                  : day === "Saturday"&& i ===3
+                  ? new Paragraph("TOTAL"+(TotalHoursForWeekCounter+TotalHoursCounter).toString())
+                  : new Paragraph(""),
+              ],
             }),
           ],
         });
         nestedJobTitleTableRows.push(nestedRow);
+
       }
+      TotalHoursForWeekCounter=TotalHoursForWeekCounter+TotalHoursCounter;
 
       // Create the nested table with 100% width
       const nestedTable = new Table({
