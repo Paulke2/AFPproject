@@ -6,10 +6,10 @@ import Export from "./Export";
 const TimeCardOptions = (props) => {
   const [error, setError] = useState(null);
   const handleDelete = async() => {
-
+  
     //we need to delete from employee,
     const updatedTimeCards = props?.currentEmployee?.timeCards.filter((cardID) => cardID.split("~~")[1] !== props.currentTimeCard._id);
-   
+   console.log(updatedTimeCards)
     const newTimeCards={timeCards:updatedTimeCards}
     try {
       const response = await fetch(`/employees/${props?.currentEmployee?._id}`, {
@@ -26,6 +26,7 @@ const TimeCardOptions = (props) => {
         setError(null);
         console.log("employee updated", json);
         console.log(props.employees)
+        props.setCurrentEmployee(json)
         //first remove employee, then add new empployee with ipdated info
         let tempEmployees = props.employees.map((employee) => {
           if (employee.employeeName !== props.currentEmployee.employeeName) {
@@ -36,8 +37,36 @@ const TimeCardOptions = (props) => {
           }
         });
         props.setEmployees(tempEmployees)
-        props.setCurrentWeekCards(...currentWeekCards, currentWeekCards[props.currentEmployee.employeeName]=null)
-        props.setCurrentWeekCard(null)
+        try {
+          const response = await fetch(`/timeCards/${props?.currentTimeCard?._id}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+          });
+      
+          const json = await response.json();
+          if (!response.ok) {
+            // Handle error
+
+            setError(json.error);
+          } else {
+            console.error("deleted card:", json);
+            setError(null);
+            
+    
+          }
+        } catch (error) {
+          console.error("Error while deleting card:", error);
+          setError("Error while deleting employee");
+        }
+        props.setCurrentWeekCards({
+          ...props.currentWeekCards,
+          [props.currentEmployee.employeeName]: null
+        });
+        console.log({
+          ...props.currentWeekCards,
+          [props.currentEmployee.employeeName]: null
+        })
+        props.setCurrentTimeCard(null)
         console.log(props.currentEmployee)
 
       }

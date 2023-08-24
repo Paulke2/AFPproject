@@ -123,6 +123,7 @@ const Calendar = (props) => {
                   setCurrentTimeCard={setCurrentTimeCard}
                   currentWeekCards={currentWeekCards}
                   currentTimeCard={currentTimeCard}
+                  
                   setCurrentWeekCards={setCurrentWeekCards}
                 />
               ) : (
