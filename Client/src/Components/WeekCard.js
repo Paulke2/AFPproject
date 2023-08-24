@@ -29,8 +29,7 @@ const WeekCard = ({
     setShow(true); // Show the modal
   };
   const deleteJobFromList = async (jobToDelete, oldJobList, event) => {
-    console.log(jobToDelete);
-    console.log(oldJobList);
+
     const newJobList = oldJobList.filter((job) => job !== jobToDelete);
     await setJobList(newJobList);
     eventRef.current = event; // Store the event in the ref
@@ -42,6 +41,8 @@ const WeekCard = ({
     return temp;
   }
   const saveNewJobList = async(jobToAdd,oldJobList,event) => {
+    console.log("in svae new joblist")
+    console.log(oldJobList)
     if(!oldJobList.includes(jobToAdd)){
       let newJobList = oldJobList.filter((job) => job !== selectedJob);
      newJobList = [...newJobList,jobToAdd]
@@ -58,11 +59,11 @@ const WeekCard = ({
   }, [jobList, onSave]);
   let index=selectedJob.lastIndexOf("-");
   useEffect(()=>{setSelectedJobHours(selectedJob.slice(index+4))
-  console.log("hours:")
+
   
-  console.log(selectedJob.slice(index+4))
+
   selectedJob.slice(index+1,index+4)==="REG" ? setOverTime("No"):setOverTime("Yes")
-  console.log(selectedJob.slice(index+1,index+4))
+
 },[selectedJob])
   
   return (

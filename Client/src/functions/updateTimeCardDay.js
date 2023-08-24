@@ -1,4 +1,5 @@
 const updateTimeCardDay=(newDayString,newDayNumber,currentJobList,CurrentDayString) =>{
+
     if(currentJobList === []){
         return "";
     }

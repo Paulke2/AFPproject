@@ -21,9 +21,7 @@ const DisplayTimeCard = (props) => {
           let index = jobEntry.lastIndexOf("-");
           const jobName = jobEntry.substring(0, index).trim(); 
           const jobHours = jobEntry.substring(index + 1).trim(); 
-          console.log(index);
-          console.log(jobName);
-          console.log(jobHours.slice(3));
+
           const parsedJobHours = parseInt(jobHours.slice(3));
     
           newJobsForWeek[jobName.toLowerCase()] =

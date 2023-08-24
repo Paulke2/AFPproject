@@ -50,7 +50,7 @@ const WeekLayout = (props) => {
       : "";
   };
   const determineOfficeWorker = (weekDay) => {
-    console.log("getting hours for "+weekDay)
+  
     return props?.currentTimeCard?.[weekDay] !== "" &&
       props?.currentTimeCard?.[weekDay] !== undefined
       ? props?.currentTimeCard?.[weekDay]?.split(",")
@@ -84,12 +84,12 @@ const WeekLayout = (props) => {
     props?.currentTimeCard?.Wednesday,
     props?.currentTimeCard?.Thursday,
     props?.currentTimeCard?.Friday,
-    
+    props?.currentTimeCard?.Saturday,
 
   ]);
 
   useEffect(() => {
-    console.log("getting hours")
+
     setTotalSundayNumber(getTotalHoursForDay(SundayJobList));
     setTotalMondayNumber(getTotalHoursForDay(MondayJobList));
     setTotalTuesdayNumber(getTotalHoursForDay(TuesdayJobList));
@@ -97,8 +97,7 @@ const WeekLayout = (props) => {
     setTotalThursdayNumber(getTotalHoursForDay(ThursdayJobList));
     setTotalFridayNumber(getTotalHoursForDay(FridayJobList));
     setTotalSaturdayNumber(getTotalHoursForDay(SaturdayJobList));
-    console.log("loggingngg LISTT")
-    console.log(MondayJobList)
+ 
   }, [
     SundayJobList,
     MondayJobList,
@@ -124,9 +123,7 @@ const WeekLayout = (props) => {
   const handleAlertClose = () => {
     setShowAlert(false);
   };
-  useEffect(() => {
-    console.log(WednesdayJobList);
-  }, [WednesdayJobList]);
+
   const handleButtonClick = () => {
     setShowAlert(true);
   };
@@ -154,17 +151,18 @@ const WeekLayout = (props) => {
         //this is when is a brand new week.
 
         console.log("brand new week");
+        console.log(MondayJobList?.join(",")+(MondayString&& MondayNumber ? ","+MondayString+"-REG"+MondayNumber:""))
         const timeCard = props.currentEmployee.officeWorker
           ? {
               startOfWeek: startOfWeek.format("l"),
-              Sunday: SundayJobList?.join(","),
+              Sunday: SundayJobList?.join(",")+(SundayString&& SundayNumber ? SundayString+"-REG"+SundayNumber:""),
 
-              Monday: MondayJobList?.join(","),
-              Tuesday: TuesdayJobList?.join(","),
-              Wednesday: WednesdayJobList?.join(","),
-              Thursday: ThursdayJobList?.join(","),
-              Friday: FridayJobList?.join(","),
-              Saturday: SaturdayJobList?.join(","),
+              Monday: MondayJobList?.join(",")+(MondayString&& MondayNumber ? ","+MondayString+"-REG"+MondayNumber:""),
+              Tuesday: TuesdayJobList?.join(",")+(TuesdayString&& TuesdayNumber ? ","+TuesdayString+"-REG"+TuesdayNumber:""),
+              Wednesday: WednesdayJobList?.join(",")+(WednesdayString&& WednesdayNumber ? ","+WednesdayString+"-REG"+WednesdayNumber:""),
+              Thursday: ThursdayJobList?.join(",")+(ThursdayString&& ThursdayNumber ? ","+ThursdayString+"-REG"+ThursdayNumber:""),
+              Friday: FridayJobList?.join(",")+(FridayString&& FridayNumber ? ","+FridayString+"-REG"+FridayNumber:""),
+              Saturday: SaturdayJobList?.join(",")+(SaturdayString&& SaturdayNumber ? ","+SaturdayString+"-REG"+SaturdayNumber:""),
               employeeName: props.currentEmployee.employeeName,
               totalHours: getTotalHours(),
             }

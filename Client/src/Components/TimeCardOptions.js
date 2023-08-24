@@ -9,8 +9,7 @@ const TimeCardOptions = (props) => {
   };
   //the options right now will be delete, with a form to
   //confirm and an export week/month card
-  console.log("logging employee");
-  console.log(props.employees);
+
   return (
     <div className="TimeCardOptionsContainer">
       <div className="buttonSpacing">
