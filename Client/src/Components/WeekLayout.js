@@ -190,7 +190,7 @@ const WeekLayout = (props) => {
               totalHours: getTotalHours(),
             };
 
-        const response = await fetch("/timeCards/", {
+        const response = await fetch("https://afpserver.onrender.com/timeCards/", {
           method: "POST",
           body: JSON.stringify(timeCard),
           headers: { "Content-Type": "application/json" },
@@ -216,7 +216,7 @@ const WeekLayout = (props) => {
         ];
         const newTimeCards = { timeCards: updatedTimeCards };
         const employeesResponse = await fetch(
-          `/employees/${props.currentEmployee._id}`,
+          `https://afpserver.onrender.com/employees/${props.currentEmployee._id}`,
           {
             method: "PATCH",
             body: JSON.stringify(newTimeCards),
@@ -296,7 +296,7 @@ const WeekLayout = (props) => {
         };
 
         const timeCardId = await fetchTimeCard(props.currentTimeCard._id);
-        const response = await fetch(`/timeCards/${timeCardId._id}`, {
+        const response = await fetch(`https://afpserver.onrender.com/timeCards/${timeCardId._id}`, {
           method: "PATCH",
           body: JSON.stringify(timeCard),
           headers: { "Content-Type": "application/json" },
