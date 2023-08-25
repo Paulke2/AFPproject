@@ -36,7 +36,7 @@ const DesignJobs = (props) => {
     const [newIssue,setNewIssue]=useState("")
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch("/user");
+      const response = await fetch("https://afpserver.onrender.com/user");
 
       const json = await response.json();
 

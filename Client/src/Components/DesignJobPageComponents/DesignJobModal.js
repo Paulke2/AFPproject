@@ -7,7 +7,7 @@ const DesignJobModal = (props,setter) => {
 
   const patchDesignJobIssues = async()=>{
     let newIssues = {"comments":props?.issues};
-  const response = await fetch("/designJobs/" + props?.clickedJob?._id, {
+  const response = await fetch("https://afpserver.onrender.com/designJobs/" + props?.clickedJob?._id, {
     method: "PATCH",
     body: JSON.stringify(newIssues),
     headers: { "Content-Type": "application/json" }, 

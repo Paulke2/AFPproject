@@ -24,7 +24,7 @@ const Calendar = (props) => {
   const [currentWeekCards, setCurrentWeekCards] = useState({});
   useEffect(() => {
     const fetchEmployees = async () => {
-      const response = await fetch("/employees");
+      const response = await fetch("https://afpserver.onrender.com/employees");
 
       const json = await response.json();
 

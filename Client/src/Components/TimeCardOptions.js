@@ -12,7 +12,7 @@ const TimeCardOptions = (props) => {
    console.log(updatedTimeCards)
     const newTimeCards={timeCards:updatedTimeCards}
     try {
-      const response = await fetch(`/employees/${props?.currentEmployee?._id}`, {
+      const response = await fetch(`https://afpserver.onrender.com/employees/${props?.currentEmployee?._id}`, {
         method: "PATCH",
         body: JSON.stringify(newTimeCards),
         headers: { "Content-Type": "application/json" },
@@ -38,7 +38,7 @@ const TimeCardOptions = (props) => {
         });
         props.setEmployees(tempEmployees)
         try {
-          const response = await fetch(`/timeCards/${props?.currentTimeCard?._id}`, {
+          const response = await fetch(`https://afpserver.onrender.com/timeCards/${props?.currentTimeCard?._id}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
           });

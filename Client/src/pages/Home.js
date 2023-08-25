@@ -112,7 +112,7 @@ const {logout}=useLogout()
   };
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch("/projects");
+      const response = await fetch("https://afpserver.onrender.com/projects");
 
       const json = await response.json();
       
@@ -124,7 +124,7 @@ const {logout}=useLogout()
   }, [showNewProject]);
   useEffect(() => {
     const fetchDesignJobs = async () => {
-      const response = await fetch("/designJobs");
+      const response = await fetch("https://afpserver.onrender.com/designJobs");
 
       const json = await response.json();
       

@@ -4,7 +4,7 @@ const deleteProject=(props) =>{
     onst [error, setError] = useState(null);
     const handleDelete= async (id) => {
         try {
-            const response = await fetch(`/projects/${id}`, {
+            const response = await fetch(`https://afpserver.onrender.com/projects/${id}`, {
               method: "DELETE",
               headers: { "Content-Type": "application/json" },
             });

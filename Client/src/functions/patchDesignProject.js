@@ -34,7 +34,7 @@ if (count <= index) {
 }
 
  
-  const response = await fetch("/designJobs/" + job._id, {
+  const response = await fetch("https://afpserver.onrender.com/designJobs/" + job._id, {
     method: "PATCH",
     body: JSON.stringify(movedJob),
     headers: { "Content-Type": "application/json" }, 

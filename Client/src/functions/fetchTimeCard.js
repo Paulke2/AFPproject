@@ -1,5 +1,5 @@
 const fetchTimeCard = async (id) => {
-    const response = await fetch(`/timeCards/${id}`);
+    const response = await fetch(`https://afpserver.onrender.com/timeCards/${id}`);
 
     const json = await response.json();
 

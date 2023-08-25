@@ -26,7 +26,7 @@ const ProjectPage = () => {
       // Assuming currentProject.comments is the array of strings
       const updatedComments = [...currentProject.comments, newComment]; // Use currentProject.comments instead of currentProject.Comments
   
-      const response = await fetch(`/projects/${id}`, {
+      const response = await fetch(`https://afpserver.onrender.com/projects/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const ProjectPage = () => {
   
   useEffect(() => {
     const fetchProject = async () => {
-      const response = await fetch(`/projects/${id}`);
+      const response = await fetch(`https://afpserver.onrender.com/projects/${id}`);
       const json = await response.json();
       if (response.ok) {
         setCurrentProject(json);

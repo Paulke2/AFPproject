@@ -6,7 +6,7 @@ const DeleteEmployee = (props) => {
     const [error, setError] = useState(null);
     const handleDelete= async (id) => {
         try {
-            const response = await fetch(`/employees/${id}`, {
+            const response = await fetch(`https://afpserver.onrender.com/employees/${id}`, {
               method: "DELETE",
               headers: { "Content-Type": "application/json" },
             });

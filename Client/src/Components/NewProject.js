@@ -21,7 +21,7 @@ const NewProject = (props) => {
       comments: [],
       companyContact:props.companyContact,
     };
-    const response = await fetch("/projects/", {
+    const response = await fetch("https://afpserver.onrender.com/projects/", {
       method: "POST",
       body: JSON.stringify(project),
       headers: { "Content-Type": "application/json" },
