@@ -2,10 +2,29 @@ import { Modal, Button ,Col, Row, Form} from "react-bootstrap";
 import { useState, useEffect} from "react";
 
 import "./DesignJobModal.css"
-const DesignJobModal = (props) => {
+const DesignJobModal = (props,setter) => {
+  const [error, setError] = useState(null);
 
-
-    
+  const patchDesignJobIssues = async()=>{
+    let newIssues = {"comments":props?.issues};
+  const response = await fetch("/designJobs/" + props?.clickedJob?._id, {
+    method: "PATCH",
+    body: JSON.stringify(newIssues),
+    headers: { "Content-Type": "application/json" }, 
+  });
+  console.log("ourList")
+console.log(newIssues)
+  response.json().then((json) => {
+    if (!response.ok) {
+      setError(json.error);
+    } else {
+      setError(null);
+      console.log("updated design", json);
+      props.setClickedJob(json)
+    }
+   
+  });
+  }
 
     const removeIssue = (array, issueToRemove) => {
         console.log(array.filter((item) => item !== issueToRemove));
@@ -69,7 +88,7 @@ const DesignJobModal = (props) => {
           <Button variant="secondary" onClick={props.handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={props.handleClose}>
+          <Button variant="primary" onClick={() =>{props.handleClose(); patchDesignJobIssues();}}>
             Save Changes
           </Button>
         </Modal.Footer>

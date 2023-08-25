@@ -21,6 +21,7 @@ const DesignJobs = (props) => {
 
   const handleClose = () => setShow(false);
   const handleShow = (job) => {
+    console.log(issues)
     setClickedJob(job);
     setShow(true);
   };
@@ -45,6 +46,8 @@ const DesignJobs = (props) => {
     };
     fetchUsers();
   }, []);
+
+ 
   useEffect(()=>{setIssues(clickedJob?.comments)},[clickedJob?.comments])
   useEffect(() => {
     let tempUnAssignedList = [];
@@ -164,6 +167,7 @@ const DesignJobs = (props) => {
       <NavBar />
       <DesignJobModal
         clickedJob={clickedJob}
+        setClickedJob={setClickedJob}
         show={show}
         handleClose={handleClose}
         issues={issues}
@@ -215,8 +219,10 @@ const DesignJobs = (props) => {
                                       {job.projectName}
                                       <Badge hidden={job?.comments?.length===0} pill bg="dark">
                                         {job?.comments?.length}
-                                      </Badge>
+                                      </Badge>  
                                     </div>
+                                    
+                                     
                                     <DropdownButton
                                       size="sm"
                                       variant={job.assignedTo===""? "primary":"danger"}
@@ -226,6 +232,23 @@ const DesignJobs = (props) => {
                                           : job.assignedTo
                                       }
                                     >
+                                       <Dropdown.Item
+                                          eventKey="1"
+                                          onClick={(event) =>
+                                            patchDesignProject(
+                                              event,
+                                              job,
+                                              "assignedTo",
+                                              "",
+                                              setError,
+                                              unAssignedList,
+                                              setUnAssignedList,
+                                              index
+                                            )
+                                          }
+                                        >
+                                          unassign job
+                                        </Dropdown.Item>
                                       {userList &&
                                         userList.map((user) => {
                                           return (
@@ -248,10 +271,7 @@ const DesignJobs = (props) => {
                                             </Dropdown.Item>
                                           );
                                         })}
-                                      <Dropdown.Divider />
-                                      <Dropdown.Item eventKey="4">
-                                        Separated link
-                                      </Dropdown.Item>
+
                                     </DropdownButton>
                                   </ListGroup.Item>
                                 </>
@@ -291,16 +311,46 @@ const DesignJobs = (props) => {
                                 {...provided.dragHandleProps}
                                 className="task-span" // Add a CSS class for styling
                               >
-                                {job.projectName}
+      
+
+                                  <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                      }}
+                                      onClick={() => handleShow(job)}
+                                    >{job.projectName} <Badge hidden={job?.comments?.length===0} pill bg="dark">
+                                    {job?.comments?.length}
+                                  </Badge></div>
+                                
+                               
                                 <DropdownButton
                                   size="sm"
-                                  variant="danger"
+                                  variant={job.assignedTo===""? "primary":"danger"}
                                   title={
                                     job.assignedTo === ""
                                       ? "Assign To"
                                       : job.assignedTo
                                   }
                                 >
+                                   <Dropdown.Item
+                                          eventKey="1"
+                                          onClick={(event) =>
+                                            patchDesignProject(
+                                              event,
+                                              job,
+                                              "assignedTo",
+                                              "",
+                                              setError,
+                                              backLogList,
+                                              setBackLogList,
+                                              index
+                                            )
+                                          }
+                                        >
+                                          unassign job
+                                        </Dropdown.Item>
                                   {userList &&
                                     userList.map((user) => {
                                       return (
@@ -357,16 +407,43 @@ const DesignJobs = (props) => {
                               {...provided.dragHandleProps}
                               className="task-span" // Add a CSS class for styling
                             >
-                              {job.projectName}
+                               <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                      }}
+                                      onClick={() => handleShow(job)}
+                                    > {job.projectName}<Badge hidden={job?.comments?.length===0} pill bg="dark">
+                                    {job?.comments?.length}
+                                  </Badge>  </div>
+                              
                               <DropdownButton
                                 size="sm"
-                                variant="danger"
+                                variant={job.assignedTo===""? "primary":"danger"}
                                 title={
                                   job.assignedTo === ""
                                     ? "Assign To"
                                     : job.assignedTo
                                 }
                               >
+                                  <Dropdown.Item
+                                          eventKey="1"
+                                          onClick={(event) =>
+                                            patchDesignProject(
+                                              event,
+                                              job,
+                                              "assignedTo",
+                                              "",
+                                              setError,
+                                              progressList,
+                                              setProgressList,
+                                              index
+                                            )
+                                          }
+                                        >
+                                          unassign job
+                                        </Dropdown.Item>
                                 {userList &&
                                   userList.map((user) => {
                                     return (
@@ -422,19 +499,48 @@ const DesignJobs = (props) => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               className="task-span" // Add a CSS class for styling
-                            >
+                            ><div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                            }}
+                            onClick={() => handleShow(job)}
+                          >
                               {job.projectName}
+                              <Badge hidden={job?.comments?.length===0} pill bg="dark">
+                                        {job?.comments?.length}
+                                      </Badge>  
+                              </div>
                               <DropdownButton
                                 size="sm"
-                                variant="danger"
+                                variant={job.assignedTo===""? "primary":"danger"}
                                 title={
                                   job.assignedTo === ""
                                     ? "Assign To"
                                     : job.assignedTo
                                 }
                               >
+                                 <Dropdown.Item
+                                          eventKey="1"
+                                          onClick={(event) =>
+                                            patchDesignProject(
+                                              event,
+                                              job,
+                                              "assignedTo",
+                                              "",
+                                              setError,
+                                              doneList,
+                                              setDoneList,
+                                              index
+                                            )
+                                          }
+                                        >
+                                          unassign job
+                                        </Dropdown.Item>
                                 {userList &&
                                   userList.map((user) => {
+                                    
                                     return (
                                       <Dropdown.Item
                                         eventKey="1"

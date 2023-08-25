@@ -27,7 +27,7 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
   ];
   const setDefault = (name) => {
     return {
-      startOfWeek: "8/1/23",
+      startOfWeek: currentWeekCards.date,
       Sunday: "",
       Monday: "",
       Tuesday: "",
@@ -36,12 +36,12 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
       Friday: "",
       Saturday: "",
       employeeName: name,
-      totalHours: 40,
+      totalHours: 0,
     };
   };
   const setOfficeWorker = (time, name) => {
     return {
-      startOfWeek: "8/1/23",
+      startOfWeek:  currentWeekCards.date,
       Sunday: "",
       Monday: "Office-REG" + time,
       Tuesday: "Office-REG" + time,
@@ -50,7 +50,7 @@ const ExportToWord = (currentEmployee, currentWeekCards, employeeObjects) => {
       Friday: "Office-REG" + time,
       Saturday: "",
       employeeName: name,
-      totalHours: 0,
+      totalHours: time*5,
     };
   };
   const findEmployee = (target, employees) => {

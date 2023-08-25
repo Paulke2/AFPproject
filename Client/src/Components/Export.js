@@ -2,6 +2,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 //import * as XLSX from 'xlsx';
 import { useState } from "react";
+import { Alert } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import ExportToWord from "../functions/ExportToWord";
 import ExportToExcel from "../functions/ExportToExcel";
@@ -9,9 +10,9 @@ import ExportToExcel from "../functions/ExportToExcel";
 const Export = (props) => {
   const [modalShow, setModalShow] = useState(false);
   const [exportEmployeeOption,setExportEmployeeOption]=useState("All Employees");
-  const [exportMainOption,setExportMainOption]=useState("Excel");
+  const [exportMainOption,setExportMainOption]=useState("Word");
   const [exportTimePeriod,setExportTimePeriod]=useState("Week");
-
+  const [show, setShow] = useState(true);
   
   const handleExportClick = () => {
     const employeesToExport = exportEmployeeOption==="All Employees" ? Object.keys(props.currentWeekCards)
@@ -21,7 +22,8 @@ const Export = (props) => {
     if(exportMainOption === "Excel"){
       ExportToExcel(employeesToExport, props.currentWeekCards,props.employees)
     }else if (exportMainOption === "Employee"){
-    console.log("cant do that yeyt")
+
+     
     }
     else{
 
@@ -35,6 +37,11 @@ const Export = (props) => {
     <Button onClick={() => setModalShow(true)} variant="success">
       Export
     </Button>
+ 
+      
+     
+    
+    
     <Modal
       show={modalShow}
      
@@ -93,21 +100,14 @@ const Export = (props) => {
     <br></br>
       <Form>
 
-      <Form.Check // prettier-ignore
-        type="radio"
-        id="custom-switch"
-        name="exportMainOption"
-        value={exportMainOption}
-        checked={exportMainOption === "Excel"}
-        onClick={()=>setExportMainOption("Excel")}
-        label="excel"
-      />
+    
        <Form.Check // prettier-ignore
          type="radio"
         label="Word"
         name="exportMainOption"
         value={exportMainOption}
         disabled={exportTimePeriod==="Month"}
+        checked={exportMainOption === "Word"}
         onClick={()=>setExportMainOption("Word")}
         id="disabled-custom-switch"
       />
