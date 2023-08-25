@@ -1,18 +1,18 @@
 const express = require("express");
 require("dotenv").config({ path: "./.env" });
 const app = express();
+const cors = require("cors"); 
 const project_routes = require("./routes/project.js");
 const employee_routes = require("./routes/employee.js");
 const timeCard_routes = require("./routes/timeCard.js");
 const designJobs_routes = require("./routes/designJobs.js");
 const user_routes = require("./routes/user.js");
 const mongoose = require("mongoose");
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://acceleratedfp.onrender.com');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE','PATCH');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+app.use(cors({
+  origin: "https://acceleratedfp.onrender.com", // Replace with your frontend URL
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: "Content-Type,Authorization",
+}));
 app.use(express.urlencoded({ extended: true }));
 mongoose.connect(process.env.DATABASE_URL)
 .then(()=>{
